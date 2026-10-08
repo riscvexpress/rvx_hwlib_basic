@@ -50,9 +50,9 @@ parameter STREAM = 0;
 `include "ervp_log_util.vf"
 `include "ervp_bitwidth_util.vf"
 
-localparam  RVX_LPARA_2 = REQUIRED_BITWIDTH_INDEX(DEPTH);
-localparam  RVX_LPARA_1 = REQUIRED_BITWIDTH_UNSIGNED(DEPTH);
-localparam  RVX_LPARA_0 = 1<<RVX_LPARA_2;
+localparam  RVX_LPARA_0 = REQUIRED_BITWIDTH_INDEX(DEPTH);
+localparam  RVX_LPARA_2 = REQUIRED_BITWIDTH_UNSIGNED(DEPTH);
+localparam  RVX_LPARA_1 = 1<<RVX_LPARA_0;
 
 input wire clk;
 input wire rstnn;
@@ -74,61 +74,61 @@ output wire [BW_NUM_DATA-1:0] rnum;
 genvar i;
 integer j;
 
-reg [BW_DATA-1:0] rvx_signal_2 [RVX_LPARA_0-1:0];
-wire [BW_DATA*RVX_LPARA_0-1:0] rvx_signal_8;
-wire [RVX_LPARA_2-1:0] rvx_signal_5, rvx_signal_3;
-wire rvx_signal_4, rvx_signal_6;
+reg [BW_DATA-1:0] rvx_signal_8 [RVX_LPARA_1-1:0];
+wire [BW_DATA*RVX_LPARA_1-1:0] rvx_signal_6;
+wire [RVX_LPARA_0-1:0] rvx_signal_5, rvx_signal_0;
+wire rvx_signal_4, rvx_signal_7;
 
-wire [RVX_LPARA_1-1:0] rvx_signal_1, rvx_signal_0;
+wire [RVX_LPARA_2-1:0] rvx_signal_2, rvx_signal_3;
 
-wire rvx_signal_7;
+wire rvx_signal_1;
 
 ERVP_UPDOWN_COUNTER
 #(
-	.BW_COUNTER(RVX_LPARA_1),
+	.BW_COUNTER(RVX_LPARA_2),
 	.BW_COUNT_AMOUNT(2),
 	.UPPER_LIMIT_NUMBER(DEPTH),
 	.LOWER_LIMIT_NUMBER(0)
 )
-i_rvx_instance_0
+i_rvx_instance_2
 (
 	.clk(clk),
 	.rstnn(rstnn),
 	.enable(enable),
 	.init(clear),
-	.up(rvx_signal_6),
+	.up(rvx_signal_7),
 	.down(rvx_signal_4),
 	.count_amount(2'b 1),
-	.value(rvx_signal_1),
+	.value(rvx_signal_2),
 	.is_upper_limit(),
 	.is_lower_limit()
 );
 
 ERVP_UPDOWN_COUNTER
 #(
-	.BW_COUNTER(RVX_LPARA_1),
+	.BW_COUNTER(RVX_LPARA_2),
 	.BW_COUNT_AMOUNT(2),
 	.RESET_NUMBER(DEPTH),
 	.UPPER_LIMIT_NUMBER(DEPTH),
 	.LOWER_LIMIT_NUMBER(0)
 )
-i_rvx_instance_3
+i_rvx_instance_1
 (
 	.clk(clk),
 	.rstnn(rstnn),
 	.enable(enable),
 	.init(clear),
 	.up(rvx_signal_4),
-	.down(rvx_signal_6),
+	.down(rvx_signal_7),
 	.count_amount(2'b 1),
-	.value(rvx_signal_0),
+	.value(rvx_signal_3),
 	.is_upper_limit(),
 	.is_lower_limit()
 );
 
 ERVP_COUNTER
 #(
-	.BW_COUNTER(RVX_LPARA_2),
+	.BW_COUNTER(RVX_LPARA_0),
 	.CIRCULAR(1)
 )
 i_rvx_instance_4
@@ -137,8 +137,8 @@ i_rvx_instance_4
 	.rstnn(rstnn),
 	.enable(enable),
 	.init(clear),
-	.count(rvx_signal_6),
-	.value(rvx_signal_3),
+	.count(rvx_signal_7),
+	.value(rvx_signal_0),
 	.is_first_count(),
 	.is_last_count()
 );
@@ -146,18 +146,18 @@ i_rvx_instance_4
 always@(posedge clk, negedge rstnn)
 begin
 	if(rstnn==0)
-		for (j=0; j<RVX_LPARA_0; j=j+1)
-			rvx_signal_2[j] <= 0;
-	else if(enable && rvx_signal_6)
-		rvx_signal_2[rvx_signal_3] <= wdata;
+		for (j=0; j<RVX_LPARA_1; j=j+1)
+			rvx_signal_8[j] <= 0;
+	else if(enable && rvx_signal_7)
+		rvx_signal_8[rvx_signal_0] <= wdata;
 end
 
 ERVP_COUNTER
 #(
-	.BW_COUNTER(RVX_LPARA_2),
+	.BW_COUNTER(RVX_LPARA_0),
 	.CIRCULAR(1)
 )
-i_rvx_instance_2
+i_rvx_instance_0
 (
 	.clk(clk),
 	.rstnn(rstnn),
@@ -170,20 +170,20 @@ i_rvx_instance_2
 );
 
 generate
-	for(i=0; i<RVX_LPARA_0; i=i+1)
+	for(i=0; i<RVX_LPARA_1; i=i+1)
 	begin : i_concatenation
-		assign rvx_signal_8[BW_DATA*(i+1)-1-:BW_DATA] = rvx_signal_2[i];
+		assign rvx_signal_6[BW_DATA*(i+1)-1-:BW_DATA] = rvx_signal_8[i];
 	end
 endgenerate
 
 ERVP_MUX
 #(
 	.BW_DATA(BW_DATA),
-	.NUM_DATA(RVX_LPARA_0)
+	.NUM_DATA(RVX_LPARA_1)
 )
-i_rvx_instance_1
+i_rvx_instance_3
 (
-	.data_input_list(rvx_signal_8),
+	.data_input_list(rvx_signal_6),
 	.select(rvx_signal_5),
 	.data_output(rdata)
 );
@@ -192,27 +192,27 @@ always@(*)
 begin
 	wready = 0;
 	for(j=0; j<WRITE_READY_SIZE; j=j+1)
-		if(j<RVX_LPARA_0)
-			wready[j] = (~clear) & ($unsigned(rvx_signal_1)<(DEPTH-j));
+		if(j<RVX_LPARA_1)
+			wready[j] = (~clear) & ($unsigned(rvx_signal_2)<(DEPTH-j));
 end
 
 assign wfull = ~wready[0];
-assign rvx_signal_6 = wrequest & (wready[0] | rvx_signal_7);
+assign rvx_signal_7 = wrequest & (wready[0] | rvx_signal_1);
 
 always@(*)
 begin
 	rready = 0;
 	for(j=0; j<READ_READY_SIZE; j=j+1)
-		if(j<RVX_LPARA_0)
-			rready[j] = ($unsigned(rvx_signal_1)>j);
+		if(j<RVX_LPARA_1)
+			rready[j] = ($unsigned(rvx_signal_2)>j);
 end
 
 assign rempty = ~rready[0];
-assign rvx_signal_4 = (rrequest & rready[0]) | rvx_signal_7;
+assign rvx_signal_4 = (rrequest & rready[0]) | rvx_signal_1;
 
-assign wnum = rvx_signal_0;
-assign rnum = rvx_signal_1;
+assign wnum = rvx_signal_3;
+assign rnum = rvx_signal_2;
 
-assign rvx_signal_7 = (STREAM==1) & wfull & wrequest;
+assign rvx_signal_1 = (STREAM==1) & wfull & wrequest;
 
 endmodule

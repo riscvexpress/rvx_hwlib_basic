@@ -42,19 +42,19 @@ integer j;
 
 localparam  RVX_LPARA_0 = BW_MULTIPLIER;
 
-wire [RVX_LPARA_1-1:0] rvx_signal_1;
 wire [RVX_LPARA_1-1:0] rvx_signal_0;
-wire [RVX_LPARA_1-1:0] rvx_signal_2 [RVX_LPARA_0-1:0];
+wire [RVX_LPARA_1-1:0] rvx_signal_2;
+wire [RVX_LPARA_1-1:0] rvx_signal_1 [RVX_LPARA_0-1:0];
 
-assign rvx_signal_1 = $signed(multiplicand);
-assign rvx_signal_0 = (~rvx_signal_1) + 1;
+assign rvx_signal_0 = $signed(multiplicand);
+assign rvx_signal_2 = (~rvx_signal_0) + 1;
 
 for(i=0; i<RVX_LPARA_0-1; i=i+1)
 begin : i_gen_partial_product
-  assign rvx_signal_2[i] = multiplier[i]? (rvx_signal_1<<i) : 0;
+  assign rvx_signal_1[i] = multiplier[i]? (rvx_signal_0<<i) : 0;
 end
 
-assign rvx_signal_2[RVX_LPARA_0-1] = multiplier[RVX_LPARA_0-1]? (rvx_signal_0<<(RVX_LPARA_0-1)) : 0;
+assign rvx_signal_1[RVX_LPARA_0-1] = multiplier[RVX_LPARA_0-1]? (rvx_signal_2<<(RVX_LPARA_0-1)) : 0;
 
 always@(*)
 begin
@@ -63,7 +63,7 @@ begin
     product = $signed(multiplicand) * $signed(multiplier);
   else
     for(j=0; j<RVX_LPARA_0; j=j+1)
-      product = product + rvx_signal_2[j];
+      product = product + rvx_signal_1[j];
 end
 
 endmodule

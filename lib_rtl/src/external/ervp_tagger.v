@@ -55,7 +55,7 @@ ERVP_COUNTER
   .BW_COUNTER(BW_TAG),
   .CIRCULAR(1)
 )
-i_rvx_instance_1
+i_rvx_instance_0
 (
 	.clk(clk),
   .rstnn(rstnn),
@@ -72,7 +72,7 @@ ERVP_SMALL_FIFO
   .BW_DATA(BW_TAG),
   .DEPTH(DEPTH)
 )
-i_rvx_instance_0
+i_rvx_instance_1
 (
 	.clk(clk),
   .rstnn(rstnn),

@@ -48,22 +48,9 @@ output wire rready;
 input wire rrequest;
 output reg [BW_DATA-1:0] rdata;
 
-reg rvx_signal_5, rvx_signal_3;
-wire rvx_signal_1, rvx_signal_4;
-wire rvx_signal_0, rvx_signal_2;
-
-ERVP_SYNCHRONIZER
-#(
-	.BW_DATA(1)
-)
-i_rvx_instance_0
-(
-	.clk(wclk),
-	.rstnn(rrstnn),	
-	.enable(1'b 1),
-	.asynch_value(rvx_signal_5),
-	.synch_value(rvx_signal_4)
-);
+reg rvx_signal_5, rvx_signal_4;
+wire rvx_signal_1, rvx_signal_2;
+wire rvx_signal_0, rvx_signal_3;
 
 ERVP_SYNCHRONIZER
 #(
@@ -71,10 +58,23 @@ ERVP_SYNCHRONIZER
 )
 i_rvx_instance_1
 (
+	.clk(wclk),
+	.rstnn(rrstnn),	
+	.enable(1'b 1),
+	.asynch_value(rvx_signal_5),
+	.synch_value(rvx_signal_2)
+);
+
+ERVP_SYNCHRONIZER
+#(
+	.BW_DATA(1)
+)
+i_rvx_instance_0
+(
 	.clk(rclk),
 	.rstnn(rrstnn),
 	.enable(1'b 1),
-	.asynch_value(rvx_signal_3),
+	.asynch_value(rvx_signal_4),
 	.synch_value(rvx_signal_1)
 );
 
@@ -89,12 +89,12 @@ assign rvx_signal_0 = rready & rrequest;
 
 always @(posedge wclk or negedge rrstnn)	
 	if (!rrstnn)
-		rvx_signal_3 <= 0;
-	else if(rvx_signal_2)
-		rvx_signal_3 <= ~rvx_signal_3;
+		rvx_signal_4 <= 0;
+	else if(rvx_signal_3)
+		rvx_signal_4 <= ~rvx_signal_4;
 
-assign wready = (rvx_signal_3==rvx_signal_4);
-assign rvx_signal_2 = wready & wrequest;
+assign wready = (rvx_signal_4==rvx_signal_2);
+assign rvx_signal_3 = wready & wrequest;
 
 always @(posedge wclk, negedge wrstnn)
 begin

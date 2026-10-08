@@ -43,10 +43,10 @@ input wire rclk, rrstnn;
 output wire rcontrol;
 input wire rready;
 
-wire rvx_signal_0;
+wire rvx_signal_3;
 wire rvx_signal_4;
 wire rvx_signal_2;
-wire rvx_signal_3;
+wire rvx_signal_0;
 
 wire rvx_signal_1;
 
@@ -58,21 +58,21 @@ i_rvx_instance_0
 (
 	.wclk(wclk),
 	.wrstnn(wrstnn),
-	.wready(rvx_signal_0),
+	.wready(rvx_signal_3),
 	.wrequest(rvx_signal_4),
 	.wdata(1'b 0),
 	.rclk(rclk),
 	.rrstnn(rrstnn),
-	.rready(rvx_signal_3),
+	.rready(rvx_signal_0),
 	.rrequest(rvx_signal_2),
 	.rdata()
 );
 
 assign rvx_signal_4 = wcontrol;
-assign wready = rvx_signal_0;
+assign wready = rvx_signal_3;
 
-assign rvx_signal_1 = rvx_signal_3 & rready;
-assign rcontrol = rvx_signal_3;
+assign rvx_signal_1 = rvx_signal_0 & rready;
+assign rcontrol = rvx_signal_0;
 assign rvx_signal_2 = rvx_signal_1;
 
 endmodule

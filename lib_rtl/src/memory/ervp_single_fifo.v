@@ -55,27 +55,27 @@ input wire rrequest;
 output wire rempty;
 output wire [BW_DATA-1:0] rdata;
 
-reg rvx_signal_0;
+reg rvx_signal_2;
 
-localparam  RVX_LPARA_1 = 0;
-localparam  RVX_LPARA_0 = 1;
+localparam  RVX_LPARA_0 = 0;
+localparam  RVX_LPARA_1 = 1;
 
 reg [BW_DATA-1:0] rvx_signal_1;
+wire rvx_signal_0;
 wire rvx_signal_3;
-wire rvx_signal_2;
 
 always@(posedge clk, negedge rstnn)
 begin
 	if(rstnn==0)
-    rvx_signal_0 <= RVX_LPARA_1;
+    rvx_signal_2 <= RVX_LPARA_0;
   else if(clear)
-    rvx_signal_0 <= RVX_LPARA_1;
+    rvx_signal_2 <= RVX_LPARA_0;
   else if(enable)
   begin
-    if(rvx_signal_3)
-      rvx_signal_0 <= RVX_LPARA_0;
-    else if(rvx_signal_2)
-      rvx_signal_0 <= RVX_LPARA_1;
+    if(rvx_signal_0)
+      rvx_signal_2 <= RVX_LPARA_1;
+    else if(rvx_signal_3)
+      rvx_signal_2 <= RVX_LPARA_0;
   end
 end
 
@@ -83,16 +83,16 @@ always@(posedge clk, negedge rstnn)
 begin
 	if(rstnn==0)
     rvx_signal_1 <= 0;
-  else if(enable && rvx_signal_3)
+  else if(enable && rvx_signal_0)
     rvx_signal_1 <= wdata;
 end
 
-assign rvx_signal_3 = wrequest & wready;
-assign rvx_signal_2 = rrequest & rready;
+assign rvx_signal_0 = wrequest & wready;
+assign rvx_signal_3 = rrequest & rready;
 
-assign wready = (rvx_signal_0==RVX_LPARA_1);
+assign wready = (rvx_signal_2==RVX_LPARA_0);
 assign wfull = ~(wready[0]);
-assign rready = (rvx_signal_0==RVX_LPARA_0);
+assign rready = (rvx_signal_2==RVX_LPARA_1);
 assign rempty = ~(rready[0]);
 assign rdata = rvx_signal_1;
 

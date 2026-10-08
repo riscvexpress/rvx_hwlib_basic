@@ -231,75 +231,75 @@ i_munoc_instance_1
 	.svri_sack(svri_sack)
 );
 
-RVX_MODULE_111
+RVX_MODULE_083
 #(
-  .RVX_GPARA_0(BW_PLATFORM_ADDR),
-  .RVX_GPARA_3(BW_NODE_DATA),
+  .RVX_GPARA_1(BW_PLATFORM_ADDR),
+  .RVX_GPARA_0(BW_NODE_DATA),
   .RVX_GPARA_2(BW_AXI_SLAVE_TID)
 )
 i_munoc_instance_0
 (
-	.rvx_port_47(clk_slave),
-	.rvx_port_30(rstnn_slave),
-  .rvx_port_50(1'b 0),
-  .rvx_port_34(1'b 1),
+	.rvx_port_09(clk_slave),
+	.rvx_port_28(rstnn_slave),
+  .rvx_port_43(1'b 0),
+  .rvx_port_13(1'b 1),
 
-  .rvx_port_39(munoc_signal_08),
-	.rvx_port_46(munoc_signal_27),
-	.rvx_port_05(munoc_signal_20),
-	.rvx_port_24(munoc_signal_28),
-	.rvx_port_11(munoc_signal_17),
-	.rvx_port_27(munoc_signal_16),
-	.rvx_port_17(munoc_signal_01),
+  .rvx_port_07(munoc_signal_08),
+	.rvx_port_03(munoc_signal_27),
+	.rvx_port_44(munoc_signal_20),
+	.rvx_port_39(munoc_signal_28),
+	.rvx_port_04(munoc_signal_17),
+	.rvx_port_37(munoc_signal_16),
+	.rvx_port_08(munoc_signal_01),
 
-	.rvx_port_29(munoc_signal_13),
-	.rvx_port_07(munoc_signal_10),
-	.rvx_port_28(munoc_signal_22),
-	.rvx_port_16(munoc_signal_02),
-	.rvx_port_03(munoc_signal_18),
-	.rvx_port_13(munoc_signal_14),
+	.rvx_port_05(munoc_signal_13),
+	.rvx_port_45(munoc_signal_10),
+	.rvx_port_23(munoc_signal_22),
+	.rvx_port_15(munoc_signal_02),
+	.rvx_port_27(munoc_signal_18),
+	.rvx_port_31(munoc_signal_14),
 
 	.rvx_port_36(munoc_signal_19),
-  .rvx_port_22(munoc_signal_26),
-  .rvx_port_08(munoc_signal_11),
-  .rvx_port_38(munoc_signal_00),
-  .rvx_port_00(munoc_signal_25),
-  .rvx_port_33(munoc_signal_29),
-  .rvx_port_02(munoc_signal_09),
+  .rvx_port_38(munoc_signal_26),
+  .rvx_port_14(munoc_signal_11),
+  .rvx_port_29(munoc_signal_00),
+  .rvx_port_35(munoc_signal_25),
+  .rvx_port_06(munoc_signal_29),
+  .rvx_port_01(munoc_signal_09),
 
-  .rvx_port_35(x4_wid),
-  .rvx_port_25(munoc_signal_06),
-  .rvx_port_18(munoc_signal_07),
-  .rvx_port_32(munoc_signal_12),
-  .rvx_port_01(munoc_signal_05),
-  .rvx_port_48(munoc_signal_23),
+  .rvx_port_42(x4_wid),
+  .rvx_port_46(munoc_signal_06),
+  .rvx_port_26(munoc_signal_07),
+  .rvx_port_47(munoc_signal_12),
+  .rvx_port_40(munoc_signal_05),
+  .rvx_port_21(munoc_signal_23),
 
-  .rvx_port_06(munoc_signal_24),
-  .rvx_port_12(munoc_signal_21),
-  .rvx_port_21(munoc_signal_04),
-  .rvx_port_14(munoc_signal_15),
+  .rvx_port_11(munoc_signal_24),
+  .rvx_port_32(munoc_signal_21),
+  .rvx_port_33(munoc_signal_04),
+  .rvx_port_10(munoc_signal_15),
 
-  .rvx_port_41(sx4lawaddr),
-	.rvx_port_42(sx4lawvalid),
-	.rvx_port_15(sx4lawready),
+  .rvx_port_18(sx4lawaddr),
+	.rvx_port_02(sx4lawvalid),
+	.rvx_port_12(sx4lawready),
 
-	.rvx_port_09(sx4lwdata),
-	.rvx_port_43(sx4lwstrb),
-	.rvx_port_19(sx4lwvalid),
-	.rvx_port_10(sx4lwready), 
+	.rvx_port_19(sx4lwdata),
+	.rvx_port_20(sx4lwstrb),
+	.rvx_port_24(sx4lwvalid),
+	.rvx_port_50(sx4lwready), 
 
-	.rvx_port_31(sx4lbresp),
-	.rvx_port_26(sx4lbvalid),
-	.rvx_port_49(sx4lbready),
+	.rvx_port_16(sx4lbresp),
+	.rvx_port_41(sx4lbvalid),
+	.rvx_port_48(sx4lbready),
 
-	.rvx_port_44(sx4laraddr),
-	.rvx_port_45(sx4larvalid),
-	.rvx_port_37(sx4larready),
+	.rvx_port_30(sx4laraddr),
+	.rvx_port_25(sx4larvalid),
+	.rvx_port_22(sx4larready),
 
-	.rvx_port_20(sx4lrdata),
-	.rvx_port_04(sx4lrresp),
-	.rvx_port_40(sx4lrvalid),
-	.rvx_port_23(sx4lrready)
+	.rvx_port_49(sx4lrdata),
+	.rvx_port_34(sx4lrresp),
+	.rvx_port_00(sx4lrvalid),
+	.rvx_port_17(sx4lrready)
 );
 
 endmodule

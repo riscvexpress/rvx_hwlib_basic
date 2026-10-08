@@ -38,26 +38,26 @@ output wire [BW_DATA-1:0] data_output;
 genvar i,j;
 integer k;
 
-wire [BW_DATA-1:0] rvx_signal_0 [NUM_DATA-1:0];
+wire [BW_DATA-1:0] rvx_signal_1 [NUM_DATA-1:0];
 
 generate
 	for(i=0; i<NUM_DATA; i=i+1)
 	begin : i_nullifying_data
-		assign rvx_signal_0[i] = (select[i]==ACTIVE_HIGH)? data_input_list[BW_DATA*(i+1)-1 -:BW_DATA] : 0;
+		assign rvx_signal_1[i] = (select[i]==ACTIVE_HIGH)? data_input_list[BW_DATA*(i+1)-1 -:BW_DATA] : 0;
 	end
 endgenerate
 
-reg [BW_DATA-1:0] rvx_signal_1;
+reg [BW_DATA-1:0] rvx_signal_0;
 always@(*)
 begin
-	rvx_signal_1 = 0;
+	rvx_signal_0 = 0;
 	for(k=0; k<NUM_DATA; k=k+1)
 		if(k==0)
-			rvx_signal_1 = rvx_signal_0[0];
+			rvx_signal_0 = rvx_signal_1[0];
 		else
-			rvx_signal_1 = rvx_signal_1|rvx_signal_0[k];
+			rvx_signal_0 = rvx_signal_0|rvx_signal_1[k];
 end
 
-assign data_output = rvx_signal_1;
+assign data_output = rvx_signal_0;
 
 endmodule

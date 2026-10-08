@@ -45,10 +45,10 @@ parameter NUM_MASTER = 1;
 parameter BW_ADDR = 12;  
 parameter BW_APB_DATA = 32;
 
-localparam  RVX_LPARA_0 = 8;
-localparam  RVX_LPARA_1 = 2'b00;
-localparam  RVX_LPARA_3 = 2'b01;
-localparam  RVX_LPARA_2 = 2'b10;
+localparam  RVX_LPARA_2 = 8;
+localparam  RVX_LPARA_3 = 2'b00;
+localparam  RVX_LPARA_1 = 2'b01;
+localparam  RVX_LPARA_0 = 2'b10;
 
 input  wire                                 clk_apb;
 input  wire                                 rstnn_apb;
@@ -69,17 +69,17 @@ output wire                                 rpready;
 output wire                                 rpslverr;
 
 wire                                  [3:0] rvx_signal_0;
-wire                                  [3:0] rvx_signal_2;
-wire                                  [3:0] rvx_signal_1;
-wire                                  [1:0] rvx_signal_4;
+wire                                  [3:0] rvx_signal_3;
+wire                                  [3:0] rvx_signal_4;
+wire                                  [1:0] rvx_signal_2;
 
-reg                                         rvx_signal_3;
+reg                                         rvx_signal_1;
 
 assign c2cm_csn = rvx_signal_0[NUM_MASTER-1:0];
 
 prvp_apb_spi_master
 #(
-  .BUFFER_DEPTH(RVX_LPARA_0),
+  .BUFFER_DEPTH(RVX_LPARA_2),
   .APB_ADDR_WIDTH(BW_ADDR)
 )
 i_rvx_instance_0
@@ -102,31 +102,31 @@ i_rvx_instance_0
   .spi_csn1(rvx_signal_0[1]),
   .spi_csn2(rvx_signal_0[2]),
   .spi_csn3(rvx_signal_0[3]),
-  .spi_mode(rvx_signal_4),
+  .spi_mode(rvx_signal_2),
   .spi_sod(c2cm_dq_sod),
-  .spi_sdo0(rvx_signal_2[0]),
-  .spi_sdo1(rvx_signal_2[1]),
-  .spi_sdo2(rvx_signal_2[2]),
-  .spi_sdo3(rvx_signal_2[3]),
-  .spi_sdi0(rvx_signal_1[0]),
-  .spi_sdi1(rvx_signal_1[1]),
-  .spi_sdi2(rvx_signal_1[2]),
-  .spi_sdi3(rvx_signal_1[3])
+  .spi_sdo0(rvx_signal_3[0]),
+  .spi_sdo1(rvx_signal_3[1]),
+  .spi_sdo2(rvx_signal_3[2]),
+  .spi_sdo3(rvx_signal_3[3]),
+  .spi_sdi0(rvx_signal_4[0]),
+  .spi_sdi1(rvx_signal_4[1]),
+  .spi_sdi2(rvx_signal_4[2]),
+  .spi_sdi3(rvx_signal_4[3])
 );
 
 always@(*)
 begin
-  rvx_signal_3 = 1;
-  case(rvx_signal_4)
-    RVX_LPARA_1:
-      rvx_signal_3 = 0;
-    RVX_LPARA_3,
-    RVX_LPARA_2:
-      rvx_signal_3 = 1;
+  rvx_signal_1 = 1;
+  case(rvx_signal_2)
+    RVX_LPARA_3:
+      rvx_signal_1 = 0;
+    RVX_LPARA_1,
+    RVX_LPARA_0:
+      rvx_signal_1 = 1;
   endcase
 end
 
-assign c2cm_dq_soval = (rvx_signal_3 == 1'b1)? rvx_signal_2: {3'b0, rvx_signal_2[0]};
-assign rvx_signal_1 = (rvx_signal_3 == 1'b1)? c2cm_dq_sival: {3'b0, c2cm_dq_sival[1]};
+assign c2cm_dq_soval = (rvx_signal_1 == 1'b1)? rvx_signal_3: {3'b0, rvx_signal_3[0]};
+assign rvx_signal_4 = (rvx_signal_1 == 1'b1)? c2cm_dq_sival: {3'b0, c2cm_dq_sival[1]};
 
 endmodule

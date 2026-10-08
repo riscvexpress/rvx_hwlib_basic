@@ -153,14 +153,14 @@ end
 assign munoc_signal_11 = munoc_signal_09 & (~munoc_signal_17);
 assign munoc_signal_10 = (munoc_signal_11!=0);
 
-RVX_MODULE_024
+RVX_MODULE_068
 #(
-	.RVX_GPARA_0(MUNOC_GPARA_0)
+	.RVX_GPARA_1(MUNOC_GPARA_0)
 )
 i_munoc_instance_1
 (
-	.rvx_port_0(munoc_signal_11),
-	.rvx_port_1(munoc_signal_01)
+	.rvx_port_1(munoc_signal_11),
+	.rvx_port_0(munoc_signal_01)
 );
 
 assign munoc_signal_03 = munoc_signal_09 & (~munoc_signal_17) & (~munoc_signal_15);
@@ -179,14 +179,14 @@ begin
 	end
 end
 
-RVX_MODULE_024
+RVX_MODULE_068
 #(
-	.RVX_GPARA_0(MUNOC_GPARA_0)
+	.RVX_GPARA_1(MUNOC_GPARA_0)
 )
 i_munoc_instance_0
 (
-	.rvx_port_0(munoc_signal_03),
-	.rvx_port_1(munoc_signal_06)
+	.rvx_port_1(munoc_signal_03),
+	.rvx_port_0(munoc_signal_06)
 );
 
 always@(*)

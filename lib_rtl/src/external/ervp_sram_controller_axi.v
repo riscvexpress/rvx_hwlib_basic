@@ -86,15 +86,15 @@ parameter NUM_CELL = 1;
 `include "ervp_log_util.vf"
 `include "ervp_bitwidth_util.vf"
 
-localparam  RVX_LPARA_6 = `NUM_BYTE(BW_DATA);
-localparam  RVX_LPARA_0 = REQUIRED_BITWIDTH_INDEX(RVX_LPARA_6);
+localparam  RVX_LPARA_0 = `NUM_BYTE(BW_DATA);
+localparam  RVX_LPARA_2 = REQUIRED_BITWIDTH_INDEX(RVX_LPARA_0);
 
-localparam  RVX_LPARA_1 = `DIVIDERU(CELL_SIZE,RVX_LPARA_6);
-localparam  RVX_LPARA_5 = REQUIRED_BITWIDTH_INDEX(RVX_LPARA_1);
+localparam  RVX_LPARA_4 = `DIVIDERU(CELL_SIZE,RVX_LPARA_0);
+localparam  RVX_LPARA_3 = REQUIRED_BITWIDTH_INDEX(RVX_LPARA_4);
 
-localparam  RVX_LPARA_2 = REQUIRED_BITWIDTH_INDEX(NUM_CELL);
-localparam  RVX_LPARA_3 = RVX_LPARA_2 + RVX_LPARA_5 + RVX_LPARA_0;
-localparam  RVX_LPARA_4 = `MAX(RVX_LPARA_2, 1);
+localparam  RVX_LPARA_5 = REQUIRED_BITWIDTH_INDEX(NUM_CELL);
+localparam  RVX_LPARA_6 = RVX_LPARA_5 + RVX_LPARA_3 + RVX_LPARA_2;
+localparam  RVX_LPARA_1 = `MAX(RVX_LPARA_5, 1);
 
 input wire clk, rstnn;
 
@@ -137,7 +137,7 @@ output wire [NUM_CELL-1:0] cell_select_list;
 output wire [BW_CELL_INDEX*NUM_CELL-1:0] cell_index_list;
 output wire [NUM_CELL-1:0] cell_enable_list;
 output wire [NUM_CELL-1:0] cell_write_enable_list;
-output wire [RVX_LPARA_6*NUM_CELL-1:0] cell_write_enable_byte_list;
+output wire [RVX_LPARA_0*NUM_CELL-1:0] cell_write_enable_byte_list;
 output wire [BW_DATA*NUM_CELL-1:0] cell_write_enable_bit_list;
 output wire [BW_DATA*NUM_CELL-1:0] cell_wdata_list;
 output wire [NUM_CELL-1:0] cell_read_enable_list;
@@ -146,75 +146,75 @@ input wire [BW_DATA*NUM_CELL-1:0] cell_rdata_list;
 integer i, j;
 genvar k;
 
-wire [BW_AXI_TID-1:0] rvx_signal_05;
-wire [BW_ADDR-1:0] rvx_signal_15;
-wire [`BW_AXI_ALEN-1:0] rvx_signal_07;
-wire [`BW_AXI_ASIZE-1:0] rvx_signal_14;
-wire [`BW_AXI_ABURST-1:0] rvx_signal_26;
-wire rvx_signal_02;
-wire rvx_signal_34;
+wire [BW_AXI_TID-1:0] rvx_signal_42;
+wire [BW_ADDR-1:0] rvx_signal_12;
+wire [`BW_AXI_ALEN-1:0] rvx_signal_38;
+wire [`BW_AXI_ASIZE-1:0] rvx_signal_22;
+wire [`BW_AXI_ABURST-1:0] rvx_signal_23;
+wire rvx_signal_31;
+wire rvx_signal_43;
 
-wire [BW_AXI_TID-1:0] rvx_signal_20;
-wire [BW_ADDR-1:0] rvx_signal_28;
-wire [`BW_AXI_ALEN-1:0] rvx_signal_31;
-wire [`BW_AXI_ASIZE-1:0] rvx_signal_27;
-wire [`BW_AXI_ABURST-1:0] rvx_signal_38;
-wire rvx_signal_09;
-wire rvx_signal_00;
+wire [BW_AXI_TID-1:0] rvx_signal_28;
+wire [BW_ADDR-1:0] rvx_signal_35;
+wire [`BW_AXI_ALEN-1:0] rvx_signal_15;
+wire [`BW_AXI_ASIZE-1:0] rvx_signal_34;
+wire [`BW_AXI_ABURST-1:0] rvx_signal_39;
+wire rvx_signal_01;
+wire rvx_signal_29;
 
-wire [RVX_LPARA_3-1:0] rvx_signal_29;
-wire [`BW_AXI_ALEN-1:0] rvx_signal_39;
-wire [`BW_AXI_ASIZE-1:0] rvx_signal_25;
-wire [`BW_AXI_ABURST-1:0] rvx_signal_40;
-wire rvx_signal_18;
-reg rvx_signal_37;
-wire [RVX_LPARA_3-1:0] rvx_signal_36;
-wire rvx_signal_24;
+wire [RVX_LPARA_6-1:0] rvx_signal_41;
+wire [`BW_AXI_ALEN-1:0] rvx_signal_37;
+wire [`BW_AXI_ASIZE-1:0] rvx_signal_40;
+wire [`BW_AXI_ABURST-1:0] rvx_signal_05;
+wire rvx_signal_30;
+reg rvx_signal_18;
+wire [RVX_LPARA_6-1:0] rvx_signal_09;
 wire rvx_signal_13;
-
-`define RVX_LDEF_7 4
-`define RVX_LDEF_6 0
-`define RVX_LDEF_5 1
-`define RVX_LDEF_1 2
-`define RVX_LDEF_0 3
-`define RVX_LDEF_8 4
-`define RVX_LDEF_2 5
-`define RVX_LDEF_4 6
-`define RVX_LDEF_3 7
-
-reg [`RVX_LDEF_7-1:0] rvx_signal_04;
-reg [BW_AXI_TID-1:0] rvx_signal_43;
-
-wire rvx_signal_41;
 wire rvx_signal_06;
-wire rvx_signal_35;
 
-wire rvx_signal_16;
-wire rvx_signal_11;
-reg rvx_signal_01;
-wire rvx_signal_12;
-reg rvx_signal_30;
+`define RVX_LDEF_5 4
+`define RVX_LDEF_1 0
+`define RVX_LDEF_4 1
+`define RVX_LDEF_7 2
+`define RVX_LDEF_0 3
+`define RVX_LDEF_6 4
+`define RVX_LDEF_3 5
+`define RVX_LDEF_8 6
+`define RVX_LDEF_2 7
 
-wire [RVX_LPARA_0-1:0] rvx_signal_22;
+reg [`RVX_LDEF_5-1:0] rvx_signal_04;
+reg [BW_AXI_TID-1:0] rvx_signal_08;
 
-wire rvx_signal_32;
-reg rvx_signal_33;
-reg [BW_DATA-1:0] rvx_signal_21;
-
-wire [(RVX_LPARA_2+RVX_LPARA_5)-1:0] rvx_signal_42;
+wire rvx_signal_33;
+wire rvx_signal_19;
 wire rvx_signal_10;
-wire [RVX_LPARA_6-1:0] rvx_signal_23;
-reg [BW_DATA-1:0] rvx_signal_08;
-wire [BW_DATA-1:0] rvx_signal_19;
-wire rvx_signal_17;
+
+wire rvx_signal_21;
+wire rvx_signal_14;
+reg rvx_signal_25;
+wire rvx_signal_26;
+reg rvx_signal_07;
+
+wire [RVX_LPARA_2-1:0] rvx_signal_11;
+
+wire rvx_signal_02;
+reg rvx_signal_20;
+reg [BW_DATA-1:0] rvx_signal_24;
+
+wire [(RVX_LPARA_5+RVX_LPARA_3)-1:0] rvx_signal_17;
+wire rvx_signal_32;
+wire [RVX_LPARA_0-1:0] rvx_signal_36;
+reg [BW_DATA-1:0] rvx_signal_00;
 wire [BW_DATA-1:0] rvx_signal_03;
+wire rvx_signal_27;
+wire [BW_DATA-1:0] rvx_signal_16;
 
 ERVP_FIFO
 #(
 	.BW_DATA(`BW_AWCHANNEL(BW_AXI_TID,BW_ADDR)),
 	.DEPTH(1)
 )
-i_rvx_instance_1
+i_rvx_instance_0
 (
 	.clk(clk),
 	.rstnn(rstnn),
@@ -224,118 +224,118 @@ i_rvx_instance_1
 	.wrequest(rxawvalid),
 	.wdata({rxawid,rxawaddr,rxawlen,rxawsize,rxawburst}),
 	.wnum(),
-	.rready(rvx_signal_09),
-	.rrequest(rvx_signal_00),
-	.rdata({rvx_signal_20,rvx_signal_28,rvx_signal_31,rvx_signal_27,rvx_signal_38}),
+	.rready(rvx_signal_01),
+	.rrequest(rvx_signal_29),
+	.rdata({rvx_signal_28,rvx_signal_35,rvx_signal_15,rvx_signal_34,rvx_signal_39}),
 	.wfull(),
 	.rempty(),
 	.rnum()
 );
 
-assign {rvx_signal_02,rvx_signal_05,rvx_signal_15,rvx_signal_07,rvx_signal_14,rvx_signal_26} = {rxarvalid,rxarid,rxaraddr,rxarlen,rxarsize,rxarburst};
-assign rxarready = rvx_signal_34;
+assign {rvx_signal_31,rvx_signal_42,rvx_signal_12,rvx_signal_38,rvx_signal_22,rvx_signal_23} = {rxarvalid,rxarid,rxaraddr,rxarlen,rxarsize,rxarburst};
+assign rxarready = rvx_signal_43;
 
-RVX_MODULE_005
+RVX_MODULE_094
 #(
-	.RVX_GPARA_0(RVX_LPARA_3)
+	.RVX_GPARA_0(RVX_LPARA_6)
 )
-i_rvx_instance_2
+i_rvx_instance_1
 (
-	.rvx_port_02(clk),
-	.rvx_port_03(rstnn),
-	.rvx_port_11(rvx_signal_29),
-	.rvx_port_08(rvx_signal_39),
-	.rvx_port_01(rvx_signal_25),
-	.rvx_port_06(rvx_signal_40),
-	.rvx_port_00(rvx_signal_18),
-	.rvx_port_05(rvx_signal_37),
-	.rvx_port_07(rvx_signal_36),
-	.rvx_port_09(rvx_signal_24),
-	.rvx_port_04(),
-	.rvx_port_10(rvx_signal_13)
+	.rvx_port_00(clk),
+	.rvx_port_01(rstnn),
+	.rvx_port_09(rvx_signal_41),
+	.rvx_port_10(rvx_signal_37),
+	.rvx_port_11(rvx_signal_40),
+	.rvx_port_06(rvx_signal_05),
+	.rvx_port_03(rvx_signal_30),
+	.rvx_port_04(rvx_signal_18),
+	.rvx_port_05(rvx_signal_09),
+	.rvx_port_07(rvx_signal_13),
+	.rvx_port_02(),
+	.rvx_port_08(rvx_signal_06)
 );
 
-assign rvx_signal_29 = ((rvx_signal_12==1)? rvx_signal_28 : rvx_signal_15) - BASE_ADDR;
-assign rvx_signal_39 = (rvx_signal_12==1)? rvx_signal_31 : rvx_signal_07;
-assign rvx_signal_25 = (rvx_signal_12==1)? rvx_signal_27 : rvx_signal_14;
-assign rvx_signal_40 = (rvx_signal_12==1)? rvx_signal_38 : rvx_signal_26;
+assign rvx_signal_41 = ((rvx_signal_26==1)? rvx_signal_35 : rvx_signal_12) - BASE_ADDR;
+assign rvx_signal_37 = (rvx_signal_26==1)? rvx_signal_15 : rvx_signal_38;
+assign rvx_signal_40 = (rvx_signal_26==1)? rvx_signal_34 : rvx_signal_22;
+assign rvx_signal_05 = (rvx_signal_26==1)? rvx_signal_39 : rvx_signal_23;
 
-assign rvx_signal_18 = rvx_signal_01 | rvx_signal_12;
+assign rvx_signal_30 = rvx_signal_25 | rvx_signal_26;
 always@(*)
 begin
-	rvx_signal_37 = 0;
+	rvx_signal_18 = 0;
 	case(rvx_signal_04)
-		`RVX_LDEF_1:
-			if(!rvx_signal_32)
-				rvx_signal_37 = 1;
+		`RVX_LDEF_7:
+			if(!rvx_signal_02)
+				rvx_signal_18 = 1;
 		`RVX_LDEF_0:
-			if(rvx_signal_06)
-				rvx_signal_37 = 1;
+			if(rvx_signal_19)
+				rvx_signal_18 = 1;
 	endcase
 end
 
 always@(posedge clk, negedge rstnn)
 begin
 	if(rstnn==0)
-		rvx_signal_04 <= `RVX_LDEF_6;
+		rvx_signal_04 <= `RVX_LDEF_1;
 	else
 		case(rvx_signal_04)
-			`RVX_LDEF_6:
-				if(rvx_signal_01)
-					rvx_signal_04 <= `RVX_LDEF_1;
-				else if(rvx_signal_30)
-					rvx_signal_04 <= `RVX_LDEF_5;
 			`RVX_LDEF_1:
-				if(rvx_signal_41 & rxrlast)
-					rvx_signal_04 <= `RVX_LDEF_6;
-			`RVX_LDEF_5:
-				if(rvx_signal_12)
+				if(rvx_signal_25)
+					rvx_signal_04 <= `RVX_LDEF_7;
+				else if(rvx_signal_07)
+					rvx_signal_04 <= `RVX_LDEF_4;
+			`RVX_LDEF_7:
+				if(rvx_signal_33 & rxrlast)
+					rvx_signal_04 <= `RVX_LDEF_1;
+			`RVX_LDEF_4:
+				if(rvx_signal_26)
 					rvx_signal_04 <= `RVX_LDEF_0;
 			`RVX_LDEF_0:
-				if(rvx_signal_16)
-					rvx_signal_04 <= `RVX_LDEF_2;
-				else if(rvx_signal_11)
+				if(rvx_signal_21)
 					rvx_signal_04 <= `RVX_LDEF_3;
-				else if(rvx_signal_06 & rvx_signal_13)
-					rvx_signal_04 <= `RVX_LDEF_8;
-			`RVX_LDEF_8:
-				if(rvx_signal_35)
+				else if(rvx_signal_14)
+					rvx_signal_04 <= `RVX_LDEF_2;
+				else if(rvx_signal_19 & rvx_signal_06)
 					rvx_signal_04 <= `RVX_LDEF_6;
+			`RVX_LDEF_6:
+				if(rvx_signal_10)
+					rvx_signal_04 <= `RVX_LDEF_1;
 		endcase
 end
 
-assign rvx_signal_41 = rxrvalid & rxrready;
-assign rvx_signal_06 = rxwvalid & rxwready;
-assign rvx_signal_35 = rxbvalid & rxbready;
+assign rvx_signal_33 = rxrvalid & rxrready;
+assign rvx_signal_19 = rxwvalid & rxwready;
+assign rvx_signal_10 = rxbvalid & rxbready;
 
-assign rvx_signal_16 = (rvx_signal_04==`RVX_LDEF_0) & rvx_signal_06 & (rvx_signal_43!=rxwid);
-assign rvx_signal_11 = (rvx_signal_04==`RVX_LDEF_0) & rvx_signal_06 & (rvx_signal_13!=rxwlast);
+assign rvx_signal_21 = (rvx_signal_04==`RVX_LDEF_0) & rvx_signal_19 & (rvx_signal_08!=rxwid);
+assign rvx_signal_14 = (rvx_signal_04==`RVX_LDEF_0) & rvx_signal_19 & (rvx_signal_06!=rxwlast);
 
 always@(*)
 begin
-	rvx_signal_01 = 0;
-	rvx_signal_30 = 0;
-	if(rvx_signal_04==`RVX_LDEF_6)
+	rvx_signal_25 = 0;
+	rvx_signal_07 = 0;
+	if(rvx_signal_04==`RVX_LDEF_1)
 	begin
-		if(rvx_signal_02)
-			rvx_signal_01 = 1;
-		else if(rvx_signal_09)
-			rvx_signal_30 = 1;
+		if(rvx_signal_31)
+			rvx_signal_25 = 1;
+		else if(rvx_signal_01)
+			rvx_signal_07 = 1;
 	end
 end
-assign rvx_signal_12 = (rvx_signal_04==`RVX_LDEF_5);
+assign rvx_signal_26 = (rvx_signal_04==`RVX_LDEF_4);
 
 always@(posedge clk, negedge rstnn)
 begin
 	if(rstnn==0)
-		rvx_signal_43 <= 0;
-	else if(rvx_signal_01)
-		rvx_signal_43 <= rvx_signal_05;
-	else if(rvx_signal_12)
-		rvx_signal_43 <= rvx_signal_20;
+		rvx_signal_08 <= 0;
+	else if(rvx_signal_25)
+		rvx_signal_08 <= rvx_signal_42;
+	else if(rvx_signal_26)
+		rvx_signal_08 <= rvx_signal_28;
 end
 
-assign rvx_signal_34 = (rvx_signal_04==`RVX_LDEF_6);
+assign rvx_signal_43 = (rvx_signal_04==`RVX_LDEF_1);
 
 always@(posedge clk, negedge rstnn)
 begin
@@ -344,61 +344,61 @@ begin
 		rxrvalid <= 0;
 		rxrlast <= 0;
 	end
-	else if(rvx_signal_04==`RVX_LDEF_1)
+	else if(rvx_signal_04==`RVX_LDEF_7)
 	begin
-		if(!rvx_signal_32)
+		if(!rvx_signal_02)
 		begin
-			rxrvalid <= rvx_signal_24;
-			rxrlast <= rvx_signal_13;
+			rxrvalid <= rvx_signal_13;
+			rxrlast <= rvx_signal_06;
 		end
 	end
 end
-assign rvx_signal_32 = rxrvalid & (~rxrready);
+assign rvx_signal_02 = rxrvalid & (~rxrready);
 
 always@(posedge clk, negedge rstnn)
 begin
 	if(rstnn==0)
-		rvx_signal_33 <= 0;
-	else if(rvx_signal_04==`RVX_LDEF_1)
-		rvx_signal_33 <= rvx_signal_32;
+		rvx_signal_20 <= 0;
+	else if(rvx_signal_04==`RVX_LDEF_7)
+		rvx_signal_20 <= rvx_signal_02;
 end
 
 always@(posedge clk, negedge rstnn)
 begin
 	if(rstnn==0)
-		rvx_signal_21 <= 0;
-	else if((~rvx_signal_33)&&rvx_signal_32)
-		rvx_signal_21 <= rvx_signal_03;
+		rvx_signal_24 <= 0;
+	else if((~rvx_signal_20)&&rvx_signal_02)
+		rvx_signal_24 <= rvx_signal_16;
 end
 
-assign rxrdata = (rvx_signal_33==1)? rvx_signal_21 : rvx_signal_03;
-assign rxrid = rvx_signal_43;
+assign rxrdata = (rvx_signal_20==1)? rvx_signal_24 : rvx_signal_16;
+assign rxrid = rvx_signal_08;
 assign rxrresp = `AXI_RESPONSE_OKAY;
 
-assign rvx_signal_00 = (rvx_signal_04==`RVX_LDEF_5);
+assign rvx_signal_29 = (rvx_signal_04==`RVX_LDEF_4);
 
 assign rxwready = (rvx_signal_04==`RVX_LDEF_0);
 
-assign rxbvalid = (rvx_signal_04==`RVX_LDEF_8);
+assign rxbvalid = (rvx_signal_04==`RVX_LDEF_6);
 assign rxbresp = `AXI_RESPONSE_OKAY;
-assign rxbid = rvx_signal_43;
+assign rxbid = rvx_signal_08;
 
-assign rvx_signal_10 = (rvx_signal_04==`RVX_LDEF_0) & rxwvalid;
-assign rvx_signal_23 = (rvx_signal_10==1)? rxwstrb : 0;
-assign {rvx_signal_42,rvx_signal_22} = rvx_signal_36;
-assign rvx_signal_19 = rxwdata;
-assign rvx_signal_17 = (rvx_signal_04==`RVX_LDEF_1) & rvx_signal_24;
+assign rvx_signal_32 = (rvx_signal_04==`RVX_LDEF_0) & rxwvalid;
+assign rvx_signal_36 = (rvx_signal_32==1)? rxwstrb : 0;
+assign {rvx_signal_17,rvx_signal_11} = rvx_signal_09;
+assign rvx_signal_03 = rxwdata;
+assign rvx_signal_27 = (rvx_signal_04==`RVX_LDEF_7) & rvx_signal_13;
 
 always@(*)
 begin
-	rvx_signal_08 = 0;
-	if(rvx_signal_10)
+	rvx_signal_00 = 0;
+	if(rvx_signal_32)
 	begin
-		for(i=0; i<RVX_LPARA_6; i=i+1)
+		for(i=0; i<RVX_LPARA_0; i=i+1)
 		begin
 			for(j=0; j<`BW_BYTE; j=j+1)
 			begin
-				rvx_signal_08[(`BW_BYTE*i)+j] = rvx_signal_23[i];
+				rvx_signal_00[(`BW_BYTE*i)+j] = rvx_signal_36[i];
 			end
 		end
 	end
@@ -407,13 +407,13 @@ end
 generate
 for(k=0; k<NUM_CELL; k=k+1)
 	begin : generate_each_cell
-		assign cell_select_list[k] = (NUM_CELL<=1)? 1 : (rvx_signal_42[(RVX_LPARA_2+RVX_LPARA_5)-1-:RVX_LPARA_4]==k);
-		assign cell_index_list[BW_CELL_INDEX*(k+1)-1 -:BW_CELL_INDEX] = rvx_signal_42[RVX_LPARA_5-1:0];
-		assign cell_write_enable_list[k] = (cell_select_list[k]==1)? rvx_signal_10 : 0;
-		assign cell_write_enable_byte_list[RVX_LPARA_6*(k+1)-1 -:RVX_LPARA_6] = (cell_select_list[k]==1)? rvx_signal_23 : 0;
-		assign cell_write_enable_bit_list[BW_DATA*(k+1)-1 -:BW_DATA] = (cell_select_list[k]==1)? rvx_signal_08 : 0;
-		assign cell_wdata_list[BW_DATA*(k+1)-1 -:BW_DATA] = rvx_signal_19;
-		assign cell_read_enable_list[k] = (cell_select_list[k]==1)? rvx_signal_17 : 0;
+		assign cell_select_list[k] = (NUM_CELL<=1)? 1 : (rvx_signal_17[(RVX_LPARA_5+RVX_LPARA_3)-1-:RVX_LPARA_1]==k);
+		assign cell_index_list[BW_CELL_INDEX*(k+1)-1 -:BW_CELL_INDEX] = rvx_signal_17[RVX_LPARA_3-1:0];
+		assign cell_write_enable_list[k] = (cell_select_list[k]==1)? rvx_signal_32 : 0;
+		assign cell_write_enable_byte_list[RVX_LPARA_0*(k+1)-1 -:RVX_LPARA_0] = (cell_select_list[k]==1)? rvx_signal_36 : 0;
+		assign cell_write_enable_bit_list[BW_DATA*(k+1)-1 -:BW_DATA] = (cell_select_list[k]==1)? rvx_signal_00 : 0;
+		assign cell_wdata_list[BW_DATA*(k+1)-1 -:BW_DATA] = rvx_signal_03;
+		assign cell_read_enable_list[k] = (cell_select_list[k]==1)? rvx_signal_27 : 0;
 		assign cell_enable_list[k] = cell_write_enable_list[k] | cell_read_enable_list[k];
 	end
 endgenerate
@@ -423,21 +423,21 @@ ERVP_MUX_WITH_ONEHOT_ENCODED_SELECT
 	.BW_DATA(BW_DATA),
 	.NUM_DATA(NUM_CELL)
 )
-i_rvx_instance_0
+i_rvx_instance_2
 (
 	.data_input_list(cell_rdata_list),
 	.select(cell_select_list),
-	.data_output(rvx_signal_03)
+	.data_output(rvx_signal_16)
 );
 
-`undef RVX_LDEF_3
-`undef RVX_LDEF_1
-`undef RVX_LDEF_4
-`undef RVX_LDEF_7
-`undef RVX_LDEF_0
-`undef RVX_LDEF_5
-`undef RVX_LDEF_6
 `undef RVX_LDEF_2
+`undef RVX_LDEF_7
 `undef RVX_LDEF_8
+`undef RVX_LDEF_5
+`undef RVX_LDEF_0
+`undef RVX_LDEF_4
+`undef RVX_LDEF_1
+`undef RVX_LDEF_3
+`undef RVX_LDEF_6
 endmodule
 

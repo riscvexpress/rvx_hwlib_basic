@@ -17,158 +17,379 @@
 // ****************************************************************************
 
 `include "ervp_global.vh"
-`include "rvx_include_05.vh"
+`include "rvx_include_21.vh"
 `include "ervp_axi_define.vh"
 
 
 
 
+
 module RVX_MODULE_063 (
-	rvx_port_20,
+	rvx_port_61,
+	rvx_port_01,
+
+	rvx_port_08,
+	rvx_port_64,
+	rvx_port_59,
+	rvx_port_70,
+	rvx_port_13,
+	rvx_port_57,
+	rvx_port_23,
+	rvx_port_66,
+	rvx_port_10,
+	rvx_port_25,
+
+	rvx_port_15,
+	rvx_port_51,
+	rvx_port_00,
+	rvx_port_34,
+	rvx_port_72,
+	rvx_port_50,
+	rvx_port_56,
+	rvx_port_38,
+	rvx_port_05,
+
+	rvx_port_55,
+	rvx_port_41,
+	rvx_port_43,
+	rvx_port_22,
+	rvx_port_36,
+	rvx_port_48,
+	rvx_port_39,
+	rvx_port_52,
+	rvx_port_62,	
 	rvx_port_09,
 
-	rvx_port_11,
-	rvx_port_23,
-	rvx_port_01,
-	rvx_port_16,
-	rvx_port_08,
-	rvx_port_00,
-	rvx_port_15,
-	rvx_port_03,
-
 	rvx_port_26,
-	rvx_port_06,
-	rvx_port_07,
+	rvx_port_67,
+	rvx_port_47,
+	rvx_port_24,
+	rvx_port_02,
 	rvx_port_21,
-	rvx_port_10,
+	rvx_port_44,
+	rvx_port_07,
+	rvx_port_16,
+	rvx_port_30,
+
 	rvx_port_14,
-	rvx_port_05,
-	rvx_port_22,
 	rvx_port_18,
-	rvx_port_13,
+	rvx_port_71,
+
+	rvx_port_49,
+	rvx_port_35,
+	rvx_port_11,
+	rvx_port_54,
+	rvx_port_46,
+	rvx_port_29,
+	rvx_port_06,
 
 	rvx_port_28,
+	rvx_port_20,
+	rvx_port_69,
+	rvx_port_37,
+	rvx_port_45, 
+
+	rvx_port_68,
+	rvx_port_63,
+	rvx_port_42,
 	rvx_port_12,
-	rvx_port_24,
+
 	rvx_port_27,
-	rvx_port_17,
-	rvx_port_02,
-	rvx_port_25,
+	rvx_port_40,
+	rvx_port_53,
+	rvx_port_31,
+	rvx_port_60,
 	rvx_port_04,
+	rvx_port_33,
+
+	rvx_port_32,
+	rvx_port_65,
+	rvx_port_03,
+	rvx_port_58,
+	rvx_port_17,
 	rvx_port_19
 );
 
 
 
 
-parameter RVX_GPARA_0 = 1;
-parameter RVX_GPARA_1 = 1;
 
-parameter RVX_GPARA_3 = 1;
-parameter RVX_GPARA_8 = 1;
-parameter RVX_GPARA_4 = 1;
-parameter RVX_GPARA_5 = 1;
-parameter RVX_GPARA_2 = 1;
-localparam  RVX_LPARA_0 = `BW_AXI_WSTRB(RVX_GPARA_8);
+parameter RVX_GPARA_1 = 1; 
+parameter RVX_GPARA_2 = 1; 
+parameter RVX_GPARA_4 = 1; 
+parameter RVX_GPARA_0 = 1; 
+parameter RVX_GPARA_5 = 1; 
 
-parameter RVX_GPARA_7 = 0;
-parameter RVX_GPARA_6 = 16;
+localparam  RVX_LPARA_4 = (RVX_GPARA_1/8); 
+localparam  RVX_LPARA_1 = `RVX_GDEF_245(RVX_GPARA_4,RVX_GPARA_0);
 
-input wire rvx_port_20, rvx_port_09;
+parameter RVX_GPARA_3 = 4;
 
-input wire rvx_port_11;
-input wire rvx_port_23;
-input wire [RVX_GPARA_0-1:0] rvx_port_01;
-input wire rvx_port_16;
-input wire [RVX_GPARA_1-1:0] rvx_port_08;
-output wire [RVX_GPARA_1-1:0] rvx_port_00;
-output wire rvx_port_15;
-output wire rvx_port_03;
+localparam  RVX_LPARA_3 = RVX_GPARA_2;
+localparam  RVX_LPARA_2 = RVX_GPARA_1;
+
+localparam  RVX_LPARA_0 = 3;
+
+input wire rvx_port_61, rvx_port_01;
+
+output wire rvx_port_08;
+input wire rvx_port_64;
+input wire [`RVX_GDEF_076-1:0] rvx_port_59;
+input wire [`RVX_GDEF_376-1:0] rvx_port_70;
+input wire [RVX_GPARA_0-1:0] rvx_port_13;
+input wire [RVX_GPARA_4-1:0] rvx_port_57;
+input wire [RVX_GPARA_2-1:0] rvx_port_23;
+input wire [RVX_LPARA_4-1:0] rvx_port_66;
+input wire [RVX_GPARA_1-1:0] rvx_port_10;
+input wire rvx_port_25;
+
+input wire rvx_port_15;
+output wire rvx_port_51;
+output wire [`RVX_GDEF_076-1:0] rvx_port_00;
+output wire [`RVX_GDEF_376-1:0] rvx_port_34;
+output wire [RVX_GPARA_0-1:0] rvx_port_72;
+output wire [RVX_GPARA_4-1:0] rvx_port_50;
+output wire [RVX_GPARA_2-1:0] rvx_port_56;
+output wire [RVX_LPARA_4-1:0] rvx_port_38;
+output wire [RVX_GPARA_1-1:0] rvx_port_05;
+
+output wire rvx_port_55;
+input wire rvx_port_41;
+input wire [`RVX_GDEF_076-1:0] rvx_port_43;
+input wire [`RVX_GDEF_376-1:0] rvx_port_22;
+input wire [RVX_GPARA_0-1:0] rvx_port_36;
+input wire [RVX_GPARA_4-1:0] rvx_port_48;
+input wire [RVX_GPARA_2-1:0] rvx_port_39;
+input wire [RVX_LPARA_4-1:0] rvx_port_52;
+input wire [RVX_GPARA_1-1:0] rvx_port_62;
+input wire rvx_port_09;
 
 input wire rvx_port_26;
-output wire rvx_port_06;
-output wire [`RVX_GDEF_144-1:0] rvx_port_07;
-output wire [`RVX_GDEF_440-1:0] rvx_port_21;
-output wire [RVX_GPARA_5-1:0] rvx_port_10;
-output wire [RVX_GPARA_4-1:0] rvx_port_14;
-output reg [RVX_GPARA_3-1:0] rvx_port_05;
-output wire [RVX_LPARA_0-1:0] rvx_port_22;
-output wire [RVX_GPARA_8-1:0] rvx_port_18;
-output wire rvx_port_13;
+output wire rvx_port_67;
+output wire [`RVX_GDEF_076-1:0] rvx_port_47;
+output wire [`RVX_GDEF_376-1:0] rvx_port_24;
+output wire [RVX_GPARA_0-1:0] rvx_port_02;
+output wire [RVX_GPARA_4-1:0] rvx_port_21;
+output wire [RVX_GPARA_5-1:0] rvx_port_44;
+output wire rvx_port_07;
+output wire [RVX_GPARA_1-1:0] rvx_port_16;
+output wire rvx_port_30;
 
-output wire rvx_port_28;
-input wire rvx_port_12;
-input wire [`RVX_GDEF_144-1:0] rvx_port_24;
-input wire [`RVX_GDEF_440-1:0] rvx_port_27;
-input wire [RVX_GPARA_5-1:0] rvx_port_17;
-input wire [RVX_GPARA_4-1:0] rvx_port_02;
-input wire [RVX_GPARA_2-1:0] rvx_port_25;
-input wire [RVX_GPARA_8-1:0] rvx_port_04;
-input wire rvx_port_19;
+output wire rvx_port_14;
+input wire rvx_port_18;
+input wire [RVX_GPARA_5-1:0] rvx_port_71;
 
-genvar i;
+output wire [RVX_GPARA_3-1:0] rvx_port_49;
+output wire [RVX_LPARA_3-1:0] rvx_port_35;
+output wire [`BW_AXI_ALEN-1:0] rvx_port_11;
+output wire [`BW_AXI_ASIZE-1:0] rvx_port_54;
+output wire [`BW_AXI_ABURST-1:0] rvx_port_46;
+output wire rvx_port_29;
+input wire rvx_port_06;
 
-`define RVX_LDEF_2 2
-`define RVX_LDEF_1 0
-`define RVX_LDEF_3 1
-`define RVX_LDEF_0 2
+output wire [RVX_LPARA_2-1:0] rvx_port_28;
+output wire [`BW_AXI_WSTRB(RVX_LPARA_2)-1:0] rvx_port_20;
+output wire rvx_port_69;
+output wire rvx_port_37;
+input wire rvx_port_45;
 
-reg [`RVX_LDEF_2-1:0] rvx_signal_2;
-wire rvx_signal_0;
-wire rvx_signal_3;
-wire rvx_signal_4;
+input wire [RVX_GPARA_3-1:0] rvx_port_68;
+input wire [`BW_AXI_BRESP-1:0] rvx_port_63;
+input wire rvx_port_42;
+output wire rvx_port_12;
 
-wire [`BW_AXI_WSTRB(RVX_GPARA_1)-1:0] rvx_signal_1;
+output wire [RVX_GPARA_3-1:0] rvx_port_27;
+output wire [RVX_LPARA_3-1:0] rvx_port_40;
+output wire [`BW_AXI_ALEN-1:0] rvx_port_53;
+output wire [`BW_AXI_ASIZE-1:0] rvx_port_31;
+output wire [`BW_AXI_ABURST-1:0] rvx_port_60;
+output wire rvx_port_04;
+input wire rvx_port_33;
 
-always@(posedge rvx_port_20, negedge rvx_port_09)
-begin
-	if(rvx_port_09==0)
-		rvx_signal_2 <= `RVX_LDEF_1;
-	else
-		case(rvx_signal_2)
-			`RVX_LDEF_1:
-				if(rvx_signal_0)
-					rvx_signal_2 <= `RVX_LDEF_3;
-			`RVX_LDEF_3:
-				if(rvx_signal_3)
-				begin
-					if(rvx_signal_4)
-						rvx_signal_2 <= `RVX_LDEF_1;
-					else
-						rvx_signal_2 <= `RVX_LDEF_0;
-				end
-			`RVX_LDEF_0:
-				if(rvx_signal_4)
-					rvx_signal_2 <= `RVX_LDEF_1;
-		endcase
-end
+input wire [RVX_GPARA_3-1:0] rvx_port_32;
+input wire [RVX_LPARA_2-1:0] rvx_port_65;
+input wire [`BW_AXI_RRESP-1:0] rvx_port_03;
+input wire rvx_port_58;
+input wire rvx_port_17;
+output wire rvx_port_19;
 
-assign rvx_signal_0 = (rvx_signal_2==`RVX_LDEF_1) & rvx_port_11 & rvx_port_23;
-assign rvx_signal_3 = rvx_port_06 & rvx_port_26;
-assign rvx_signal_4 = rvx_port_12 & rvx_port_28;
+wire rvx_signal_10;
+wire rvx_signal_02;
+wire [RVX_LPARA_1-1:0] rvx_signal_03;
+wire rvx_signal_05;
+wire rvx_signal_11;
+wire [RVX_LPARA_1-1:0] rvx_signal_04;
 
-assign rvx_port_06 = (rvx_signal_2==`RVX_LDEF_3);
-assign rvx_port_07 = (rvx_port_16==1)? `RVX_GDEF_089 : `RVX_GDEF_073;
-assign rvx_port_21 = 0;
-assign rvx_port_10 = `GET_AXI_SIZE(RVX_GPARA_1);
-assign rvx_port_14 = 0;
-always@(*)
-begin
-	rvx_port_05 = RVX_GPARA_7;
-	rvx_port_05[RVX_GPARA_6-1:0] = rvx_port_01[RVX_GPARA_6-1:0];
-end
+wire rvx_signal_01;
+wire rvx_signal_09;
+wire [RVX_LPARA_1-1:0] rvx_signal_07;
+wire rvx_signal_06;
+wire rvx_signal_08;
+wire [RVX_LPARA_1-1:0] rvx_signal_00;
 
-assign rvx_signal_1 = -1;
-assign rvx_port_22 = $unsigned(rvx_signal_1);
-assign rvx_port_18 = $unsigned(rvx_port_08);
+RVX_MODULE_069
+#(
+	.RVX_GPARA_3(RVX_GPARA_1),
+	.RVX_GPARA_2(RVX_GPARA_2),
+	.RVX_GPARA_1(RVX_GPARA_4),
+	.RVX_GPARA_0(RVX_GPARA_0),
+	.RVX_GPARA_4(RVX_GPARA_5),
+	.RVX_GPARA_5(RVX_GPARA_3)
+)
+i_rvx_instance_1
+(
+	.rvx_port_40(rvx_port_61),
+	.rvx_port_15(rvx_port_01),
 
-assign rvx_port_28 = (rvx_signal_2==`RVX_LDEF_3) | (rvx_signal_2==`RVX_LDEF_0);
-assign rvx_port_00 = $unsigned(rvx_port_04);
-assign rvx_port_15 = rvx_signal_4;
-assign rvx_port_03 = 0;
+	.rvx_port_30(rvx_port_08),
+	.rvx_port_27(rvx_port_64),
+	.rvx_port_06(rvx_port_59),
+	.rvx_port_45(rvx_port_70),
+	.rvx_port_13(rvx_port_13),
+	.rvx_port_34(rvx_port_57),
+	.rvx_port_43(rvx_port_23),
+	.rvx_port_33(rvx_port_66),
+	.rvx_port_17(rvx_port_10),
+	.rvx_port_39(rvx_port_25),
 
-`undef RVX_LDEF_2
-`undef RVX_LDEF_1
-`undef RVX_LDEF_3
-`undef RVX_LDEF_0
+	.rvx_port_11(rvx_port_55),
+	.rvx_port_20(rvx_port_41),
+	.rvx_port_35(rvx_port_43),
+	.rvx_port_04(rvx_port_22),
+	.rvx_port_26(rvx_port_36),
+	.rvx_port_25(rvx_port_48),
+	.rvx_port_37(rvx_port_39),
+	.rvx_port_12(rvx_port_52),
+	.rvx_port_46(rvx_port_62),
+	.rvx_port_21(rvx_port_09),
+
+	.rvx_port_22(rvx_port_49),
+	.rvx_port_23(rvx_port_35),
+	.rvx_port_05(rvx_port_11),
+	.rvx_port_02(rvx_port_54),
+	.rvx_port_14(rvx_port_46),
+	.rvx_port_24(rvx_port_29),
+	.rvx_port_16(rvx_port_06),
+
+	.rvx_port_38(rvx_signal_10),
+	.rvx_port_44(rvx_signal_02),
+	.rvx_port_36(rvx_signal_03),
+	.rvx_port_08(rvx_signal_01),
+	.rvx_port_10(rvx_signal_09),
+	.rvx_port_28(rvx_signal_07),
+
+	.rvx_port_41(),
+	.rvx_port_18(rvx_port_28),
+	.rvx_port_19(rvx_port_20),
+	.rvx_port_09(rvx_port_69),
+	.rvx_port_29(rvx_port_37),
+	.rvx_port_31(rvx_port_45),
+
+	.rvx_port_00(rvx_port_27),
+	.rvx_port_47(rvx_port_40),
+	.rvx_port_03(rvx_port_53),
+	.rvx_port_42(rvx_port_31),
+	.rvx_port_01(rvx_port_60),
+	.rvx_port_32(rvx_port_04),
+	.rvx_port_07(rvx_port_33)
+);
+
+ERVP_SMALL_FIFO
+#(
+	.BW_DATA(RVX_LPARA_1),
+	.DEPTH(RVX_LPARA_0)
+)
+i_rvx_instance_3
+(
+	.clk(rvx_port_61),
+	.rstnn(rvx_port_01),
+	.enable(1'b 1),
+  .clear(1'b 0),
+	.wready(rvx_signal_10),
+	.wrequest(rvx_signal_02),
+	.wdata(rvx_signal_03),
+	.rready(rvx_signal_05),
+	.rrequest(rvx_signal_11),
+	.rdata(rvx_signal_04),
+	.wfull(),
+	.rempty()
+);
+
+ERVP_SMALL_FIFO
+#(
+	.BW_DATA(RVX_LPARA_1),
+	.DEPTH(RVX_LPARA_0)
+)
+i_rvx_instance_0
+(
+	.clk(rvx_port_61),
+	.rstnn(rvx_port_01),
+	.enable(1'b 1),
+  .clear(1'b 0),
+	.wready(rvx_signal_01),
+	.wrequest(rvx_signal_09),
+	.wdata(rvx_signal_07),
+	.rready(rvx_signal_06),
+	.rrequest(rvx_signal_08),
+	.rdata(rvx_signal_00),
+	.wfull(),
+	.rempty()
+);
+
+RVX_MODULE_103
+#(
+	.RVX_GPARA_0(RVX_GPARA_1),
+	.RVX_GPARA_3(RVX_GPARA_2),
+	.RVX_GPARA_1(RVX_GPARA_4),
+	.RVX_GPARA_5(RVX_GPARA_0),
+	.RVX_GPARA_2(RVX_GPARA_5),
+	.RVX_GPARA_4(RVX_GPARA_3)
+)
+i_rvx_instance_2
+(
+	.rvx_port_12(rvx_port_61),
+	.rvx_port_24(rvx_port_01),
+
+	.rvx_port_01(rvx_signal_05),
+	.rvx_port_25(rvx_signal_04),
+	.rvx_port_07(rvx_signal_11),
+	.rvx_port_16(rvx_signal_06),
+	.rvx_port_08(rvx_signal_00),
+	.rvx_port_03(rvx_signal_08),
+
+	.rvx_port_22(rvx_port_68),
+	.rvx_port_00(rvx_port_63),
+	.rvx_port_06(rvx_port_42),
+	.rvx_port_15(rvx_port_12),
+
+	.rvx_port_13(rvx_port_32),
+	.rvx_port_21(rvx_port_65),
+	.rvx_port_20(rvx_port_03),
+	.rvx_port_23(rvx_port_58),
+	.rvx_port_10(rvx_port_17),
+	.rvx_port_14(rvx_port_19),
+
+	.rvx_port_19(rvx_port_26),
+	.rvx_port_04(rvx_port_67),
+	.rvx_port_09(rvx_port_47),
+	.rvx_port_11(rvx_port_24),
+	.rvx_port_17(rvx_port_02),
+	.rvx_port_05(rvx_port_21),
+	.rvx_port_27(rvx_port_44),
+	.rvx_port_26(rvx_port_07),
+	.rvx_port_18(rvx_port_16),
+	.rvx_port_02(rvx_port_30)
+);
+
+assign rvx_port_51 = 0;
+assign rvx_port_00 = 0;
+assign rvx_port_34 = 0;
+assign rvx_port_72 = 0;
+assign rvx_port_50 = 0;
+assign rvx_port_56 = 0;
+assign rvx_port_38 = 0;
+assign rvx_port_05 = 0;
+
+assign rvx_port_14 = 1;
+
 endmodule

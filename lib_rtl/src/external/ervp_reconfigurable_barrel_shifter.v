@@ -51,114 +51,114 @@ output wire [BW_DATA-1:0] output0;
 
 genvar i;
 
-reg rvx_signal_03;
-wire rvx_signal_09;
-wire [BW_SHIFT_AMOUNT-1:0] rvx_signal_08;
-wire rvx_signal_02;
+reg rvx_signal_07;
+wire rvx_signal_08;
+wire [BW_SHIFT_AMOUNT-1:0] rvx_signal_04;
+wire rvx_signal_03;
 
-wire rvx_signal_01, rvx_signal_00;
-wire [BW_DATA-1:0] rvx_signal_07 [RVX_LPARA_0-1:0];
+wire rvx_signal_09, rvx_signal_01;
+wire [BW_DATA-1:0] rvx_signal_06 [RVX_LPARA_0-1:0];
 wire [BW_DATA-1:0] rvx_signal_05 [RVX_LPARA_0-1:0];
 
-wire [BW_DATA-1:0] rvx_signal_06, rvx_signal_04;
+wire [BW_DATA-1:0] rvx_signal_02, rvx_signal_00;
 
 always@(*)
 begin
-	rvx_signal_03 = 1;
+	rvx_signal_07 = 1;
   if(is_amount_signed)
   begin
     if(does_plus_means_left)
     begin
       if(amount[BW_SHIFT_AMOUNT-1])
-        rvx_signal_03 = 0;
+        rvx_signal_07 = 0;
       else
-        rvx_signal_03 = 1;
+        rvx_signal_07 = 1;
     end
     else
     begin
       if(amount[BW_SHIFT_AMOUNT-1])
-        rvx_signal_03 = 1;
+        rvx_signal_07 = 1;
       else
-        rvx_signal_03 = 0;
+        rvx_signal_07 = 0;
     end
   end
   else
   begin
     if(does_plus_means_left)
-      rvx_signal_03 = 1;
+      rvx_signal_07 = 1;
     else
-      rvx_signal_03 = 0;
+      rvx_signal_07 = 0;
   end
 end
 
-assign rvx_signal_09 = is_amount_signed & amount[BW_SHIFT_AMOUNT-1];
-assign rvx_signal_08 = rvx_signal_09? ~amount : amount;
-assign rvx_signal_02 = rvx_signal_09;
+assign rvx_signal_08 = is_amount_signed & amount[BW_SHIFT_AMOUNT-1];
+assign rvx_signal_04 = rvx_signal_08? ~amount : amount;
+assign rvx_signal_03 = rvx_signal_08;
 
-assign rvx_signal_01 = is_arithmetic? input0[BW_DATA-1] : msb_fill_value;
-assign rvx_signal_00 = is_arithmetic? 0 : lsb_fill_value;
+assign rvx_signal_09 = is_arithmetic? input0[BW_DATA-1] : msb_fill_value;
+assign rvx_signal_01 = is_arithmetic? 0 : lsb_fill_value;
 
-assign rvx_signal_07[0] = input0;
+assign rvx_signal_06[0] = input0;
 generate
 	for(i=1; i<RVX_LPARA_0; i=i+1)
 	begin : i_step_input
-		assign rvx_signal_07[i] = rvx_signal_05[i-1];
+		assign rvx_signal_06[i] = rvx_signal_05[i-1];
 	end
 endgenerate
 
 generate
 	for(i=0; i<(RVX_LPARA_0-1); i=i+1)
 	begin : i_step
-		RVX_MODULE_132
+		RVX_MODULE_088
 		#(
 			.RVX_GPARA_1(BW_DATA),
-			.RVX_GPARA_0((2**i)),
-			.RVX_GPARA_2(CIRCULAR_SHIFT)
+			.RVX_GPARA_2((2**i)),
+			.RVX_GPARA_0(CIRCULAR_SHIFT)
 		)
-		i_rvx_instance_1
+		i_rvx_instance_2
 		(
-			.rvx_port_1(rvx_signal_07[i]),
-			.rvx_port_5(rvx_signal_08[i]),
-			.rvx_port_4(~rvx_signal_03),
-			.rvx_port_2(rvx_signal_01),
-			.rvx_port_0(rvx_signal_00),
-			.rvx_port_3(rvx_signal_05[i])
+			.rvx_port_4(rvx_signal_06[i]),
+			.rvx_port_2(rvx_signal_04[i]),
+			.rvx_port_0(~rvx_signal_07),
+			.rvx_port_5(rvx_signal_09),
+			.rvx_port_3(rvx_signal_01),
+			.rvx_port_1(rvx_signal_05[i])
 		);
 	end
 endgenerate
 
-RVX_MODULE_132
+RVX_MODULE_088
 #(
 	.RVX_GPARA_1(BW_DATA),
-	.RVX_GPARA_0(1),
-	.RVX_GPARA_2(CIRCULAR_SHIFT)
+	.RVX_GPARA_2(1),
+	.RVX_GPARA_0(CIRCULAR_SHIFT)
+)
+i_rvx_instance_1
+(
+	.rvx_port_4(rvx_signal_06[RVX_LPARA_0-1]),
+	.rvx_port_2(rvx_signal_03),
+	.rvx_port_0(~rvx_signal_07),
+	.rvx_port_5(rvx_signal_09),
+	.rvx_port_3(rvx_signal_01),
+	.rvx_port_1(rvx_signal_02)
+);
+
+RVX_MODULE_088
+#(
+	.RVX_GPARA_1(BW_DATA),
+	.RVX_GPARA_2((2**(RVX_LPARA_0-1))),
+	.RVX_GPARA_0(CIRCULAR_SHIFT)
 )
 i_rvx_instance_0
 (
-	.rvx_port_1(rvx_signal_07[RVX_LPARA_0-1]),
-	.rvx_port_5(rvx_signal_02),
-	.rvx_port_4(~rvx_signal_03),
-	.rvx_port_2(rvx_signal_01),
-	.rvx_port_0(rvx_signal_00),
-	.rvx_port_3(rvx_signal_06)
+	.rvx_port_4(rvx_signal_06[RVX_LPARA_0-1]),
+	.rvx_port_2(amount[BW_SHIFT_AMOUNT-1]),
+	.rvx_port_0(~rvx_signal_07),
+	.rvx_port_5(rvx_signal_09),
+	.rvx_port_3(rvx_signal_01),
+	.rvx_port_1(rvx_signal_00)
 );
 
-RVX_MODULE_132
-#(
-	.RVX_GPARA_1(BW_DATA),
-	.RVX_GPARA_0((2**(RVX_LPARA_0-1))),
-	.RVX_GPARA_2(CIRCULAR_SHIFT)
-)
-i_rvx_instance_2
-(
-	.rvx_port_1(rvx_signal_07[RVX_LPARA_0-1]),
-	.rvx_port_5(amount[BW_SHIFT_AMOUNT-1]),
-	.rvx_port_4(~rvx_signal_03),
-	.rvx_port_2(rvx_signal_01),
-	.rvx_port_0(rvx_signal_00),
-	.rvx_port_3(rvx_signal_04)
-);
-
-assign output0 = is_amount_signed? rvx_signal_06 : rvx_signal_04;
+assign output0 = is_amount_signed? rvx_signal_02 : rvx_signal_00;
 
 endmodule

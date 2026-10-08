@@ -59,22 +59,22 @@ wire munoc_signal_1, munoc_signal_0;
 assign munoc_signal_1 = munoc_port_0 & munoc_port_3;
 assign munoc_signal_0 = munoc_port_0 & (~munoc_port_3);
 
-RVX_MODULE_077
+RVX_MODULE_074
 #(
-	.RVX_GPARA_3(MUNOC_GPARA_0),
-	.RVX_GPARA_2(MUNOC_GPARA_2),
-	.RVX_GPARA_1(MUNOC_GPARA_1)
+	.RVX_GPARA_0(MUNOC_GPARA_0),
+	.RVX_GPARA_1(MUNOC_GPARA_2),
+	.RVX_GPARA_3(MUNOC_GPARA_1)
 )
 i_munoc_instance_0
 (
-	.rvx_port_3(munoc_port_2),
+	.rvx_port_7(munoc_port_2),
 	.rvx_port_0(munoc_port_5),
-	.rvx_port_6(munoc_port_1),
-	.rvx_port_5(munoc_signal_1),
-	.rvx_port_2(munoc_signal_0),
-	.rvx_port_1(munoc_port_6),
+	.rvx_port_1(munoc_port_1),
+	.rvx_port_2(munoc_signal_1),
+	.rvx_port_3(munoc_signal_0),
+	.rvx_port_5(munoc_port_6),
 	.rvx_port_4(munoc_port_4),
-	.rvx_port_7(munoc_port_7)
+	.rvx_port_6(munoc_port_7)
 );
 
 endmodule

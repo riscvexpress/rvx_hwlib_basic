@@ -47,35 +47,35 @@ input wire rrstnn;
 output wire rvalid;
 input wire rready;
 
-wire rvx_signal_2;
-wire rvx_signal_0;
-wire rvx_signal_4;
 wire rvx_signal_3;
+wire rvx_signal_1;
+wire rvx_signal_2;
+wire rvx_signal_4;
 
-localparam  RVX_LPARA_1 = 1;
-localparam  RVX_LPARA_2 = 0;
 localparam  RVX_LPARA_0 = 1;
+localparam  RVX_LPARA_2 = 0;
+localparam  RVX_LPARA_1 = 1;
 
-reg [RVX_LPARA_1-1:0] rvx_signal_1;
+reg [RVX_LPARA_0-1:0] rvx_signal_0;
 
 always@(posedge wclk, negedge wrstnn)
 begin
   if(wrstnn==0)
-    rvx_signal_1 <= RVX_LPARA_2;
+    rvx_signal_0 <= RVX_LPARA_2;
   else
-    case(rvx_signal_1)
+    case(rvx_signal_0)
       RVX_LPARA_2:
-        if(rvx_signal_0)
-          rvx_signal_1 <= RVX_LPARA_0;
-      RVX_LPARA_0:
+        if(rvx_signal_1)
+          rvx_signal_0 <= RVX_LPARA_1;
+      RVX_LPARA_1:
         if(wfinish)
-          rvx_signal_1 <= RVX_LPARA_2;
+          rvx_signal_0 <= RVX_LPARA_2;
     endcase
 end
 
-assign rvx_signal_0 = (rvx_signal_1==RVX_LPARA_2) & wstart;
-assign wbusy = (rvx_signal_1==RVX_LPARA_0);
-assign wfinish = (rvx_signal_1==RVX_LPARA_0) & rvx_signal_2;
+assign rvx_signal_1 = (rvx_signal_0==RVX_LPARA_2) & wstart;
+assign wbusy = (rvx_signal_0==RVX_LPARA_1);
+assign wfinish = (rvx_signal_0==RVX_LPARA_1) & rvx_signal_3;
 
 ERVP_ASYNCH_REGISTER
 #(
@@ -85,17 +85,17 @@ i_rvx_instance_0
 (
 	.wclk(wclk),
 	.wrstnn(wrstnn),
-	.wready(rvx_signal_2),
-	.wrequest(rvx_signal_0),
+	.wready(rvx_signal_3),
+	.wrequest(rvx_signal_1),
 	.wdata(1'b 0),
 	.rclk(rclk),
 	.rrstnn(rrstnn),
-	.rready(rvx_signal_3),
-	.rrequest(rvx_signal_4),
+	.rready(rvx_signal_4),
+	.rrequest(rvx_signal_2),
 	.rdata()
 );
 
-assign rvalid = rvx_signal_3;
-assign rvx_signal_4 = rready;
+assign rvalid = rvx_signal_4;
+assign rvx_signal_2 = rready;
 
 endmodule

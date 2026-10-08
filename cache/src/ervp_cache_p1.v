@@ -297,7 +297,7 @@ i_cache_p2
 
 //
 
-RVX_MODULE_081
+RVX_MODULE_023
 #(
   .BW_LPI_QPARCEL(BW_LPI_QPARCEL),
   .BW_LPI_YPARCEL(BW_LPI_YPARCEL),
@@ -306,37 +306,37 @@ RVX_MODULE_081
 )
 i_backend_serializer
 (
-	.rvx_port_26(clk),
-	.rvx_port_06(rstnn),
-  .rvx_port_00(clear),
-  .rvx_port_19(enable),
-  .rvx_port_10(i_backend_serializer_busy),
+	.rvx_port_19(clk),
+	.rvx_port_02(rstnn),
+  .rvx_port_10(clear),
+  .rvx_port_13(enable),
+  .rvx_port_08(i_backend_serializer_busy),
   
-  .rvx_port_08(lqdready_list),
-  .rvx_port_14(lqvalid_list),
-  .rvx_port_12(lqhint_list),
-  .rvx_port_11(lqlast_list),  
-  .rvx_port_09(lqafy_list),
-  .rvx_port_15(lqdata_list),
+  .rvx_port_04(lqdready_list),
+  .rvx_port_12(lqvalid_list),
+  .rvx_port_22(lqhint_list),
+  .rvx_port_18(lqlast_list),  
+  .rvx_port_11(lqafy_list),
+  .rvx_port_16(lqdata_list),
 
-  .rvx_port_17(lydready_list),
-  .rvx_port_21(lyvalid_list),
-  .rvx_port_01(lyhint_list),
-  .rvx_port_18(lylast_list),
-  .rvx_port_23(lydata_list),
+  .rvx_port_03(lydready_list),
+  .rvx_port_24(lyvalid_list),
+  .rvx_port_07(lyhint_list),
+  .rvx_port_17(lylast_list),
+  .rvx_port_25(lydata_list),
   
-  .rvx_port_20(memory_slqdready),
-  .rvx_port_22(memory_slqvalid),
-  .rvx_port_16(memory_slqhint),
-  .rvx_port_04(memory_slqafy),
-  .rvx_port_24(memory_slqlast),
-  .rvx_port_03(memory_slqdata),
+  .rvx_port_00(memory_slqdready),
+  .rvx_port_20(memory_slqvalid),
+  .rvx_port_21(memory_slqhint),
+  .rvx_port_23(memory_slqafy),
+  .rvx_port_09(memory_slqlast),
+  .rvx_port_06(memory_slqdata),
 
-  .rvx_port_05(memory_slydready),
-  .rvx_port_07(memory_slyvalid),
-  .rvx_port_02(memory_slyhint),
-  .rvx_port_25(memory_slylast),
-  .rvx_port_13(memory_slydata)
+  .rvx_port_01(memory_slydready),
+  .rvx_port_26(memory_slyvalid),
+  .rvx_port_15(memory_slyhint),
+  .rvx_port_05(memory_slylast),
+  .rvx_port_14(memory_slydata)
 );
 
 assign {cca_slqdready,uca_slqdready} = lqdready_list;

@@ -40,24 +40,24 @@ module I2C_SLAVE_MODEL (scl, sda);
 	
 	wire debug = 1'b1;
 
-	reg [7:0] rvx_signal_16 [3:0]; 
-	reg [7:0] rvx_signal_05;   
+	reg [7:0] rvx_signal_10 [3:0]; 
+	reg [7:0] rvx_signal_04;   
 	reg [7:0] rvx_signal_13;    
 
-	reg rvx_signal_10, rvx_signal_02;
-	reg rvx_signal_11, rvx_signal_18;
+	reg rvx_signal_12, rvx_signal_18;
+	reg rvx_signal_06, rvx_signal_01;
 
-	reg [7:0] rvx_signal_01;        
-	reg       rvx_signal_15;        
+	reg [7:0] rvx_signal_02;        
+	reg       rvx_signal_03;        
 
-	wire      rvx_signal_03;    
-	wire      rvx_signal_17; 
-	reg [2:0] rvx_signal_09;   
-	wire      rvx_signal_07;  
-	reg       rvx_signal_06;        
+	wire      rvx_signal_11;    
+	wire      rvx_signal_08; 
+	reg [2:0] rvx_signal_19;   
+	wire      rvx_signal_00;  
+	reg       rvx_signal_05;        
 
-	reg       rvx_signal_19;     
-	wire      rvx_signal_08;   
+	reg       rvx_signal_16;     
+	wire      rvx_signal_17;   
 
 	
 	parameter idle        = 3'b000;
@@ -67,14 +67,14 @@ module I2C_SLAVE_MODEL (scl, sda);
 	parameter data        = 3'b100;
 	parameter data_ack    = 3'b101;
 
-	reg [2:0] rvx_signal_04; 
+	reg [2:0] rvx_signal_15; 
 
 initial
 begin
- rvx_signal_16[0] = 0;
- rvx_signal_16[1] = 0;
- rvx_signal_16[2] = 0;
- rvx_signal_16[3] = 0;
+ rvx_signal_10[0] = 0;
+ rvx_signal_10[1] = 0;
+ rvx_signal_10[2] = 0;
+ rvx_signal_10[3] = 0;
 end
 	
 	
@@ -82,28 +82,28 @@ end
 
 	initial
 	begin
-	   rvx_signal_19 = 1'b1;
-	   rvx_signal_04 = idle;
+	   rvx_signal_16 = 1'b1;
+	   rvx_signal_15 = idle;
 	end
 
 	
 	always @(posedge scl)
-	  rvx_signal_01 <= #1 {rvx_signal_01[6:0],sda};
+	  rvx_signal_02 <= #1 {rvx_signal_02[6:0],sda};
 
 	
-	assign rvx_signal_03 = (rvx_signal_01[7:1] == I2C_ADR);
+	assign rvx_signal_11 = (rvx_signal_02[7:1] == I2C_ADR);
 	
 	
 
 	
 	always @(posedge scl)
-	  if(rvx_signal_06)
-	    rvx_signal_09 <= #1 3'b111;
+	  if(rvx_signal_05)
+	    rvx_signal_19 <= #1 3'b111;
 	  else
-	    rvx_signal_09 <= #1 rvx_signal_09 - 3'h1;
+	    rvx_signal_19 <= #1 rvx_signal_19 - 3'h1;
 
 	
-	assign rvx_signal_07 = !(|rvx_signal_09);
+	assign rvx_signal_00 = !(|rvx_signal_19);
 
 	
 	
@@ -111,160 +111,160 @@ end
 	
 	
 	
-	assign #1 rvx_signal_08 = sda;
+	assign #1 rvx_signal_17 = sda;
 
 	
 	always @(negedge sda)
 	  if(scl)
 	    begin
-	        rvx_signal_10   <= #1 1'b1;
-		rvx_signal_02 <= #1 1'b0;
-		rvx_signal_11   <= #1 1'b0;
+	        rvx_signal_12   <= #1 1'b1;
+		rvx_signal_18 <= #1 1'b0;
+		rvx_signal_06   <= #1 1'b0;
 
 	        if(debug)
 	          $display("DEBUG i2c_slave; start condition detected at %t", $time);
 	    end
 	  else
-	    rvx_signal_10 <= #1 1'b0;
+	    rvx_signal_12 <= #1 1'b0;
 
 	always @(posedge scl)
-	  rvx_signal_02 <= #1 rvx_signal_10;
+	  rvx_signal_18 <= #1 rvx_signal_12;
 
 	
 	always @(posedge sda)
 	  if(scl)
 	    begin
-	       rvx_signal_10 <= #1 1'b0;
-	       rvx_signal_11 <= #1 1'b1;
+	       rvx_signal_12 <= #1 1'b0;
+	       rvx_signal_06 <= #1 1'b1;
 
 	       if(debug)
 	         $display("DEBUG i2c_slave; stop condition detected at %t", $time);
 	    end
 	  else
-	    rvx_signal_11 <= #1 1'b0;
+	    rvx_signal_06 <= #1 1'b0;
 
 	
-	assign rvx_signal_17 = rvx_signal_10 || rvx_signal_11;
+	assign rvx_signal_08 = rvx_signal_12 || rvx_signal_06;
 
 	
-	always @(negedge scl or posedge rvx_signal_11)
-	  if (rvx_signal_11 || (rvx_signal_10 && !rvx_signal_02) )
+	always @(negedge scl or posedge rvx_signal_06)
+	  if (rvx_signal_06 || (rvx_signal_12 && !rvx_signal_18) )
 	    begin
-	        rvx_signal_04 <= #1 idle; 
+	        rvx_signal_15 <= #1 idle; 
 
-	        rvx_signal_19 <= #1 1'b1;
-	        rvx_signal_06    <= #1 1'b1;
+	        rvx_signal_16 <= #1 1'b1;
+	        rvx_signal_05    <= #1 1'b1;
 	    end
 	  else
 	    begin
 	        
-	        rvx_signal_19 <= #1 1'b1;
-	        rvx_signal_06    <= #1 1'b0;
+	        rvx_signal_16 <= #1 1'b1;
+	        rvx_signal_05    <= #1 1'b0;
 
-	        case(rvx_signal_04) 
+	        case(rvx_signal_15) 
 	            idle: 
-	              if (rvx_signal_07 && rvx_signal_03)
+	              if (rvx_signal_00 && rvx_signal_11)
 	                begin
-	                    rvx_signal_04 <= #1 slave_ack;
-	                    rvx_signal_15 <= #1 rvx_signal_01[0];
-	                    rvx_signal_19 <= #1 1'b0; 
+	                    rvx_signal_15 <= #1 slave_ack;
+	                    rvx_signal_03 <= #1 rvx_signal_02[0];
+	                    rvx_signal_16 <= #1 1'b0; 
 
 	                    #2;
-	                    if(debug && rvx_signal_15)
+	                    if(debug && rvx_signal_03)
 	                      $display("DEBUG i2c_slave; command byte received (read) at %t", $time);
-	                    if(debug && !rvx_signal_15)
+	                    if(debug && !rvx_signal_03)
 	                      $display("DEBUG i2c_slave; command byte received (write) at %t", $time);
 
-	                    if(rvx_signal_15)
+	                    if(rvx_signal_03)
 	                      begin
-	                          rvx_signal_13 <= #1 rvx_signal_16[rvx_signal_05];
+	                          rvx_signal_13 <= #1 rvx_signal_10[rvx_signal_04];
 
 	                          if(debug)
 	                            begin
-	                                #2 $display("DEBUG i2c_slave; data block read %x from address %x (1)", rvx_signal_13, rvx_signal_05);
-	                                #2 $display("DEBUG i2c_slave; memcheck [0]=%x, [1]=%x, [2]=%x", rvx_signal_16[4'h0], rvx_signal_16[4'h1], rvx_signal_16[4'h2]);
+	                                #2 $display("DEBUG i2c_slave; data block read %x from address %x (1)", rvx_signal_13, rvx_signal_04);
+	                                #2 $display("DEBUG i2c_slave; memcheck [0]=%x, [1]=%x, [2]=%x", rvx_signal_10[4'h0], rvx_signal_10[4'h1], rvx_signal_10[4'h2]);
 	                            end
 	                      end
 	                end
 
 	            slave_ack:
 	              begin
-	                  if(rvx_signal_15)
+	                  if(rvx_signal_03)
 	                    begin
-	                        rvx_signal_04 <= #1 data;
-	                        rvx_signal_19 <= #1 rvx_signal_13[7];
+	                        rvx_signal_15 <= #1 data;
+	                        rvx_signal_16 <= #1 rvx_signal_13[7];
 	                    end
 	                  else
-	                    rvx_signal_04 <= #1 get_mem_adr;
+	                    rvx_signal_15 <= #1 get_mem_adr;
 
-	                  rvx_signal_06    <= #1 1'b1;
+	                  rvx_signal_05    <= #1 1'b1;
 	              end
 
 	            get_mem_adr: 
-	              if(rvx_signal_07)
+	              if(rvx_signal_00)
 	                begin
-	                    rvx_signal_04 <= #1 gma_ack;
-	                    rvx_signal_05 <= #1 rvx_signal_01; 
-	                    rvx_signal_19 <= #1 !(rvx_signal_01 <= 15); 
+	                    rvx_signal_15 <= #1 gma_ack;
+	                    rvx_signal_04 <= #1 rvx_signal_02; 
+	                    rvx_signal_16 <= #1 !(rvx_signal_02 <= 15); 
 
 	                    if(debug)
-	                      #1 $display("DEBUG i2c_slave; address received. adr=%x, ack=%b", rvx_signal_01, rvx_signal_19);
+	                      #1 $display("DEBUG i2c_slave; address received. adr=%x, ack=%b", rvx_signal_02, rvx_signal_16);
 	                end
 
 	            gma_ack:
 	              begin
-	                  rvx_signal_04 <= #1 data;
-	                  rvx_signal_06    <= #1 1'b1;
+	                  rvx_signal_15 <= #1 data;
+	                  rvx_signal_05    <= #1 1'b1;
 	              end
 
 	            data: 
 	              begin
-	                  if(rvx_signal_15)
-	                    rvx_signal_19 <= #1 rvx_signal_13[7];
+	                  if(rvx_signal_03)
+	                    rvx_signal_16 <= #1 rvx_signal_13[7];
 
-	                  if(rvx_signal_07)
+	                  if(rvx_signal_00)
 	                    begin
-	                        rvx_signal_04 <= #1 data_ack;
-	                        rvx_signal_05 <= #2 rvx_signal_05 + 8'h1;
-	                        rvx_signal_19 <= #1 (rvx_signal_15 && (rvx_signal_05 <= 15) ); 
+	                        rvx_signal_15 <= #1 data_ack;
+	                        rvx_signal_04 <= #2 rvx_signal_04 + 8'h1;
+	                        rvx_signal_16 <= #1 (rvx_signal_03 && (rvx_signal_04 <= 15) ); 
 
-	                        if(rvx_signal_15)
+	                        if(rvx_signal_03)
 	                          begin
-	                              #3 rvx_signal_13 <= rvx_signal_16[rvx_signal_05];
+	                              #3 rvx_signal_13 <= rvx_signal_10[rvx_signal_04];
 
 	                              if(debug)
-	                                #5 $display("DEBUG i2c_slave; data block read %x from address %x (2)", rvx_signal_13, rvx_signal_05);
+	                                #5 $display("DEBUG i2c_slave; data block read %x from address %x (2)", rvx_signal_13, rvx_signal_04);
 	                          end
 
-	                        if(!rvx_signal_15)
+	                        if(!rvx_signal_03)
 	                          begin
-	                              rvx_signal_16[ rvx_signal_05[3:0] ] <= #1 rvx_signal_01; 
+	                              rvx_signal_10[ rvx_signal_04[3:0] ] <= #1 rvx_signal_02; 
 
 	                              if(debug)
-	                                #2 $display("DEBUG i2c_slave; data block write %x to address %x", rvx_signal_01, rvx_signal_05);
+	                                #2 $display("DEBUG i2c_slave; data block write %x to address %x", rvx_signal_02, rvx_signal_04);
 	                          end
 	                    end
 	              end
 
 	            data_ack:
 	              begin
-	                  rvx_signal_06 <= #1 1'b1;
+	                  rvx_signal_05 <= #1 1'b1;
 
-	                  if(rvx_signal_15)
-	                    if(rvx_signal_01[0]) 
+	                  if(rvx_signal_03)
+	                    if(rvx_signal_02[0]) 
 	                      begin
-	                          rvx_signal_04 <= #1 idle;
-	                          rvx_signal_19 <= #1 1'b1;
+	                          rvx_signal_15 <= #1 idle;
+	                          rvx_signal_16 <= #1 1'b1;
 	                      end
 	                    else
 	                      begin
-	                          rvx_signal_04 <= #1 data;
-	                          rvx_signal_19 <= #1 rvx_signal_13[7];
+	                          rvx_signal_15 <= #1 data;
+	                          rvx_signal_16 <= #1 rvx_signal_13[7];
 	                      end
 	                  else
 	                    begin
-	                        rvx_signal_04 <= #1 data;
-	                        rvx_signal_19 <= #1 1'b1;
+	                        rvx_signal_15 <= #1 data;
+	                        rvx_signal_16 <= #1 1'b1;
 	                    end
 	              end
 
@@ -273,18 +273,18 @@ end
 
 	
 	always @(posedge scl)
-	  if(!rvx_signal_07 && rvx_signal_15)
+	  if(!rvx_signal_00 && rvx_signal_03)
 	    rvx_signal_13 <= #1 {rvx_signal_13[6:0], 1'b1}; 
 
 	
-	assign sda = rvx_signal_19 ? 1'bz : 1'b0;
+	assign sda = rvx_signal_16 ? 1'bz : 1'b0;
 
 	
 	
 	
 
-	wire tst_sto = rvx_signal_11;
-	wire tst_sta = rvx_signal_10;
+	wire tst_sto = rvx_signal_06;
+	wire tst_sta = rvx_signal_12;
 
 	specify
 	  specparam normal_scl_low  = 4700,

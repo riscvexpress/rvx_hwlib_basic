@@ -35,10 +35,10 @@ parameter NUM_LED = 1;
 
 `include "ervp_log_util.vf"
 
-localparam  RVX_LPARA_3 = 1;
-localparam  RVX_LPARA_1 = 16;
-localparam  RVX_LPARA_0 = RVX_LPARA_1/RVX_LPARA_3;
-localparam  RVX_LPARA_2 = LOG2RU(RVX_LPARA_0);
+localparam  RVX_LPARA_2 = 1;
+localparam  RVX_LPARA_0 = 16;
+localparam  RVX_LPARA_1 = RVX_LPARA_0/RVX_LPARA_2;
+localparam  RVX_LPARA_3 = LOG2RU(RVX_LPARA_1);
 
 input wire clk;
 input wire tick_62d5ms;
@@ -46,29 +46,13 @@ input wire rstnn;
 input wire app_finished;
 output reg [NUM_LED-1:0] led_list;
 
-wire [RVX_LPARA_2-1:0] rvx_signal_0;
-wire rvx_signal_1;
+wire [RVX_LPARA_3-1:0] rvx_signal_1;
+wire rvx_signal_0;
 
 ERVP_COUNTER
 #(
-	.BW_COUNTER(RVX_LPARA_2),
+	.BW_COUNTER(RVX_LPARA_3),
 	.CIRCULAR(1)
-)
-i_rvx_instance_0
-(
-	.clk(clk),
-	.rstnn(rstnn),
-	.enable(1'b 1),
-	.init(1'b 0),
-	.count(tick_62d5ms),
-	.value(rvx_signal_0),
-	.is_first_count(),
-	.is_last_count()
-);
-
-ERVP_COUNTER
-#(
-	.BW_COUNTER(RVX_LPARA_2+1)
 )
 i_rvx_instance_1
 (
@@ -77,20 +61,36 @@ i_rvx_instance_1
 	.enable(1'b 1),
 	.init(1'b 0),
 	.count(tick_62d5ms),
+	.value(rvx_signal_1),
+	.is_first_count(),
+	.is_last_count()
+);
+
+ERVP_COUNTER
+#(
+	.BW_COUNTER(RVX_LPARA_3+1)
+)
+i_rvx_instance_0
+(
+	.clk(clk),
+	.rstnn(rstnn),
+	.enable(1'b 1),
+	.init(1'b 0),
+	.count(tick_62d5ms),
 	.value(),
 	.is_first_count(),
-	.is_last_count(rvx_signal_1)
+	.is_last_count(rvx_signal_0)
 );
 
 always@(*)
 begin
 	led_list = 0;
-  if(rvx_signal_1)
+  if(rvx_signal_0)
   begin
     if(app_finished==1)
       led_list[0] = 1;
     else
-      led_list[0] = rvx_signal_0[RVX_LPARA_2-1];
+      led_list[0] = rvx_signal_1[RVX_LPARA_3-1];
   end
 end
 

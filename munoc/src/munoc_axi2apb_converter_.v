@@ -158,104 +158,104 @@ wire munoc_signal_05;
 wire munoc_signal_08;
 wire [BW_LPI_YDATA-1:0] munoc_signal_03;
 
-RVX_MODULE_128
+RVX_MODULE_131
 #(
-  .RVX_GPARA_1(MUNOC_LPARA_1),
+  .RVX_GPARA_2(MUNOC_LPARA_1),
   .RVX_GPARA_0(MUNOC_LPARA_3),
-  .RVX_GPARA_2(BW_AXI_TID)
+  .RVX_GPARA_1(BW_AXI_TID)
 )
 i_munoc_instance_0
 (
-	.rvx_port_41(clk),
-	.rvx_port_15(rstnn),
-  .rvx_port_00(1'b 0),
-  .rvx_port_24(1'b 1),
+	.rvx_port_40(clk),
+	.rvx_port_20(rstnn),
+  .rvx_port_07(1'b 0),
+  .rvx_port_27(1'b 1),
 
-  .rvx_port_17(rxarid),
-	.rvx_port_36(rxaraddr),
-	.rvx_port_22(rxarlen),
-	.rvx_port_37(rxarsize),
-	.rvx_port_11(rxarburst),
-	.rvx_port_23(rxarvalid),
-	.rvx_port_34(rxarready),
+  .rvx_port_41(rxarid),
+	.rvx_port_33(rxaraddr),
+	.rvx_port_05(rxarlen),
+	.rvx_port_17(rxarsize),
+	.rvx_port_15(rxarburst),
+	.rvx_port_30(rxarvalid),
+	.rvx_port_16(rxarready),
 
-	.rvx_port_18(rxrid),
-	.rvx_port_28(rxrdata),
-	.rvx_port_08(rxrresp),
-	.rvx_port_35(rxrlast),
-	.rvx_port_30(rxrvalid),
-	.rvx_port_07(rxrready),
+	.rvx_port_34(rxrid),
+	.rvx_port_35(rxrdata),
+	.rvx_port_12(rxrresp),
+	.rvx_port_38(rxrlast),
+	.rvx_port_19(rxrvalid),
+	.rvx_port_22(rxrready),
 
-	.rvx_port_33(rxawid),
-  .rvx_port_12(rxawaddr),
-  .rvx_port_06(rxawlen),
-  .rvx_port_27(rxawsize),
-  .rvx_port_43(rxawburst),
-  .rvx_port_03(rxawvalid),
-  .rvx_port_04(rxawready),
+	.rvx_port_10(rxawid),
+  .rvx_port_39(rxawaddr),
+  .rvx_port_23(rxawlen),
+  .rvx_port_42(rxawsize),
+  .rvx_port_04(rxawburst),
+  .rvx_port_21(rxawvalid),
+  .rvx_port_08(rxawready),
 
-  .rvx_port_01(rxwid),
-  .rvx_port_21(rxwdata),
-  .rvx_port_26(rxwstrb),
-  .rvx_port_42(rxwlast),
-  .rvx_port_10(rxwvalid),
-  .rvx_port_32(rxwready),
+  .rvx_port_29(rxwid),
+  .rvx_port_36(rxwdata),
+  .rvx_port_37(rxwstrb),
+  .rvx_port_18(rxwlast),
+  .rvx_port_09(rxwvalid),
+  .rvx_port_06(rxwready),
 
-  .rvx_port_14(rxbid),
-  .rvx_port_02(rxbresp),
-  .rvx_port_20(rxbvalid),
-  .rvx_port_09(rxbready),
+  .rvx_port_43(rxbid),
+  .rvx_port_01(rxbresp),
+  .rvx_port_25(rxbvalid),
+  .rvx_port_02(rxbready),
 
-  .rvx_port_29(munoc_signal_09),
-  .rvx_port_05(munoc_signal_02),
-  .rvx_port_13(munoc_signal_01),
-  .rvx_port_16(munoc_signal_07),
-  .rvx_port_19(munoc_signal_04),
-  .rvx_port_40(munoc_signal_00),
+  .rvx_port_26(munoc_signal_09),
+  .rvx_port_28(munoc_signal_02),
+  .rvx_port_11(munoc_signal_01),
+  .rvx_port_44(munoc_signal_07),
+  .rvx_port_13(munoc_signal_04),
+  .rvx_port_00(munoc_signal_00),
 
-  .rvx_port_25(munoc_signal_06),
-  .rvx_port_31(munoc_signal_10),
-  .rvx_port_38(munoc_signal_05),
-  .rvx_port_44(munoc_signal_08),
-  .rvx_port_39(munoc_signal_03)
+  .rvx_port_31(munoc_signal_06),
+  .rvx_port_14(munoc_signal_10),
+  .rvx_port_24(munoc_signal_05),
+  .rvx_port_32(munoc_signal_08),
+  .rvx_port_03(munoc_signal_03)
 );
 
-RVX_MODULE_051
+RVX_MODULE_015
 #(
   .RVX_GPARA_1(BW_PLATFORM_ADDR),
-  .RVX_GPARA_0(BW_NODE_DATA),
-  .RVX_GPARA_2(BW_AXI_TID)
+  .RVX_GPARA_2(BW_NODE_DATA),
+  .RVX_GPARA_0(BW_AXI_TID)
 )
 i_munoc_instance_1
 (
 	.rvx_port_19(clk),
-	.rvx_port_09(rstnn),
+	.rvx_port_15(rstnn),
   .rvx_port_17(1'b 0),
-  .rvx_port_01(1'b 1),
+  .rvx_port_20(1'b 1),
 
-  .rvx_port_24(munoc_signal_09),
+  .rvx_port_07(munoc_signal_09),
   .rvx_port_06(munoc_signal_02),
-  .rvx_port_16(munoc_signal_01),
-  .rvx_port_03(munoc_signal_07),
-  .rvx_port_05(munoc_signal_04),
-  .rvx_port_08(munoc_signal_00),
+  .rvx_port_09(munoc_signal_01),
+  .rvx_port_22(munoc_signal_07),
+  .rvx_port_21(munoc_signal_04),
+  .rvx_port_12(munoc_signal_00),
 
-  .rvx_port_12(munoc_signal_06),
-  .rvx_port_18(munoc_signal_10),
-  .rvx_port_23(munoc_signal_05),
-  .rvx_port_20(munoc_signal_08),
-  .rvx_port_14(munoc_signal_03),
+  .rvx_port_04(munoc_signal_06),
+  .rvx_port_03(munoc_signal_10),
+  .rvx_port_24(munoc_signal_05),
+  .rvx_port_14(munoc_signal_08),
+  .rvx_port_16(munoc_signal_03),
 
-  .rvx_port_02(spsel),
-	.rvx_port_15(spenable),
-  .rvx_port_07(spaddr),
-	.rvx_port_13(spwrite),
-	.rvx_port_04(spwdata),
-	.rvx_port_10(sprdata),
-	.rvx_port_21(spready),
-	.rvx_port_22(spslverr),
-  .rvx_port_11(sptid),
-	.rvx_port_00(spwstrb)
+  .rvx_port_01(spsel),
+	.rvx_port_13(spenable),
+  .rvx_port_23(spaddr),
+	.rvx_port_08(spwrite),
+	.rvx_port_00(spwdata),
+	.rvx_port_11(sprdata),
+	.rvx_port_02(spready),
+	.rvx_port_10(spslverr),
+  .rvx_port_05(sptid),
+	.rvx_port_18(spwstrb)
 );
 
 endmodule

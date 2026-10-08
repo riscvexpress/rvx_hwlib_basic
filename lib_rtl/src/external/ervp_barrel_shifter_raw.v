@@ -54,60 +54,60 @@ output wire [BW_DATA-1:0] data_output;
 
 genvar i;
 
-wire rvx_signal_3, rvx_signal_0;
-wire rvx_signal_2; 
+wire rvx_signal_0, rvx_signal_1;
+wire rvx_signal_3; 
 
+wire [BW_DATA-1:0] rvx_signal_2 [RVX_LPARA_0-1:0];
 wire [BW_DATA-1:0] rvx_signal_4 [RVX_LPARA_0-1:0];
-wire [BW_DATA-1:0] rvx_signal_1 [RVX_LPARA_0-1:0];
 
-assign rvx_signal_3 = (ARITHMETIC_SHIFT==1)? data_input[BW_DATA-1] : msb_fill;
-assign rvx_signal_0 = (ARITHMETIC_SHIFT==1)? 0 : lsb_fill;
+assign rvx_signal_0 = (ARITHMETIC_SHIFT==1)? data_input[BW_DATA-1] : msb_fill;
+assign rvx_signal_1 = (ARITHMETIC_SHIFT==1)? 0 : lsb_fill;
 
-assign rvx_signal_2 = (PLUS_TO_LEFT==1)? shift_amount_sign : (~shift_amount_sign);
+assign rvx_signal_3 = (PLUS_TO_LEFT==1)? shift_amount_sign : (~shift_amount_sign);
 
-assign rvx_signal_4[0] = data_input;
+assign rvx_signal_2[0] = data_input;
 generate
 for(i=1; i<RVX_LPARA_0; i=i+1)
 begin : i_step_input
-  assign rvx_signal_4[i] = rvx_signal_1[i-1];
+  assign rvx_signal_2[i] = rvx_signal_4[i-1];
 end
 endgenerate
 
 generate
 for(i=0; i<RVX_LPARA_0; i=i+1)
 begin : i_normal_step
-  RVX_MODULE_132
+  RVX_MODULE_088
   #(
     .RVX_GPARA_1(BW_DATA),
-    .RVX_GPARA_0((2**i)),
-    .RVX_GPARA_2(CIRCULAR_SHIFT)
+    .RVX_GPARA_2((2**i)),
+    .RVX_GPARA_0(CIRCULAR_SHIFT)
   )
-  i_rvx_instance_0
+  i_rvx_instance_1
   (
-    .rvx_port_1(rvx_signal_4[i]),
-    .rvx_port_5(shift_amount_abs[i]),
-    .rvx_port_4(rvx_signal_2),
-    .rvx_port_2(rvx_signal_3),
-    .rvx_port_0(rvx_signal_0),
-    .rvx_port_3(rvx_signal_1[i])
+    .rvx_port_4(rvx_signal_2[i]),
+    .rvx_port_2(shift_amount_abs[i]),
+    .rvx_port_0(rvx_signal_3),
+    .rvx_port_5(rvx_signal_0),
+    .rvx_port_3(rvx_signal_1),
+    .rvx_port_1(rvx_signal_4[i])
   );
 end
 endgenerate
 
-RVX_MODULE_132
+RVX_MODULE_088
 #(
   .RVX_GPARA_1(BW_DATA),
-  .RVX_GPARA_0(1),
-  .RVX_GPARA_2(CIRCULAR_SHIFT)
+  .RVX_GPARA_2(1),
+  .RVX_GPARA_0(CIRCULAR_SHIFT)
 )
-i_rvx_instance_1
+i_rvx_instance_0
 (
-  .rvx_port_1(rvx_signal_1[RVX_LPARA_0-1]),
-  .rvx_port_5(shift_amount_extra),
-  .rvx_port_4(rvx_signal_2),
-  .rvx_port_2(rvx_signal_3),
-  .rvx_port_0(rvx_signal_0),
-  .rvx_port_3(data_output)
+  .rvx_port_4(rvx_signal_4[RVX_LPARA_0-1]),
+  .rvx_port_2(shift_amount_extra),
+  .rvx_port_0(rvx_signal_3),
+  .rvx_port_5(rvx_signal_0),
+  .rvx_port_3(rvx_signal_1),
+  .rvx_port_1(data_output)
 );
 
 endmodule

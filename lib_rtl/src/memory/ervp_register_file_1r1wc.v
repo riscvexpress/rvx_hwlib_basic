@@ -45,10 +45,10 @@ parameter BW_SUBWORD = WIDTH;
 
 `include "ervp_log_util.vf"
 
-localparam  RVX_LPARA_3 = `DIVIDERU(WIDTH,BW_SUBWORD);
+localparam  RVX_LPARA_2 = `DIVIDERU(WIDTH,BW_SUBWORD);
 localparam  RVX_LPARA_0 = LOG2RU(DEPTH);
 
-parameter BW_SELECT = RVX_LPARA_3;
+parameter BW_SELECT = RVX_LPARA_2;
 
 input wire clk, rstnn;
 
@@ -64,19 +64,19 @@ output wire [WIDTH-1:0] rdata_synch;
 
 genvar i;
 
-wire [RVX_LPARA_0-1:0] rvx_signal_6, rvx_signal_3, rvx_signal_2;
+wire [RVX_LPARA_0-1:0] rvx_signal_4, rvx_signal_1, rvx_signal_6;
 wire [WIDTH-1:0] rvx_signal_5;
 
-localparam  RVX_LPARA_2 = 0;
+localparam  RVX_LPARA_3 = 0;
 localparam  RVX_LPARA_1 = 1;
 
-reg [WIDTH-1:0] rvx_signal_1;
-reg [RVX_LPARA_3-1:0] rvx_signal_0;
-wire [WIDTH-1:0] rvx_signal_4;
+reg [WIDTH-1:0] rvx_signal_3;
+reg [RVX_LPARA_2-1:0] rvx_signal_0;
+wire [WIDTH-1:0] rvx_signal_2;
 
-assign rvx_signal_6 = 0;
-assign rvx_signal_3 = $unsigned(windex);
-assign rvx_signal_2 = $unsigned(rindex);
+assign rvx_signal_4 = 0;
+assign rvx_signal_1 = $unsigned(windex);
+assign rvx_signal_6 = $unsigned(rindex);
 
 ERVP_REGISTER_FILE_1R1W
 #(
@@ -91,14 +91,14 @@ i_rvx_instance_0
 	.clk(clk),
 	.rstnn(rstnn),
 
-	.index(rvx_signal_6),
+	.index(rvx_signal_4),
 	
-	.windex(rvx_signal_3),
+	.windex(rvx_signal_1),
 	.wenable(wenable),
 	.wpermit(wpermit),
 	.wdata(wdata),
 
-	.rindex(rvx_signal_2),
+	.rindex(rvx_signal_6),
 	.rdata_list_asynch(),
 	.rdata_asynch(rdata_asynch),
 	.renable(renable),
@@ -108,9 +108,9 @@ i_rvx_instance_0
 always@(posedge clk)
 begin
   if(rstnn==0)
-    rvx_signal_1 <= 0;
-	else if(renable && wenable && (rvx_signal_2==rvx_signal_3))
-    rvx_signal_1 <= wdata;
+    rvx_signal_3 <= 0;
+	else if(renable && wenable && (rvx_signal_6==rvx_signal_1))
+    rvx_signal_3 <= wdata;
 end
 
 always@(posedge clk)
@@ -119,7 +119,7 @@ begin
     rvx_signal_0 <= 0;
   else if(renable)
   begin
-    if(wenable && (rvx_signal_2==rvx_signal_3))
+    if(wenable && (rvx_signal_6==rvx_signal_1))
       rvx_signal_0 <= wpermit;
     else
       rvx_signal_0 <= 0;
@@ -129,8 +129,8 @@ end
 generate
 for(i=0; i<WIDTH; i=i+1)
 begin : i_select_rdata
-  assign rvx_signal_4[i] = rvx_signal_0[i/BW_SUBWORD];
-  assign rdata_synch[i] = rvx_signal_4[i]? rvx_signal_1[i] : rvx_signal_5[i];
+  assign rvx_signal_2[i] = rvx_signal_0[i/BW_SUBWORD];
+  assign rdata_synch[i] = rvx_signal_2[i]? rvx_signal_3[i] : rvx_signal_5[i];
 end
 endgenerate
 

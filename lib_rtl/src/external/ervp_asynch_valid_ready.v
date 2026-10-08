@@ -45,9 +45,9 @@ input wire rrstnn;
 output wire rvalid;
 input wire rready;
 
-wire rvx_signal_1;
 wire rvx_signal_0;
 wire rvx_signal_3;
+wire rvx_signal_1;
 wire rvx_signal_2;
 
 ERVP_ASYNCH_REGISTER
@@ -58,20 +58,20 @@ i_rvx_instance_0
 (
 	.wclk(wclk),
 	.wrstnn(wrstnn),
-	.wready(rvx_signal_1),
-	.wrequest(rvx_signal_0),
+	.wready(rvx_signal_0),
+	.wrequest(rvx_signal_3),
 	.wdata(1'b 0),
 	.rclk(rclk),
 	.rrstnn(rrstnn),
 	.rready(rvx_signal_2),
-	.rrequest(rvx_signal_3),
+	.rrequest(rvx_signal_1),
 	.rdata()
 );
 
-assign rvx_signal_0 = wvalid;
-assign wready = rvx_signal_1;
+assign rvx_signal_3 = wvalid;
+assign wready = rvx_signal_0;
 
 assign rvalid = rvx_signal_2;
-assign rvx_signal_3 = rready;
+assign rvx_signal_1 = rready;
 
 endmodule

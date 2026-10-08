@@ -46,8 +46,8 @@ parameter NO_DATA = 0;
 `include "ervp_log_util.vf"
 `include "ervp_bitwidth_util.vf"
 
-localparam  RVX_LPARA_1 = REQUIRED_BITWIDTH_INDEX(DEPTH);
-localparam  RVX_LPARA_0 = 1<<RVX_LPARA_1;
+localparam  RVX_LPARA_0 = REQUIRED_BITWIDTH_INDEX(DEPTH);
+localparam  RVX_LPARA_1 = 1<<RVX_LPARA_0;
 
 input wire wclk, wrstnn;
 output wire [WRITE_READY_SIZE-1:0] wready;
@@ -63,78 +63,78 @@ output wire [BW_DATA-1:0] rdata;
 
 integer j;
 
-reg [BW_DATA-1:0] rvx_signal_17 [0:RVX_LPARA_0-1];
+reg [BW_DATA-1:0] rvx_signal_12 [0:RVX_LPARA_1-1];
 
-wire [RVX_LPARA_1-1:0] rvx_signal_03, rvx_signal_11;
-reg [RVX_LPARA_1:0] rvx_signal_12, rvx_signal_10;
-reg [RVX_LPARA_1:0] rvx_signal_16, rvx_signal_05;
+wire [RVX_LPARA_0-1:0] rvx_signal_00, rvx_signal_08;
+reg [RVX_LPARA_0:0] rvx_signal_07, rvx_signal_09;
+reg [RVX_LPARA_0:0] rvx_signal_02, rvx_signal_13;
 
-wire [RVX_LPARA_1:0] rvx_signal_08;
-wire [RVX_LPARA_1:0] rvx_signal_15;
+wire [RVX_LPARA_0:0] rvx_signal_05;
+wire [RVX_LPARA_0:0] rvx_signal_06;
 
-wire [RVX_LPARA_1:0] rvx_signal_04, rvx_signal_06;
-wire [RVX_LPARA_1:0] rvx_signal_07, rvx_signal_14;
-reg [RVX_LPARA_1:0] rvx_signal_01;
+wire [RVX_LPARA_0:0] rvx_signal_10, rvx_signal_04;
+wire [RVX_LPARA_0:0] rvx_signal_11, rvx_signal_01;
+reg [RVX_LPARA_0:0] rvx_signal_14;
 
-wire [RVX_LPARA_1:0] rvx_signal_09, rvx_signal_13;
-reg [`MAX(WRITE_READY_SIZE,2)-1:0] rvx_signal_02;
-reg rvx_signal_00;
+wire [RVX_LPARA_0:0] rvx_signal_17, rvx_signal_03;
+reg [`MAX(WRITE_READY_SIZE,2)-1:0] rvx_signal_16;
+reg rvx_signal_15;
 
-assign rdata = (NO_DATA==1)? 0 : rvx_signal_17 [rvx_signal_11];
+assign rdata = (NO_DATA==1)? 0 : rvx_signal_12 [rvx_signal_08];
 
 always @(posedge wclk, negedge wrstnn)
 begin
 	if(wrstnn==0)
-		for (j=0; j<RVX_LPARA_0; j=j+1)
-			rvx_signal_17[j] <= 0;
+		for (j=0; j<RVX_LPARA_1; j=j+1)
+			rvx_signal_12[j] <= 0;
 	else if (wrequest && !wfull)
-		rvx_signal_17[rvx_signal_03] <= wdata;
+		rvx_signal_12[rvx_signal_00] <= wdata;
 end
 	
 ERVP_SYNCHRONIZER
 #(
-	.BW_DATA(RVX_LPARA_1+1)
+	.BW_DATA(RVX_LPARA_0+1)
 )
-i_rvx_instance_1
+i_rvx_instance_0
 (
 	.clk(wclk),
 	.rstnn(wrstnn),
 	.enable(1'b 1),
-	.asynch_value(rvx_signal_16),
-	.synch_value(rvx_signal_08)
+	.asynch_value(rvx_signal_02),
+	.synch_value(rvx_signal_05)
 );
 
 ERVP_SYNCHRONIZER
 #(
-	.BW_DATA(RVX_LPARA_1+1)
+	.BW_DATA(RVX_LPARA_0+1)
 )
-i_rvx_instance_0
+i_rvx_instance_1
 (
 	.clk(rclk),
 	.rstnn(rrstnn),
 	.enable(1'b 1),
-	.asynch_value(rvx_signal_12),
-	.synch_value(rvx_signal_15)
+	.asynch_value(rvx_signal_07),
+	.synch_value(rvx_signal_06)
 );
 
 always @(posedge rclk or negedge rrstnn)
 begin
 	if (!rrstnn)
-		{rvx_signal_05, rvx_signal_16} <= 0;
+		{rvx_signal_13, rvx_signal_02} <= 0;
 	else
-		{rvx_signal_05, rvx_signal_16} <= {rvx_signal_06, rvx_signal_04};
+		{rvx_signal_13, rvx_signal_02} <= {rvx_signal_04, rvx_signal_10};
 end
 
-assign rvx_signal_11 = rvx_signal_05[RVX_LPARA_1-1:0];
-assign rvx_signal_06 = rvx_signal_05 + (rrequest & ~rempty);
-assign rvx_signal_04 = `BINARY2GRAY(rvx_signal_06);
+assign rvx_signal_08 = rvx_signal_13[RVX_LPARA_0-1:0];
+assign rvx_signal_04 = rvx_signal_13 + (rrequest & ~rempty);
+assign rvx_signal_10 = `BINARY2GRAY(rvx_signal_04);
 
 always @(posedge rclk or negedge rrstnn)
 begin
 	if (!rrstnn)
 		rempty <= 1'b1;
 	else
-		rempty <= (rvx_signal_04 == rvx_signal_15);
+		rempty <= (rvx_signal_10 == rvx_signal_06);
 end
 
 assign rready = ~rempty;
@@ -142,19 +142,19 @@ assign rready = ~rempty;
 always @(posedge wclk or negedge wrstnn)
 begin
 	if (!wrstnn)
-		{rvx_signal_10, rvx_signal_12} <= 0;
+		{rvx_signal_09, rvx_signal_07} <= 0;
 	else
-		{rvx_signal_10, rvx_signal_12} <= {rvx_signal_14, rvx_signal_07};
+		{rvx_signal_09, rvx_signal_07} <= {rvx_signal_01, rvx_signal_11};
 end
 
-assign rvx_signal_03 = rvx_signal_10[RVX_LPARA_1-1:0];
-assign rvx_signal_14 = rvx_signal_10 + (wrequest & ~wfull);
-assign rvx_signal_07 = `BINARY2GRAY(rvx_signal_14);
+assign rvx_signal_00 = rvx_signal_09[RVX_LPARA_0-1:0];
+assign rvx_signal_01 = rvx_signal_09 + (wrequest & ~wfull);
+assign rvx_signal_11 = `BINARY2GRAY(rvx_signal_01);
 
 always@(*)
 begin
-	rvx_signal_01 = rvx_signal_08;
-	rvx_signal_01[RVX_LPARA_1:RVX_LPARA_1-1] = ~rvx_signal_08[RVX_LPARA_1:RVX_LPARA_1-1];
+	rvx_signal_14 = rvx_signal_05;
+	rvx_signal_14[RVX_LPARA_0:RVX_LPARA_0-1] = ~rvx_signal_05[RVX_LPARA_0:RVX_LPARA_0-1];
 end
 
 always @(posedge wclk or negedge wrstnn)
@@ -162,27 +162,27 @@ begin
 	if (!wrstnn)
 		wfull <= 1'b0;
 	else
-		wfull <= (rvx_signal_07==rvx_signal_01);
+		wfull <= (rvx_signal_11==rvx_signal_14);
 end
 
 always@(*)
 begin
-	rvx_signal_02 = 0;
-	rvx_signal_02[0] = ~wfull;
-	rvx_signal_02[1] = (~wfull) & (~rvx_signal_00);
+	rvx_signal_16 = 0;
+	rvx_signal_16[0] = ~wfull;
+	rvx_signal_16[1] = (~wfull) & (~rvx_signal_15);
 end
 
-assign wready = $unsigned(rvx_signal_02);
+assign wready = $unsigned(rvx_signal_16);
 
-assign rvx_signal_13 = rvx_signal_10 + 1'b 1 + (wrequest & ~wfull);
-assign rvx_signal_09 = `BINARY2GRAY(rvx_signal_13);
+assign rvx_signal_03 = rvx_signal_09 + 1'b 1 + (wrequest & ~wfull);
+assign rvx_signal_17 = `BINARY2GRAY(rvx_signal_03);
 
 always @(posedge wclk or negedge wrstnn)
 begin
 	if (!wrstnn)
-		rvx_signal_00 <= (RVX_LPARA_0==1)? 1'b1 : 1'b0;
+		rvx_signal_15 <= (RVX_LPARA_1==1)? 1'b1 : 1'b0;
 	else
-		rvx_signal_00 <= (rvx_signal_09==rvx_signal_01);
+		rvx_signal_15 <= (rvx_signal_17==rvx_signal_14);
 end
 
 endmodule

@@ -61,10 +61,10 @@ output wire [BW_DATA-1:0] rdata;
 genvar i;
 integer j;
 
-reg [BW_DATA-1:0] rvx_signal_3 [DEPTH-1:0];
-wire [BW_DATA*DEPTH-1:0] rvx_signal_6;
-wire [DEPTH-1:0] rvx_signal_4, rvx_signal_5;
-wire rvx_signal_1, rvx_signal_0;
+reg [BW_DATA-1:0] rvx_signal_6 [DEPTH-1:0];
+wire [BW_DATA*DEPTH-1:0] rvx_signal_4;
+wire [DEPTH-1:0] rvx_signal_3, rvx_signal_0;
+wire rvx_signal_5, rvx_signal_1;
 wire [DEPTH-1:0] rvx_signal_2;
 
 ERVP_SHIFT_REGISTER
@@ -82,12 +82,42 @@ i_rvx_instance_0
 	.left_insertion(1'b 0),
 	.init(clear),
 	.set(1'b 0),
-	.left_shift(rvx_signal_0),
-	.right_shift(rvx_signal_1),
+	.left_shift(rvx_signal_1),
+	.right_shift(rvx_signal_5),
 	.is_upper_limit(wfull),
 	.is_lower_limit(rempty),
 	.value(rvx_signal_2)
 );
+
+ERVP_COUNTER_WITH_ONEHOT_ENCODING
+#(
+	.COUNT_LENGTH(DEPTH),
+	.CIRCULAR(1)
+)
+i_rvx_instance_2
+(
+	.clk(clk),
+	.rstnn(rstnn),
+	.enable(enable),
+	.init(clear),
+	.count(rvx_signal_1),
+	.value(rvx_signal_0),
+	.is_first_count(),
+	.is_last_count()
+);
+
+always@(posedge clk, negedge rstnn)
+begin
+	if(rstnn==0)
+		for (j=0; j<DEPTH; j=j+1)
+			rvx_signal_6[j] <= 0;
+	else if(enable && rvx_signal_1)
+	begin
+		for (j=0; j<DEPTH; j=j+1)
+			if(rvx_signal_0[j])
+				rvx_signal_6[j] <= wdata;
+	end
+end
 
 ERVP_COUNTER_WITH_ONEHOT_ENCODING
 #(
@@ -100,38 +130,8 @@ i_rvx_instance_1
 	.rstnn(rstnn),
 	.enable(enable),
 	.init(clear),
-	.count(rvx_signal_0),
-	.value(rvx_signal_5),
-	.is_first_count(),
-	.is_last_count()
-);
-
-always@(posedge clk, negedge rstnn)
-begin
-	if(rstnn==0)
-		for (j=0; j<DEPTH; j=j+1)
-			rvx_signal_3[j] <= 0;
-	else if(enable && rvx_signal_0)
-	begin
-		for (j=0; j<DEPTH; j=j+1)
-			if(rvx_signal_5[j])
-				rvx_signal_3[j] <= wdata;
-	end
-end
-
-ERVP_COUNTER_WITH_ONEHOT_ENCODING
-#(
-	.COUNT_LENGTH(DEPTH),
-	.CIRCULAR(1)
-)
-i_rvx_instance_3
-(
-	.clk(clk),
-	.rstnn(rstnn),
-	.enable(enable),
-	.init(clear),
-	.count(rvx_signal_1),
-	.value(rvx_signal_4),
+	.count(rvx_signal_5),
+	.value(rvx_signal_3),
 	.is_first_count(),
 	.is_last_count()
 );
@@ -139,7 +139,7 @@ i_rvx_instance_3
 generate
 	for(i=0; i<DEPTH; i=i+1)
 	begin : i_concatenation
-		assign rvx_signal_6[BW_DATA*(i+1)-1-:BW_DATA] = rvx_signal_3[i];
+		assign rvx_signal_4[BW_DATA*(i+1)-1-:BW_DATA] = rvx_signal_6[i];
 	end
 endgenerate
 
@@ -148,10 +148,10 @@ ERVP_MUX_WITH_ONEHOT_ENCODED_SELECT
 	.BW_DATA(BW_DATA),
 	.NUM_DATA(DEPTH)
 )
-i_rvx_instance_2
+i_rvx_instance_3
 (
-	.data_input_list(rvx_signal_6),
-	.select(rvx_signal_4),
+	.data_input_list(rvx_signal_4),
+	.select(rvx_signal_3),
 	.data_output(rdata)
 );
 
@@ -164,11 +164,11 @@ begin
 end
 
 assign wfull = ~wready[0];
-assign rvx_signal_0 = wready[0] && wrequest;
+assign rvx_signal_1 = wready[0] && wrequest;
 
 assign rready = rvx_signal_2;
 
 assign rempty = ~rready[0];
-assign rvx_signal_1 = rready[0] & rrequest;
+assign rvx_signal_5 = rready[0] & rrequest;
 
 endmodule

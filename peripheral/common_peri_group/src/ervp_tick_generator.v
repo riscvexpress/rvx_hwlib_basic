@@ -34,29 +34,29 @@ module ERVP_TICK_GENERATOR
 `include "ervp_log_util.vf"
 `include "ervp_bitwidth_util.vf"
 
-localparam  RVX_LPARA_2 = 11;
+localparam  RVX_LPARA_5 = 11;
 
-localparam  RVX_LPARA_5 = 1000000;
-localparam  RVX_LPARA_3 = 10;
+localparam  RVX_LPARA_3 = 1000000;
+localparam  RVX_LPARA_0 = 10;
 
-localparam  RVX_LPARA_0 = 16;
-localparam  RVX_LPARA_4 = `DIVIDERU(RVX_LPARA_5, RVX_LPARA_0);
-localparam  RVX_LPARA_1 = REQUIRED_BITWIDTH_UNSIGNED(RVX_LPARA_4);
+localparam  RVX_LPARA_1 = 16;
+localparam  RVX_LPARA_4 = `DIVIDERU(RVX_LPARA_3, RVX_LPARA_1);
+localparam  RVX_LPARA_2 = REQUIRED_BITWIDTH_UNSIGNED(RVX_LPARA_4);
 
 input wire clk, rstnn;
-input wire [RVX_LPARA_2-1:0] tick_config;
+input wire [RVX_LPARA_5-1:0] tick_config;
 output wire tick_1us;
 output wire tick_62d5ms;
 
-wire rvx_signal_0;
-wire [RVX_LPARA_3-1:0] rvx_signal_1;
-wire [RVX_LPARA_3-1:0] rvx_signal_2;
+wire rvx_signal_2;
+wire [RVX_LPARA_0-1:0] rvx_signal_0;
+wire [RVX_LPARA_0-1:0] rvx_signal_1;
 
-assign {rvx_signal_1,rvx_signal_0} = tick_config;
+assign {rvx_signal_0,rvx_signal_2} = tick_config;
 
 ERVP_COUNTER
 #(
-	.BW_COUNTER(RVX_LPARA_3),
+	.BW_COUNTER(RVX_LPARA_0),
 	.RESET_NUMBER(1),
 	.CIRCULAR(0)
 )
@@ -64,19 +64,19 @@ i_rvx_instance_1
 (
 	.clk(clk),
 	.rstnn(rstnn),
-	.enable(rvx_signal_0),
+	.enable(rvx_signal_2),
 	.init(tick_1us),
 	.count(1'b 1),
-	.value(rvx_signal_2),
+	.value(rvx_signal_1),
 	.is_first_count(),
 	.is_last_count()
 );
 
-assign tick_1us = (rvx_signal_2==rvx_signal_1);
+assign tick_1us = (rvx_signal_1==rvx_signal_0);
 
 ERVP_COUNTER
 #(
-	.BW_COUNTER(RVX_LPARA_1),
+	.BW_COUNTER(RVX_LPARA_2),
 	.LAST_NUMBER(RVX_LPARA_4-1),
 	.CIRCULAR(0)
 )
@@ -84,7 +84,7 @@ i_rvx_instance_0
 (
 	.clk(clk),
 	.rstnn(rstnn),
-	.enable(rvx_signal_0),
+	.enable(rvx_signal_2),
 	.init(tick_62d5ms),
 	.count(tick_1us),
 	.value(),

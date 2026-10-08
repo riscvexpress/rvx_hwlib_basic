@@ -71,8 +71,8 @@ parameter BW_AXI_DATA = 32;
 parameter BW_AXI_TID   = 4;
 parameter DUMMY_CYCLES   = 32;
 
-localparam  RVX_LPARA_2 = 1;
-localparam  RVX_LPARA_0 = 2'b00;
+localparam  RVX_LPARA_0 = 1;
+localparam  RVX_LPARA_2 = 2'b00;
 localparam  RVX_LPARA_4 = 2'b01;
 localparam  RVX_LPARA_3 = 2'b10;
 localparam  RVX_LPARA_1 = 2'b11;
@@ -120,20 +120,20 @@ output wire  [3:0]                 c2cs00_dq_sod;
 output wire  [3:0]                 c2cs00_dq_soval;
 input  wire  [3:0]                 c2cs00_dq_sival;
 
-wire         [3:0]                 rvx_signal_0;
+wire         [3:0]                 rvx_signal_4;
+wire         [3:0]                 rvx_signal_3;
+
+wire         [1:0]                 rvx_signal_1;
 wire         [3:0]                 rvx_signal_2;
-
-wire         [1:0]                 rvx_signal_4;
 wire         [3:0]                 rvx_signal_5;
-wire         [3:0]                 rvx_signal_1;
 
-reg                                rvx_signal_3;
+reg                                rvx_signal_0;
 
 prvp_axi_spi_slave
 #(
   .AXI_ADDR_WIDTH (BW_ADDR),
   .AXI_DATA_WIDTH (BW_AXI_DATA),
-  .AXI_USER_WIDTH (RVX_LPARA_2),
+  .AXI_USER_WIDTH (RVX_LPARA_0),
   .AXI_ID_WIDTH   (BW_AXI_TID),
   .DUMMY_CYCLES   (DUMMY_CYCLES)
 )
@@ -142,16 +142,16 @@ i_rvx_instance_0
   .test_mode(1'b 0),
   .spi_sclk(c2cs00_clk),
   .spi_cs(c2cs00_csn),
-  .spi_mode(rvx_signal_4),
+  .spi_mode(rvx_signal_1),
   .spi_sod(c2cs00_dq_sod),
-  .spi_sdi0(rvx_signal_1[0]),
-  .spi_sdi1(rvx_signal_1[1]),
-  .spi_sdi2(rvx_signal_1[2]),
-  .spi_sdi3(rvx_signal_1[3]),
-  .spi_sdo0(rvx_signal_5[0]),
-  .spi_sdo1(rvx_signal_5[1]),
-  .spi_sdo2(rvx_signal_5[2]),
-  .spi_sdo3(rvx_signal_5[3]),
+  .spi_sdi0(rvx_signal_5[0]),
+  .spi_sdi1(rvx_signal_5[1]),
+  .spi_sdi2(rvx_signal_5[2]),
+  .spi_sdi3(rvx_signal_5[3]),
+  .spi_sdo0(rvx_signal_2[0]),
+  .spi_sdo1(rvx_signal_2[1]),
+  .spi_sdo2(rvx_signal_2[2]),
+  .spi_sdo3(rvx_signal_2[3]),
 
   .axi_aclk(clk_axi),
   .axi_aresetn(rstnn_axi),
@@ -203,20 +203,20 @@ i_rvx_instance_0
 
 always@(*)
 begin
-  rvx_signal_3 = 1;
-  case(rvx_signal_4)
-    RVX_LPARA_0,
+  rvx_signal_0 = 1;
+  case(rvx_signal_1)
+    RVX_LPARA_2,
     RVX_LPARA_4:
-      rvx_signal_3 = 0;
+      rvx_signal_0 = 0;
     RVX_LPARA_3,
     RVX_LPARA_1:
-      rvx_signal_3 = 1;
+      rvx_signal_0 = 1;
   endcase
 end
 
-assign rvx_signal_0 = (rvx_signal_3 == 1'b1)? rvx_signal_5: {2'b00, rvx_signal_5[0], 1'b0};
-assign c2cs00_dq_soval = (c2cs00_csn == 1'b1)? 4'bzzzz: rvx_signal_0;
-assign rvx_signal_2 = (rvx_signal_3 == 1'b1)? c2cs00_dq_sival: {3'b000, c2cs00_dq_sival[0]};
-assign rvx_signal_1 = (c2cs00_csn == 1'b1)? 4'bzzzz: rvx_signal_2;
+assign rvx_signal_4 = (rvx_signal_0 == 1'b1)? rvx_signal_2: {2'b00, rvx_signal_2[0], 1'b0};
+assign c2cs00_dq_soval = (c2cs00_csn == 1'b1)? 4'bzzzz: rvx_signal_4;
+assign rvx_signal_3 = (rvx_signal_0 == 1'b1)? c2cs00_dq_sival: {3'b000, c2cs00_dq_sival[0]};
+assign rvx_signal_5 = (c2cs00_csn == 1'b1)? 4'bzzzz: rvx_signal_3;
 
 endmodule

@@ -51,7 +51,7 @@ module prvp_dc_token_ring_fifo_din(clk, rstn, data, valid, ready, write_token, r
       .DATA_WIDTH   ( DATA_WIDTH   ),
       .BUFFER_DEPTH ( BUFFER_DEPTH )
     )
-    i_rvx_instance_2
+    i_rvx_instance_1
     (
       .clk           ( clk           ),
       .rstn          ( rstn          ),
@@ -83,7 +83,7 @@ module prvp_dc_token_ring_fifo_din(clk, rstn, data, valid, ready, write_token, r
     #(
       .BUFFER_DEPTH ( BUFFER_DEPTH )
     )
-    i_rvx_instance_1
+    i_rvx_instance_2
     (
       .clk           ( clk           ),
       .rstn          ( rstn          ),

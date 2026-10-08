@@ -88,36 +88,36 @@ generate
 	end
 endgenerate
 
-RVX_MODULE_070
+RVX_MODULE_053
 #(
 	.RVX_GPARA_1(NUM_MODULE),
-	.RVX_GPARA_2(BW_ADDR),
-	.RVX_GPARA_0(BW_DATA)
+	.RVX_GPARA_0(BW_ADDR),
+	.RVX_GPARA_2(BW_DATA)
 )
 i_rvx_instance_0
 (
-	.rvx_port_17(clk),
-	.rvx_port_06(rstnn),
+	.rvx_port_10(clk),
+	.rvx_port_09(rstnn),
 
-	.rvx_port_09(rpsel),
-	.rvx_port_10(rpenable),
-	.rvx_port_18(rpaddr),
-	.rvx_port_15(rpwrite),
+	.rvx_port_16(rpsel),
+	.rvx_port_13(rpenable),
+	.rvx_port_08(rpaddr),
+	.rvx_port_14(rpwrite),
 	.rvx_port_01(rpwdata),
-	.rvx_port_02(rprdata),
-	.rvx_port_11(rpready),
-	.rvx_port_00(rpslverr),
+	.rvx_port_12(rprdata),
+	.rvx_port_02(rpready),
+	.rvx_port_06(rpslverr),
 
-	.rvx_port_07(rvx_signal_1),
+	.rvx_port_11(rvx_signal_1),
 	
-	.rvx_port_12(spsel_list),
-	.rvx_port_14(spenable_list),
-	.rvx_port_08(spaddr_list),
-	.rvx_port_13(spwrite_list),
-	.rvx_port_05(spwdata_list),
+	.rvx_port_07(spsel_list),
+	.rvx_port_05(spenable_list),
+	.rvx_port_00(spaddr_list),
+	.rvx_port_03(spwrite_list),
+	.rvx_port_15(spwdata_list),
 	.rvx_port_04(sprdata_list),
-	.rvx_port_03(spready_list),
-	.rvx_port_16(spslverr_list)
+	.rvx_port_18(spready_list),
+	.rvx_port_17(spslverr_list)
 );
 
 endmodule

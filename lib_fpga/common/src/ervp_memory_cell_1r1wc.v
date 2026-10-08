@@ -46,10 +46,10 @@ parameter BW_SUBWORD = 8;
 
 `include "ervp_log_util.vf"
 
-localparam  RVX_LPARA_0 = `DIVIDERU(WIDTH,BW_SUBWORD);
-localparam  RVX_LPARA_1 = LOG2RU(DEPTH);
+localparam  RVX_LPARA_1 = `DIVIDERU(WIDTH,BW_SUBWORD);
+localparam  RVX_LPARA_0 = LOG2RU(DEPTH);
 
-parameter BW_SELECT = (USE_SUBWORD_ENABLE==1)? RVX_LPARA_0: 1;
+parameter BW_SELECT = (USE_SUBWORD_ENABLE==1)? RVX_LPARA_1: 1;
 
 input wire clk, rstnn;
 
@@ -66,19 +66,19 @@ output wire [WIDTH-1:0] rdata_synch;
 genvar i;
 integer j;
 
-wire [RVX_LPARA_1-1:0] rvx_signal_2, rvx_signal_3, rvx_signal_7;
+wire [RVX_LPARA_0-1:0] rvx_signal_1, rvx_signal_5, rvx_signal_2;
 wire [WIDTH-1:0] rvx_signal_4;
 reg [WIDTH-1:0] rvx_signal_6;
 
-reg [WIDTH-1:0] rvx_signal_1;
-reg [WIDTH-1:0] rvx_signal_5;
+reg [WIDTH-1:0] rvx_signal_3;
+reg [WIDTH-1:0] rvx_signal_0;
 
-wire [WIDTH-1:0] rvx_signal_0;
+wire [WIDTH-1:0] rvx_signal_7;
 wire [WIDTH-1:0] rvx_signal_8;
 
-assign rvx_signal_2 = 0;
-assign rvx_signal_3 = $unsigned(windex);
-assign rvx_signal_7 = $unsigned(rindex);
+assign rvx_signal_1 = 0;
+assign rvx_signal_5 = $unsigned(windex);
+assign rvx_signal_2 = $unsigned(rindex);
 
 always@(*)
 begin
@@ -99,8 +99,8 @@ always@(posedge clk)
 begin
 	if(renable)
 	begin
-		if(wenable && (rvx_signal_7==rvx_signal_3))
-			rvx_signal_5 <= wdata;
+		if(wenable && (rvx_signal_2==rvx_signal_5))
+			rvx_signal_0 <= wdata;
 	end
 end
 
@@ -111,10 +111,10 @@ generate
 		begin
 			if(renable)
 			begin
-				if(rvx_signal_6[i] && (rvx_signal_7==rvx_signal_3))
-					rvx_signal_1[i] <= 1;
+				if(rvx_signal_6[i] && (rvx_signal_2==rvx_signal_5))
+					rvx_signal_3[i] <= 1;
 				else
-					rvx_signal_1[i] <= 0;
+					rvx_signal_3[i] <= 0;
 			end
 		end
 	end
@@ -123,18 +123,18 @@ endgenerate
 generate
 	for(i=0; i<WIDTH; i=i+1)
 	begin : i_select_rdata
-		assign rdata_synch[i] = rvx_signal_1[i]? rvx_signal_5[i] : rvx_signal_4[i];
+		assign rdata_synch[i] = rvx_signal_3[i]? rvx_signal_0[i] : rvx_signal_4[i];
 	end
 endgenerate
 
-assign rvx_signal_0 = 0;
-assign rvx_signal_8 = ~rvx_signal_0;
+assign rvx_signal_7 = 0;
+assign rvx_signal_8 = ~rvx_signal_7;
 
 ERVP_MEMORY_CELL_1R1W
 #(
 	.DEPTH(DEPTH),
 	.WIDTH(WIDTH),
-	.BW_INDEX(RVX_LPARA_1),
+	.BW_INDEX(RVX_LPARA_0),
 	.USE_SINGLE_INDEX(0),
 	.USE_SUBWORD_ENABLE(USE_SUBWORD_ENABLE),
 	.BW_SUBWORD(BW_SUBWORD),
@@ -145,14 +145,14 @@ i_rvx_instance_0
 	.clk(clk),
 	.rstnn(rstnn),
 
-	.index(rvx_signal_2),
+	.index(rvx_signal_1),
 	
-	.windex(rvx_signal_3),
+	.windex(rvx_signal_5),
 	.wenable(wenable),
 	.wpermit(wpermit),
 	.wdata(wdata),
 
-	.rindex(rvx_signal_7),
+	.rindex(rvx_signal_2),
 	.rdata_asynch(rdata_asynch),
 	.renable(renable),
 	.rdata_synch(rvx_signal_4)

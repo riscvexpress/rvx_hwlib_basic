@@ -42,30 +42,30 @@ parameter BW_ADDR = 32;
 parameter BW_DATA = 32;
 parameter BW_WIDE_DATA = 32;
 
-localparam  RVX_LPARA_3 = BW_WIDE_DATA/BW_DATA;
+localparam  RVX_LPARA_0 = BW_WIDE_DATA/BW_DATA;
 
-localparam  RVX_LPARA_0 = `GET_AXI_SIZE(BW_DATA);
-localparam  RVX_LPARA_2 = `NUM_BYTE(BW_DATA);
+localparam  RVX_LPARA_1 = `GET_AXI_SIZE(BW_DATA);
+localparam  RVX_LPARA_4 = `NUM_BYTE(BW_DATA);
 
-localparam  RVX_LPARA_1 = `GET_AXI_SIZE(BW_WIDE_DATA);
-localparam  RVX_LPARA_4 = `NUM_BYTE(BW_WIDE_DATA);
+localparam  RVX_LPARA_3 = `GET_AXI_SIZE(BW_WIDE_DATA);
+localparam  RVX_LPARA_2 = `NUM_BYTE(BW_WIDE_DATA);
 
 input wire original_valid;
 input wire [BW_ADDR-1:0] original_addr;
 input wire [BW_DATA-1:0] original_wdata;
-input wire [RVX_LPARA_2-1:0] original_wbyteen;
+input wire [RVX_LPARA_4-1:0] original_wbyteen;
 output wire [BW_DATA-1:0] original_rdata;
 
 output wire [BW_ADDR-1:0] wide_addr;
-output wire [RVX_LPARA_1-1:0] wide_addr_offset;
+output wire [RVX_LPARA_3-1:0] wide_addr_offset;
 output wire [BW_WIDE_DATA-1:0] wide_wdata;
-output wire [RVX_LPARA_4-1:0] wide_wbyteen;
+output wire [RVX_LPARA_2-1:0] wide_wbyteen;
 input wire [BW_WIDE_DATA-1:0] wide_rdata;
 
 genvar i;
 
-wire [RVX_LPARA_3-1:0] rvx_signal_0;
-wire [RVX_LPARA_3-1:0] rvx_signal_1;
+wire [RVX_LPARA_0-1:0] rvx_signal_0;
+wire [RVX_LPARA_0-1:0] rvx_signal_1;
 
 ERVP_ADDR_ALIGNER
 #(
@@ -83,17 +83,17 @@ i_rvx_instance_0
   .subword_index_onehot(rvx_signal_1)
 );
 
-for(i=0; i<RVX_LPARA_3; i=i+1)
+for(i=0; i<RVX_LPARA_0; i=i+1)
 begin : i_widen
   assign wide_wdata[BW_DATA*(i+1)-1-:BW_DATA] = original_wdata;
-  assign wide_wbyteen[RVX_LPARA_2*(i+1)-1-:RVX_LPARA_2] = rvx_signal_1[i]? original_wbyteen : 0;
+  assign wide_wbyteen[RVX_LPARA_4*(i+1)-1-:RVX_LPARA_4] = rvx_signal_1[i]? original_wbyteen : 0;
 end
 
 ERVP_MUX
 #(
   .BW_DATA(BW_DATA),
-  .NUM_DATA(RVX_LPARA_3),
-  .BW_SELECT(RVX_LPARA_3)
+  .NUM_DATA(RVX_LPARA_0),
+  .BW_SELECT(RVX_LPARA_0)
 )
 i_rvx_instance_1
 (

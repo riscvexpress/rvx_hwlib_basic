@@ -73,19 +73,19 @@ assign munoc_signal_3 = munoc_port_5[MUNOC_LPARA_1-1-`MUNOC_GDEF_85(MUNOC_GPARA_
 assign munoc_signal_2 = munoc_port_5[MUNOC_LPARA_1-1-`MUNOC_GDEF_50(MUNOC_GPARA_1)-:MUNOC_LPARA_0];
 assign munoc_signal_1 = munoc_port_0[MUNOC_LPARA_1-1-`MUNOC_GDEF_56(MUNOC_GPARA_1)];
 
-RVX_MODULE_050
+RVX_MODULE_012
 #(
 	.RVX_GPARA_0(MUNOC_LPARA_1-1)
 )
 i_munoc_instance_0
 (
-	.rvx_port_0(munoc_port_1),
-	.rvx_port_4(munoc_port_3),
-	.rvx_port_1(munoc_port_5[MUNOC_LPARA_1-2:0]),
-	.rvx_port_5(munoc_port_0[MUNOC_LPARA_1-1]),
-	.rvx_port_6(munoc_port_0[MUNOC_LPARA_1-2:0]),
+	.rvx_port_2(munoc_port_1),
+	.rvx_port_1(munoc_port_3),
+	.rvx_port_4(munoc_port_5[MUNOC_LPARA_1-2:0]),
+	.rvx_port_6(munoc_port_0[MUNOC_LPARA_1-1]),
+	.rvx_port_0(munoc_port_0[MUNOC_LPARA_1-2:0]),
 	.rvx_port_3(munoc_signal_0),
-	.rvx_port_2(munoc_port_4)
+	.rvx_port_5(munoc_port_4)
 );
 
 always@(posedge munoc_port_1, negedge munoc_port_3)

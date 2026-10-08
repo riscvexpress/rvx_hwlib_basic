@@ -256,10 +256,10 @@ i_munoc_instance_1
 	.svri_sack(svri_sack)
 );
 
-RVX_MODULE_012
+RVX_MODULE_107
 #(
-  .RVX_GPARA_1(BW_PLATFORM_ADDR),
-  .RVX_GPARA_0(BW_NODE_DATA),
+  .RVX_GPARA_2(BW_PLATFORM_ADDR),
+  .RVX_GPARA_1(BW_NODE_DATA),
   .MEMORY_OPERATION_TYPE(3),
   .RVX_GPARA_3(MUNOC_LPARA_7),
   .HAS_BURDEN(HAS_BURDEN),
@@ -267,57 +267,57 @@ RVX_MODULE_012
 )
 i_munoc_instance_0
 (
-	.rvx_port_28(clk_master),
-	.rvx_port_13(rstnn_master),
-  .rvx_port_01(1'b 0),
-  .rvx_port_25(1'b 1 ),
+	.rvx_port_19(clk_master),
+	.rvx_port_20(rstnn_master),
+  .rvx_port_14(1'b 0),
+  .rvx_port_09(1'b 1 ),
 
-  .rvx_port_24(munoc_signal_12),
-  .rvx_port_42(munoc_signal_20),
-  .rvx_port_02(munoc_signal_09),
-  .rvx_port_09(munoc_signal_03),
-  .rvx_port_40(munoc_signal_43),
-  .rvx_port_33(munoc_signal_30),
+  .rvx_port_41(munoc_signal_12),
+  .rvx_port_33(munoc_signal_20),
+  .rvx_port_43(munoc_signal_09),
+  .rvx_port_32(munoc_signal_03),
+  .rvx_port_39(munoc_signal_43),
+  .rvx_port_05(munoc_signal_30),
 
-  .rvx_port_37(munoc_signal_32),
-  .rvx_port_11(munoc_signal_15),
-  .rvx_port_34(munoc_signal_06),
-  .rvx_port_43(munoc_signal_29),
-  .rvx_port_38(munoc_signal_00),
+  .rvx_port_31(munoc_signal_32),
+  .rvx_port_26(munoc_signal_15),
+  .rvx_port_37(munoc_signal_06),
+  .rvx_port_25(munoc_signal_29),
+  .rvx_port_22(munoc_signal_00),
 
-  .rvx_port_20(munoc_signal_45),
-	.rvx_port_16(munoc_signal_14),
-	.rvx_port_23(munoc_signal_48),
-	.rvx_port_15(munoc_signal_25),
-	.rvx_port_18(munoc_signal_05),
-	.rvx_port_27(munoc_signal_46),
-	.rvx_port_32(munoc_signal_35),
+  .rvx_port_11(munoc_signal_45),
+	.rvx_port_02(munoc_signal_14),
+	.rvx_port_34(munoc_signal_48),
+	.rvx_port_27(munoc_signal_25),
+	.rvx_port_13(munoc_signal_05),
+	.rvx_port_07(munoc_signal_46),
+	.rvx_port_08(munoc_signal_35),
 
-	.rvx_port_17(munoc_signal_17),
-	.rvx_port_19(munoc_signal_26),
-	.rvx_port_35(munoc_signal_27),
-	.rvx_port_31(munoc_signal_23),
-	.rvx_port_00(munoc_signal_33), 
+	.rvx_port_24(munoc_signal_17),
+	.rvx_port_06(munoc_signal_26),
+	.rvx_port_17(munoc_signal_27),
+	.rvx_port_40(munoc_signal_23),
+	.rvx_port_38(munoc_signal_33), 
 
-	.rvx_port_21(munoc_signal_01),
-	.rvx_port_30(munoc_signal_18),
-	.rvx_port_06(munoc_signal_22),
-	.rvx_port_04(munoc_signal_07),
+	.rvx_port_04(munoc_signal_01),
+	.rvx_port_16(munoc_signal_18),
+	.rvx_port_42(munoc_signal_22),
+	.rvx_port_36(munoc_signal_07),
 
-	.rvx_port_22(munoc_signal_39),
-	.rvx_port_29(munoc_signal_02),
-	.rvx_port_08(munoc_signal_16),
-	.rvx_port_03(munoc_signal_28),
-	.rvx_port_26(munoc_signal_44),
-	.rvx_port_36(munoc_signal_08),
-	.rvx_port_10(munoc_signal_11),
+	.rvx_port_30(munoc_signal_39),
+	.rvx_port_21(munoc_signal_02),
+	.rvx_port_00(munoc_signal_16),
+	.rvx_port_28(munoc_signal_28),
+	.rvx_port_29(munoc_signal_44),
+	.rvx_port_15(munoc_signal_08),
+	.rvx_port_18(munoc_signal_11),
 
 	.rvx_port_12(munoc_signal_13),
-	.rvx_port_14(munoc_signal_42),
-	.rvx_port_05(munoc_signal_40),
-	.rvx_port_39(munoc_signal_21),
-	.rvx_port_41(munoc_signal_34),
-	.rvx_port_07(munoc_signal_31)
+	.rvx_port_01(munoc_signal_42),
+	.rvx_port_03(munoc_signal_40),
+	.rvx_port_10(munoc_signal_21),
+	.rvx_port_23(munoc_signal_34),
+	.rvx_port_35(munoc_signal_31)
 );
 
 assign rlmqdready = munoc_signal_12;

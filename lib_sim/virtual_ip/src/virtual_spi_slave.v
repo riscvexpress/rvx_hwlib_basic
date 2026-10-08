@@ -42,69 +42,69 @@ module VIRTUAL_SPI_SLAVE (
 	wire cpol = 1'b0;
 	wire cpha  = 1'b0;
 
-	reg [7:0] rvx_signal_10 [7:0]; 
-	reg [2:0] rvx_signal_06;   
-	reg [7:0] rvx_signal_00;    
+	reg [7:0] rvx_signal_09 [7:0]; 
+	reg [2:0] rvx_signal_08;   
+	reg [7:0] rvx_signal_07;    
 
-	reg [7:0] rvx_signal_09, rvx_signal_03;  
+	reg [7:0] rvx_signal_04, rvx_signal_02;  
 
-	reg [2:0] rvx_signal_05;
-	reg       rvx_signal_07;
+	reg [2:0] rvx_signal_03;
+	reg       rvx_signal_00;
 
-	wire rvx_signal_02;
+	wire rvx_signal_10;
 
         initial
         begin
-         rvx_signal_10[0] = 8'h11;
-         rvx_signal_10[1] = 8'h22;
-         rvx_signal_10[2] = 8'h33;
-         rvx_signal_10[3] = 8'h44;
-         rvx_signal_10[4] = 8'h55;
-         rvx_signal_10[5] = 8'h66;
-         rvx_signal_10[6] = 8'h77;
-         rvx_signal_10[7] = 8'h88;
-         rvx_signal_09    = 8'h99;
+         rvx_signal_09[0] = 8'h11;
+         rvx_signal_09[1] = 8'h22;
+         rvx_signal_09[2] = 8'h33;
+         rvx_signal_09[3] = 8'h44;
+         rvx_signal_09[4] = 8'h55;
+         rvx_signal_09[5] = 8'h66;
+         rvx_signal_09[6] = 8'h77;
+         rvx_signal_09[7] = 8'h88;
+         rvx_signal_04    = 8'h99;
         end
 	
 	
 	
 
-	assign rvx_signal_02 = cpol ^ cpha ^ sck;
+	assign rvx_signal_10 = cpol ^ cpha ^ sck;
 
 	
-	always @(posedge rvx_signal_02)
-	  rvx_signal_09 <= #1 {rvx_signal_09[6:0],din};
+	always @(posedge rvx_signal_10)
+	  rvx_signal_04 <= #1 {rvx_signal_04[6:0],din};
 
-	always @(posedge rvx_signal_02)
-	  if (&rvx_signal_05)
-	    rvx_signal_03 <= #1 rvx_signal_10[rvx_signal_06];
+	always @(posedge rvx_signal_10)
+	  if (&rvx_signal_03)
+	    rvx_signal_02 <= #1 rvx_signal_09[rvx_signal_08];
 	  else
-	    rvx_signal_03 <= #1 {rvx_signal_03[6:0],1'bx};
+	    rvx_signal_02 <= #1 {rvx_signal_02[6:0],1'bx};
 
-	assign dout = (csn==1'b 0)? rvx_signal_03[7] : 1'b z;
+	assign dout = (csn==1'b 0)? rvx_signal_02[7] : 1'b z;
 
 	
-	always @(posedge rvx_signal_02, posedge csn)
+	always @(posedge rvx_signal_10, posedge csn)
 	  if(csn)
-	    rvx_signal_05 <= #1 3'b111;
+	    rvx_signal_03 <= #1 3'b111;
 	  else
-	    rvx_signal_05 <= #1 rvx_signal_05 - 3'h1;
+	    rvx_signal_03 <= #1 rvx_signal_03 - 3'h1;
 
 	
-        always @(posedge rvx_signal_02)
-	  rvx_signal_07 <= #1 ~(|rvx_signal_05);
+        always @(posedge rvx_signal_10)
+	  rvx_signal_00 <= #1 ~(|rvx_signal_03);
 
-	always @(negedge rvx_signal_02)
-          if (rvx_signal_07) begin
-	    rvx_signal_10[rvx_signal_06] <= #1 rvx_signal_09;
-	    rvx_signal_06      <= #1 rvx_signal_06 + 1'b1;
+	always @(negedge rvx_signal_10)
+          if (rvx_signal_00) begin
+	    rvx_signal_09[rvx_signal_08] <= #1 rvx_signal_04;
+	    rvx_signal_08      <= #1 rvx_signal_08 + 1'b1;
 	  end
 
 	initial
 	begin
-	  rvx_signal_05=3'b111;
-	  rvx_signal_06 = 0;
-	  rvx_signal_03 = rvx_signal_10[rvx_signal_06];
+	  rvx_signal_03=3'b111;
+	  rvx_signal_08 = 0;
+	  rvx_signal_02 = rvx_signal_09[rvx_signal_08];
 	end
 endmodule
 

@@ -15,17 +15,21 @@
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
-parameter BW_IEEE_EXPONENT          = 8;
-parameter BW_IEEE_MANTISSA          = 23;
 
-localparam BW_IEEE_VALUE = 1 + BW_IEEE_EXPONENT + BW_IEEE_MANTISSA;
-localparam BW_IEEE_SIGNIFICAND = BW_IEEE_MANTISSA + 1;
-localparam IEEE_EXPONENT_BIAS = (2**(BW_IEEE_EXPONENT-1)) - 1;
-localparam IEEE_EXPONENT_MAX = (2**BW_IEEE_EXPONENT) - 2;
-localparam IEEE_EXPONENT_MIN_NORMALIZED = 0 - (BW_IEEE_MANTISSA-1);
 
-localparam IEEE_NAN_EXPONENT = IEEE_EXPONENT_MAX + 1;
-localparam IEEE_NAN_MANTISSA = 1;
+`ifndef RVX_GDEF_252
+`define RVX_GDEF_252
 
-localparam IEEE_INF_EXPONENT = IEEE_EXPONENT_MAX + 1;
-localparam IEEE_INF_MANTISSA = 0;
+`define RVX_GDEF_076 3
+`define RVX_GDEF_376 3
+
+`define RVX_GDEF_248 0
+`define RVX_GDEF_039 4
+
+`define RVX_GDEF_123 1
+`define RVX_GDEF_597 0
+`define RVX_GDEF_112 1
+
+`define RVX_GDEF_245(SOURCE,SIZE) (`RVX_GDEF_123+`RVX_GDEF_076+SOURCE+SIZE)
+
+`endif

@@ -18,8 +18,8 @@
 
 `include "ervp_global.vh"
 `include "ervp_endian.vh"
-`include "rvx_include_06.vh"
-`include "rvx_include_09.vh"
+`include "rvx_include_00.vh"
+`include "rvx_include_18.vh"
 `include "munoc_extended_config.vh"
 `include "platform_info.vh"
 
@@ -80,9 +80,9 @@ parameter NUM_LOCK = 8;
 parameter NUM_GLOBAL_TAG = 8;
 parameter BW_LOCK_STATUS = 16;
 
-localparam  RVX_LPARA_2 = `RVX_GDEF_589;
-localparam  RVX_LPARA_0 = `RVX_GDEF_060-1;
-localparam  RVX_LPARA_1 = `RVX_GDEF_579;
+localparam  RVX_LPARA_0 = `RVX_GDEF_504;
+localparam  RVX_LPARA_2 = `RVX_GDEF_154-1;
+localparam  RVX_LPARA_1 = `RVX_GDEF_548;
 localparam  RVX_LPARA_3 = `MAX(0, PROCESS_ID);
 
 input wire clk;
@@ -129,62 +129,62 @@ input wire florian_spslverr;
 
 genvar i;
 
-wire [RVX_LPARA_2*BW_ADDR-1:0] rvx_signal_08;
-wire [RVX_LPARA_2-1:0] rvx_signal_17;
-wire [RVX_LPARA_2-1:0] rvx_signal_15;
-wire [RVX_LPARA_2*BW_DATA-1:0] rvx_signal_28;
-wire [RVX_LPARA_2-1:0] rvx_signal_22;
-wire [RVX_LPARA_2*BW_DATA-1:0] rvx_signal_26;
-wire [RVX_LPARA_2*BW_DATA-1:0] rvx_signal_36;
-wire [RVX_LPARA_2-1:0] rvx_signal_05;
-wire [RVX_LPARA_2-1:0] rvx_signal_35;
+wire [RVX_LPARA_0*BW_ADDR-1:0] rvx_signal_06;
+wire [RVX_LPARA_0-1:0] rvx_signal_18;
+wire [RVX_LPARA_0-1:0] rvx_signal_19;
+wire [RVX_LPARA_0*BW_DATA-1:0] rvx_signal_09;
+wire [RVX_LPARA_0-1:0] rvx_signal_15;
+wire [RVX_LPARA_0*BW_DATA-1:0] rvx_signal_30;
+wire [RVX_LPARA_0*BW_DATA-1:0] rvx_signal_11;
+wire [RVX_LPARA_0-1:0] rvx_signal_05;
+wire [RVX_LPARA_0-1:0] rvx_signal_17;
 
-wire [BW_ADDR-1:0] rvx_signal_09 [RVX_LPARA_2-1:0];
-wire [RVX_LPARA_2-1:0] rvx_signal_10;
-wire [RVX_LPARA_2-1:0] rvx_signal_20;
-wire [BW_ADDR-1:0] rvx_signal_37 [RVX_LPARA_2-1:0];
-wire [RVX_LPARA_2-1:0] rvx_signal_19;
-wire [BW_DATA-1:0] rvx_signal_11 [RVX_LPARA_2-1:0];
-wire [BW_DATA-1:0] rvx_signal_04 [RVX_LPARA_2-1:0];
-wire [RVX_LPARA_2-1:0] rvx_signal_38;
-wire [RVX_LPARA_2-1:0] rvx_signal_03;
+wire [BW_ADDR-1:0] rvx_signal_12 [RVX_LPARA_0-1:0];
+wire [RVX_LPARA_0-1:0] rvx_signal_14;
+wire [RVX_LPARA_0-1:0] rvx_signal_38;
+wire [BW_ADDR-1:0] rvx_signal_10 [RVX_LPARA_0-1:0];
+wire [RVX_LPARA_0-1:0] rvx_signal_02;
+wire [BW_DATA-1:0] rvx_signal_21 [RVX_LPARA_0-1:0];
+wire [BW_DATA-1:0] rvx_signal_16 [RVX_LPARA_0-1:0];
+wire [RVX_LPARA_0-1:0] rvx_signal_29;
+wire [RVX_LPARA_0-1:0] rvx_signal_31;
 
-wire rvx_signal_18;
+wire rvx_signal_27;
 
-wire rvx_signal_21;
-wire [`RVX_GDEF_687-1:0] rvx_signal_07;
-wire rvx_signal_02;
-wire [`RVX_GDEF_014-1:0] rvx_signal_12;
+wire rvx_signal_13;
+wire [`RVX_GDEF_586-1:0] rvx_signal_37;
+wire rvx_signal_32;
+wire [`RVX_GDEF_209-1:0] rvx_signal_36;
 wire rvx_signal_01;
-wire [`RVX_GDEF_299-1:0] rvx_signal_25;
-wire rvx_signal_14;
-wire rvx_signal_33;
-wire [`RVX_GDEF_010-1:0] rvx_signal_30;
+wire [`RVX_GDEF_219-1:0] rvx_signal_20;
+wire rvx_signal_08;
+wire rvx_signal_07;
+wire [`RVX_GDEF_318-1:0] rvx_signal_22;
 
-reg [31:0] rvx_signal_27; 
+reg [31:0] rvx_signal_04; 
 
 wire [NUM_LOCK*BW_LOCK_STATUS-1:0] rvx_signal_34;
-wire [BW_LOCK_STATUS-1:0] rvx_signal_29;
-wire [`BW_MASTER_NODE_ID-1:0] rvx_signal_31;
-wire rvx_signal_06;
-wire [NUM_LOCK-1:0] rvx_signal_16;
+wire [BW_LOCK_STATUS-1:0] rvx_signal_28;
+wire [`BW_MASTER_NODE_ID-1:0] rvx_signal_00;
+wire rvx_signal_23;
+wire [NUM_LOCK-1:0] rvx_signal_33;
 
-reg [NUM_GLOBAL_TAG-1:0] rvx_signal_23;
-wire [NUM_GLOBAL_TAG-1:0] rvx_signal_13;
-reg [NUM_GLOBAL_TAG-1:0] rvx_signal_32;
-wire rvx_signal_00;
+reg [NUM_GLOBAL_TAG-1:0] rvx_signal_24;
+wire [NUM_GLOBAL_TAG-1:0] rvx_signal_03;
+reg [NUM_GLOBAL_TAG-1:0] rvx_signal_35;
+wire rvx_signal_26;
 
-wire rvx_signal_24;
+wire rvx_signal_25;
 
 ERVP_APB_BUS
 #(
-	.NUM_MODULE(RVX_LPARA_2),
+	.NUM_MODULE(RVX_LPARA_0),
 	.BW_ADDR(BW_ADDR),
 	.BW_DATA(BW_DATA),
-	.SEL_UPPER_INDEX(RVX_LPARA_0),
+	.SEL_UPPER_INDEX(RVX_LPARA_2),
 	.BW_SEL_INDEX(RVX_LPARA_1)
 )
-i_rvx_instance_4
+i_rvx_instance_2
 (
 	.clk(clk),
 	.rstnn(rstnn),
@@ -197,49 +197,49 @@ i_rvx_instance_4
 	.rprdata(rprdata),
 	.rpready(rpready),
 	.rpslverr(rpslverr),
-	.rpbaseaddr_list(rvx_signal_08),
+	.rpbaseaddr_list(rvx_signal_06),
 
-	.spsel_list(rvx_signal_17),
-	.spenable_list(rvx_signal_15),
-	.spaddr_list(rvx_signal_28),
-	.spwrite_list(rvx_signal_22),
-	.spwdata_list(rvx_signal_26),
-	.sprdata_list(rvx_signal_36),
+	.spsel_list(rvx_signal_18),
+	.spenable_list(rvx_signal_19),
+	.spaddr_list(rvx_signal_09),
+	.spwrite_list(rvx_signal_15),
+	.spwdata_list(rvx_signal_30),
+	.sprdata_list(rvx_signal_11),
 	.spready_list(rvx_signal_05),
-	.spslverr_list(rvx_signal_35)
+	.spslverr_list(rvx_signal_17)
 );
 
 generate
-	for(i=0; i<RVX_LPARA_2; i=i+1)
+	for(i=0; i<RVX_LPARA_0; i=i+1)
 	begin : i_split_and_merge_submodule
-		assign rvx_signal_08[BW_ADDR*(i+1)-1 -:BW_ADDR] = rvx_signal_09[i];
-		assign rvx_signal_10[i] = rvx_signal_17[i];
-		assign rvx_signal_20[i] = rvx_signal_15[i];
-		assign rvx_signal_37[i] = rvx_signal_28[BW_ADDR*(i+1)-1 -:BW_ADDR];
-		assign rvx_signal_19[i] = rvx_signal_22[i];
-		assign rvx_signal_11[i] = rvx_signal_26[BW_DATA*(i+1)-1 -:BW_DATA];
-		assign rvx_signal_36[BW_DATA*(i+1)-1 -:BW_DATA] = rvx_signal_04[i];
-		assign rvx_signal_05[i] = rvx_signal_38[i];
-		assign rvx_signal_35[i] = rvx_signal_03[i];
+		assign rvx_signal_06[BW_ADDR*(i+1)-1 -:BW_ADDR] = rvx_signal_12[i];
+		assign rvx_signal_14[i] = rvx_signal_18[i];
+		assign rvx_signal_38[i] = rvx_signal_19[i];
+		assign rvx_signal_10[i] = rvx_signal_09[BW_ADDR*(i+1)-1 -:BW_ADDR];
+		assign rvx_signal_02[i] = rvx_signal_15[i];
+		assign rvx_signal_21[i] = rvx_signal_30[BW_DATA*(i+1)-1 -:BW_DATA];
+		assign rvx_signal_11[BW_DATA*(i+1)-1 -:BW_DATA] = rvx_signal_16[i];
+		assign rvx_signal_05[i] = rvx_signal_29[i];
+		assign rvx_signal_17[i] = rvx_signal_31[i];
 	end
 endgenerate
 
-assign rvx_signal_09[`RVX_GDEF_269] = `RVX_GDEF_005;
-assign rvx_signal_09[`RVX_GDEF_498] = `RVX_GDEF_384;
-assign rvx_signal_09[`RVX_GDEF_494] = `RVX_GDEF_683;
-assign rvx_signal_09[`RVX_GDEF_456] = `RVX_GDEF_123;
-assign rvx_signal_09[`RVX_GDEF_367] = `RVX_GDEF_232;
-assign rvx_signal_09[`RVX_GDEF_341] = `RVX_GDEF_394;
+assign rvx_signal_12[`RVX_GDEF_276] = `RVX_GDEF_493;
+assign rvx_signal_12[`RVX_GDEF_065] = `RVX_GDEF_176;
+assign rvx_signal_12[`RVX_GDEF_268] = `RVX_GDEF_569;
+assign rvx_signal_12[`RVX_GDEF_408] = `RVX_GDEF_349;
+assign rvx_signal_12[`RVX_GDEF_510] = `RVX_GDEF_028;
+assign rvx_signal_12[`RVX_GDEF_578] = `RVX_GDEF_676;
 
 always@(*)
 begin
-	rvx_signal_27 = 0;
-	rvx_signal_27[`RVX_GDEF_392] = plic_interrupt;
-	rvx_signal_27[`RVX_GDEF_272] = rvx_signal_18;
-	rvx_signal_27[`RVX_GDEF_325] = sw_interrupt;
+	rvx_signal_04 = 0;
+	rvx_signal_04[`RVX_GDEF_683] = plic_interrupt;
+	rvx_signal_04[`RVX_GDEF_206] = rvx_signal_27;
+	rvx_signal_04[`RVX_GDEF_058] = sw_interrupt;
 end
 
-assign core_interrupt_vector = rvx_signal_27;
+assign core_interrupt_vector = rvx_signal_04;
 
 `ifdef INCLUDE_TIMER
 
@@ -249,69 +249,69 @@ ERVP_TIMER
 	.BW_DATA(BW_DATA),
 	.ENDIAN_TYPE(ENDIAN_TYPE)
 )
-i_rvx_instance_1
+i_rvx_instance_4
 (
 	.clk(clk),
 	.rstnn(rstnn),
 
-	.rpsel(rvx_signal_10[`RVX_GDEF_269]),
-	.rpenable(rvx_signal_20[`RVX_GDEF_269]),
-	.rpaddr(rvx_signal_37[`RVX_GDEF_269]),
-	.rpwrite(rvx_signal_19[`RVX_GDEF_269]),
-	.rpwdata(rvx_signal_11[`RVX_GDEF_269]),
-	.rprdata(rvx_signal_04[`RVX_GDEF_269]),
-	.rpready(rvx_signal_38[`RVX_GDEF_269]),
-	.rpslverr(rvx_signal_03[`RVX_GDEF_269]),
+	.rpsel(rvx_signal_14[`RVX_GDEF_276]),
+	.rpenable(rvx_signal_38[`RVX_GDEF_276]),
+	.rpaddr(rvx_signal_10[`RVX_GDEF_276]),
+	.rpwrite(rvx_signal_02[`RVX_GDEF_276]),
+	.rpwdata(rvx_signal_21[`RVX_GDEF_276]),
+	.rprdata(rvx_signal_16[`RVX_GDEF_276]),
+	.rpready(rvx_signal_29[`RVX_GDEF_276]),
+	.rpslverr(rvx_signal_31[`RVX_GDEF_276]),
 
 	.tick_1us(tick_1us),
 	.delay_notice(delay_notice),
-	.timer_interrupt(rvx_signal_18)
+	.timer_interrupt(rvx_signal_27)
 );
 
 `else
 
-assign rvx_signal_18 = 0;
-assign rvx_signal_38[`RVX_GDEF_269] = 0;
-assign rvx_signal_04[`RVX_GDEF_269] = 0;
-assign rvx_signal_03[`RVX_GDEF_269] = 1;
+assign rvx_signal_27 = 0;
+assign rvx_signal_29[`RVX_GDEF_276] = 0;
+assign rvx_signal_16[`RVX_GDEF_276] = 0;
+assign rvx_signal_31[`RVX_GDEF_276] = 1;
 
 `endif
 
 `ifdef INCLUDE_MULTICORE
 
-RVX_MODULE_042
+RVX_MODULE_135
 #(
-	.RVX_GPARA_2(BW_ADDR),
-	.RVX_GPARA_0(BW_DATA)
+	.RVX_GPARA_0(BW_ADDR),
+	.RVX_GPARA_1(BW_DATA)
 )
-i_rvx_instance_5
+i_rvx_instance_0
 (
-	.rvx_port_05(clk),
-	.rvx_port_09(rstnn),
+	.rvx_port_12(clk),
+	.rvx_port_08(rstnn),
 
-	.rvx_port_11(rvx_signal_10[`RVX_GDEF_498]),
-	.rvx_port_04(rvx_signal_20[`RVX_GDEF_498]),
-	.rvx_port_18(rvx_signal_37[`RVX_GDEF_498]),
-	.rvx_port_13(rvx_signal_19[`RVX_GDEF_498]),
-	.rvx_port_16(rvx_signal_11[`RVX_GDEF_498]),
-	.rvx_port_08(rvx_signal_04[`RVX_GDEF_498]),
-	.rvx_port_00(rvx_signal_38[`RVX_GDEF_498]),
-	.rvx_port_01(rvx_signal_03[`RVX_GDEF_498]),
+	.rvx_port_01(rvx_signal_14[`RVX_GDEF_065]),
+	.rvx_port_14(rvx_signal_38[`RVX_GDEF_065]),
+	.rvx_port_17(rvx_signal_10[`RVX_GDEF_065]),
+	.rvx_port_16(rvx_signal_02[`RVX_GDEF_065]),
+	.rvx_port_05(rvx_signal_21[`RVX_GDEF_065]),
+	.rvx_port_09(rvx_signal_16[`RVX_GDEF_065]),
+	.rvx_port_15(rvx_signal_29[`RVX_GDEF_065]),
+	.rvx_port_06(rvx_signal_31[`RVX_GDEF_065]),
 
-	.rvx_port_07(1'b 0),
-	.rvx_port_15(rvx_signal_21),
-	.rvx_port_12(rvx_signal_07),
-	.rvx_port_17(rvx_signal_02),
-	.rvx_port_06(rvx_signal_12),
-	.rvx_port_10(rvx_signal_01),
-	.rvx_port_02(rvx_signal_25),
-	.rvx_port_14(rvx_signal_14),
-  .rvx_port_03(rvx_signal_33),
-  .rvx_port_19(rvx_signal_30)
+	.rvx_port_10(1'b 0),
+	.rvx_port_03(rvx_signal_13),
+	.rvx_port_04(rvx_signal_37),
+	.rvx_port_18(rvx_signal_32),
+	.rvx_port_13(rvx_signal_36),
+	.rvx_port_00(rvx_signal_01),
+	.rvx_port_19(rvx_signal_20),
+	.rvx_port_02(rvx_signal_08),
+  .rvx_port_07(rvx_signal_07),
+  .rvx_port_11(rvx_signal_22)
 );
 
-assign rvx_signal_07 = PROCESS_ID;
-assign rvx_signal_30 = thread_status_list;
+assign rvx_signal_37 = PROCESS_ID;
+assign rvx_signal_22 = thread_status_list;
 
 ERVP_SYNCHRONIZER
 #(
@@ -323,33 +323,33 @@ i_rvx_instance_3
 	.rstnn(rstnn),
 	.enable(1'b 1),
 	.asynch_value(global_tag_list),
-	.synch_value(rvx_signal_13)
+	.synch_value(rvx_signal_03)
 );
 
 always@(posedge clk, negedge rstnn)
 begin
 	if(rstnn==0)
 	begin
-		rvx_signal_23 <= 0;
-		rvx_signal_32 <= 0;
+		rvx_signal_24 <= 0;
+		rvx_signal_35 <= 0;
 	end
-	else if(rvx_signal_02)
+	else if(rvx_signal_32)
 	begin
-		rvx_signal_23 <= rvx_signal_12;
-		rvx_signal_32 <= rvx_signal_13;
+		rvx_signal_24 <= rvx_signal_36;
+		rvx_signal_35 <= rvx_signal_03;
 	end
 end
 
-assign rvx_signal_00 = (((rvx_signal_13 ~^ rvx_signal_32) & rvx_signal_23)!=0);
+assign rvx_signal_26 = (((rvx_signal_03 ~^ rvx_signal_35) & rvx_signal_24)!=0);
 
-assign rvx_signal_25 = rvx_signal_00;
-assign rvx_signal_14 = allows_holds? (~(rvx_signal_01 & rvx_signal_00)) : 1;
+assign rvx_signal_20 = rvx_signal_26;
+assign rvx_signal_08 = allows_holds? (~(rvx_signal_01 & rvx_signal_26)) : 1;
 
 `else
 
-assign rvx_signal_38[`RVX_GDEF_498] = 0;
-assign rvx_signal_04[`RVX_GDEF_498] = 0;
-assign rvx_signal_03[`RVX_GDEF_498] = 1;
+assign rvx_signal_29[`RVX_GDEF_065] = 0;
+assign rvx_signal_16[`RVX_GDEF_065] = 0;
+assign rvx_signal_31[`RVX_GDEF_065] = 1;
 
 `endif
 
@@ -359,7 +359,7 @@ ERVP_SYNCHRONIZER
 #(
 	.BW_DATA(NUM_LOCK*BW_LOCK_STATUS)
 )
-i_rvx_instance_2
+i_rvx_instance_5
 (
 	.clk(clk),
 	.rstnn(rstnn),
@@ -368,42 +368,42 @@ i_rvx_instance_2
 	.synch_value(rvx_signal_34)
 );
 
-assign rvx_signal_16 = rvx_signal_37[`RVX_GDEF_494][`RVX_GDEF_646-1:`RVX_GDEF_310];
+assign rvx_signal_33 = rvx_signal_10[`RVX_GDEF_268][`RVX_GDEF_330-1:`RVX_GDEF_264];
 
 ERVP_MUX_WITH_ONEHOT_ENCODED_SELECT
 #(
   .BW_DATA(BW_LOCK_STATUS),
   .NUM_DATA(NUM_LOCK)
 )
-i_rvx_instance_0
+i_rvx_instance_1
 (
 	.data_input_list(rvx_signal_34),
-	.select(rvx_signal_16),
-	.data_output(rvx_signal_29)
+	.select(rvx_signal_33),
+	.data_output(rvx_signal_28)
 );
 
-assign {rvx_signal_31,rvx_signal_06} = rvx_signal_29;
+assign {rvx_signal_00,rvx_signal_23} = rvx_signal_28;
 
-assign rvx_signal_24 = rvx_signal_06 | (rvx_signal_31==PROCESS_ID);
-assign rvx_signal_38[`RVX_GDEF_494] = allows_holds? rvx_signal_24 : 1;
-assign rvx_signal_04[`RVX_GDEF_494] = rvx_signal_24;
-assign rvx_signal_03[`RVX_GDEF_494] = 0;
+assign rvx_signal_25 = rvx_signal_23 | (rvx_signal_00==PROCESS_ID);
+assign rvx_signal_29[`RVX_GDEF_268] = allows_holds? rvx_signal_25 : 1;
+assign rvx_signal_16[`RVX_GDEF_268] = rvx_signal_25;
+assign rvx_signal_31[`RVX_GDEF_268] = 0;
 
 `else
 
-assign rvx_signal_38[`RVX_GDEF_494] = 0;
-assign rvx_signal_04[`RVX_GDEF_494] = 0;
-assign rvx_signal_03[`RVX_GDEF_494] = 1;
+assign rvx_signal_29[`RVX_GDEF_268] = 0;
+assign rvx_signal_16[`RVX_GDEF_268] = 0;
+assign rvx_signal_31[`RVX_GDEF_268] = 1;
 
 `endif
 
 `ifdef INCLUDE_TCACHING
 
-assign tcu_spsel = rvx_signal_10[`RVX_GDEF_456];
-assign tcu_spenable = rvx_signal_20[`RVX_GDEF_456];
-assign tcu_spaddr = rvx_signal_37[`RVX_GDEF_456];
-assign tcu_spwrite = rvx_signal_19[`RVX_GDEF_456];
-assign tcu_spwdata = rvx_signal_11[`RVX_GDEF_456];
+assign tcu_spsel = rvx_signal_14[`RVX_GDEF_408];
+assign tcu_spenable = rvx_signal_38[`RVX_GDEF_408];
+assign tcu_spaddr = rvx_signal_10[`RVX_GDEF_408];
+assign tcu_spwrite = rvx_signal_02[`RVX_GDEF_408];
+assign tcu_spwdata = rvx_signal_21[`RVX_GDEF_408];
 
 `else
 
@@ -415,17 +415,17 @@ assign tcu_spwdata = 0;
 
 `endif
 
-assign rvx_signal_04[`RVX_GDEF_456] = tcu_sprdata;
-assign rvx_signal_38[`RVX_GDEF_456] = tcu_spready;
-assign rvx_signal_03[`RVX_GDEF_456] = tcu_spslverr;
+assign rvx_signal_16[`RVX_GDEF_408] = tcu_sprdata;
+assign rvx_signal_29[`RVX_GDEF_408] = tcu_spready;
+assign rvx_signal_31[`RVX_GDEF_408] = tcu_spslverr;
 
 `ifdef INCLUDE_FLORIAN
 
-assign florian_spsel = rvx_signal_10[`RVX_GDEF_367];
-assign florian_spenable = rvx_signal_20[`RVX_GDEF_367];
-assign florian_spaddr = rvx_signal_37[`RVX_GDEF_367];
-assign florian_spwrite = rvx_signal_19[`RVX_GDEF_367];
-assign florian_spwdata = rvx_signal_11[`RVX_GDEF_367];
+assign florian_spsel = rvx_signal_14[`RVX_GDEF_510];
+assign florian_spenable = rvx_signal_38[`RVX_GDEF_510];
+assign florian_spaddr = rvx_signal_10[`RVX_GDEF_510];
+assign florian_spwrite = rvx_signal_02[`RVX_GDEF_510];
+assign florian_spwdata = rvx_signal_21[`RVX_GDEF_510];
 
 `else
 
@@ -437,12 +437,12 @@ assign florian_spwdata = 0;
 
 `endif
 
-assign rvx_signal_04[`RVX_GDEF_367] = florian_sprdata;
-assign rvx_signal_38[`RVX_GDEF_367] = florian_spready;
-assign rvx_signal_03[`RVX_GDEF_367] = florian_spslverr;
+assign rvx_signal_16[`RVX_GDEF_510] = florian_sprdata;
+assign rvx_signal_29[`RVX_GDEF_510] = florian_spready;
+assign rvx_signal_31[`RVX_GDEF_510] = florian_spslverr;
 
-assign rvx_signal_38[`RVX_GDEF_341] = 0;
-assign rvx_signal_04[`RVX_GDEF_341] = 0;
-assign rvx_signal_03[`RVX_GDEF_341] = 0;
+assign rvx_signal_29[`RVX_GDEF_578] = 0;
+assign rvx_signal_16[`RVX_GDEF_578] = 0;
+assign rvx_signal_31[`RVX_GDEF_578] = 0;
 
 endmodule

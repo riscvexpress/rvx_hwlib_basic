@@ -16,7 +16,7 @@
 // ****************************************************************************
 // ****************************************************************************
 
-`define RVX_LDEF_2
+`define RVX_LDEF_0
 
 
 module prvp_dc_data_buffer(clk, rstn, write_pointer, write_data, read_pointer, read_data);
@@ -25,7 +25,7 @@ module prvp_dc_data_buffer(clk, rstn, write_pointer, write_data, read_pointer, r
     parameter DATA_WIDTH   = 32;
     parameter BUFFER_DEPTH = 8;
 
-    `ifndef RVX_LDEF_2
+    `ifndef RVX_LDEF_0
         function integer log2(input integer value);
         begin
             value = value - 1;
@@ -33,9 +33,9 @@ module prvp_dc_data_buffer(clk, rstn, write_pointer, write_data, read_pointer, r
                 value = value >> 1;
         end
         endfunction
-        `define RVX_LDEF_1(N) log2(N)
+        `define RVX_LDEF_2(N) log2(N)
     `else
-        `define RVX_LDEF_1(N) ((N)<=(1) ? 0 : (N)<=(2) ? 1 : (N)<=(4) ? 2 : (N)<=(8) ? 3 : (N)<=(16) ? 4 : (N)<=(32) ? 5 : (N)<=(64) ? 6 : (N)<=(128) ? 7 : (N)<=(256) ? 8 : (N)<=(512) ? 9 : (N)<=(1024) ? 10 : -1)
+        `define RVX_LDEF_2(N) ((N)<=(1) ? 0 : (N)<=(2) ? 1 : (N)<=(4) ? 2 : (N)<=(8) ? 3 : (N)<=(16) ? 4 : (N)<=(32) ? 5 : (N)<=(64) ? 6 : (N)<=(128) ? 7 : (N)<=(256) ? 8 : (N)<=(512) ? 9 : (N)<=(1024) ? 10 : -1)
     `endif
 
     input                          clk;
@@ -56,9 +56,9 @@ module prvp_dc_data_buffer(clk, rstn, write_pointer, write_data, read_pointer, r
             for (loop = 0; loop < BUFFER_DEPTH; loop = loop + 1)
                 rvx_signal_0[loop] <= 'h0;
         else
-            rvx_signal_0[`RVX_LDEF_1(write_pointer)] <= write_data;
+            rvx_signal_0[`RVX_LDEF_2(write_pointer)] <= write_data;
     end
 
-    assign read_data = rvx_signal_0[`RVX_LDEF_1(read_pointer)];
+    assign read_data = rvx_signal_0[`RVX_LDEF_2(read_pointer)];
 
 endmodule

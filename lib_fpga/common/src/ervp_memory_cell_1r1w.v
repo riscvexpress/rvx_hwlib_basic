@@ -70,24 +70,24 @@ genvar i;
 integer j;
 
 reg [WIDTH-1:0] rvx_signal_3 [0:DEPTH-1];
-wire [RVX_LPARA_1-1:0] rvx_signal_1, rvx_signal_0;
-reg [WIDTH-1:0] rvx_signal_2;	
+wire [RVX_LPARA_1-1:0] rvx_signal_1, rvx_signal_2;
+reg [WIDTH-1:0] rvx_signal_0;	
 
 assign rvx_signal_1 = (USE_SINGLE_INDEX==1)? $unsigned(index) : $unsigned(windex);
-assign rvx_signal_0 = (USE_SINGLE_INDEX==1)? $unsigned(index) : $unsigned(rindex);
+assign rvx_signal_2 = (USE_SINGLE_INDEX==1)? $unsigned(index) : $unsigned(rindex);
 
 always@(*)
 begin
-	rvx_signal_2 = 0;
+	rvx_signal_0 = 0;
 	if(wenable)
 	begin
 		if(USE_SUBWORD_ENABLE)
 		begin
 			for(j=0; j<WIDTH; j=j+1)
-				rvx_signal_2[j] = wpermit[j/BW_SUBWORD];
+				rvx_signal_0[j] = wpermit[j/BW_SUBWORD];
 		end
 		else
-			rvx_signal_2 = `ALL_ONE;
+			rvx_signal_0 = `ALL_ONE;
 	end
 end
 
@@ -102,13 +102,13 @@ generate
 	begin : i_write_bit
 		always@(posedge clk)
 		begin
-			if(rvx_signal_2[i])
+			if(rvx_signal_0[i])
 				rvx_signal_3[rvx_signal_1][i] <= wdata[i];
 		end
 	end
 endgenerate
 
-assign rdata_asynch = rvx_signal_3[rvx_signal_0];
+assign rdata_asynch = rvx_signal_3[rvx_signal_2];
 
 always@(posedge clk)
 begin

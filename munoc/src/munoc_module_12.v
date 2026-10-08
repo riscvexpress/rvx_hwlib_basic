@@ -209,7 +209,7 @@ begin
 		munoc_port_19 <= munoc_signal_14;
 end
 
-RVX_MODULE_025
+RVX_MODULE_071
 #(
 	.RVX_GPARA_1(`BW_AXI_ASIZE),
 	.RVX_GPARA_0(1),
@@ -217,8 +217,8 @@ RVX_MODULE_025
 )
 i_munoc_instance_1
 (
-	.rvx_port_2(munoc_port_08),
-	.rvx_port_0(munoc_signal_17),
+	.rvx_port_0(munoc_port_08),
+	.rvx_port_2(munoc_signal_17),
 	.rvx_port_1(munoc_signal_14)
 );
 

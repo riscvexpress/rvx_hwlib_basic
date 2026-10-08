@@ -333,27 +333,27 @@ assign munoc_signal_16 = $unsigned(munoc_signal_26 - (`MMAP_SUBOFFSET_INFO_CONFI
 `ifdef __MUNOC_INCLUDE_CONTROLLER
 assign munoc_signal_12[`SUBMODULE_INDEX_MUNOC_CONTROLLER] = $unsigned(munoc_signal_06);
 
-RVX_MODULE_059
+RVX_MODULE_064
 #(
-	.RVX_GPARA_2(`MUNOC_GDEF_30),
-	.RVX_GPARA_4(`BW_SVRING_LINK),
+	.RVX_GPARA_4(`MUNOC_GDEF_30),
+	.RVX_GPARA_1(`BW_SVRING_LINK),
 	.RVX_GPARA_3(`MUNOC_GDEF_71),
 	.RVX_GPARA_0(`MUNOC_GDEF_81),
-	.RVX_GPARA_1(`MUNOC_GDEF_01)
+	.RVX_GPARA_2(`MUNOC_GDEF_01)
 )
 i_munoc_instance_2
 (
-	.rvx_port_06(munoc_port_14),
-	.rvx_port_00(munoc_port_09),
-	.rvx_port_05(munoc_signal_07),
-	.rvx_port_10(munoc_signal_04),
+	.rvx_port_08(munoc_port_14),
+	.rvx_port_07(munoc_port_09),
+	.rvx_port_04(munoc_signal_07),
+	.rvx_port_02(munoc_signal_04),
 	.rvx_port_01(munoc_signal_02),
-	.rvx_port_04(munoc_signal_09),
-	.rvx_port_09(munoc_signal_06),
-	.rvx_port_07(munoc_port_05),
+	.rvx_port_06(munoc_signal_09),
+	.rvx_port_00(munoc_signal_06),
+	.rvx_port_05(munoc_port_05),
 	.rvx_port_03(munoc_port_01),
-	.rvx_port_08(munoc_port_11),
-	.rvx_port_02(munoc_port_04)
+	.rvx_port_09(munoc_port_11),
+	.rvx_port_10(munoc_port_04)
 );
 
 assign munoc_signal_07 = (munoc_signal_15==`MUNOC_LDEF_3);
@@ -374,24 +374,24 @@ assign munoc_port_05 = 0;
 assign munoc_signal_35 = $unsigned({munoc_signal_26,2'b 00});
 assign munoc_signal_12[`SUBMODULE_INDEX_MUNOC_ELOG] = $unsigned(munoc_signal_36);
 
-RVX_MODULE_027
+RVX_MODULE_041
 #(
-	.RVX_GPARA_2(MUNOC_LPARA_2),
-	.RVX_GPARA_0(MUNOC_LPARA_3),
-	.RVX_GPARA_3(0),
+	.RVX_GPARA_3(MUNOC_LPARA_2),
+	.RVX_GPARA_2(MUNOC_LPARA_3),
+	.RVX_GPARA_0(0),
 	.RVX_GPARA_1(MUNOC_LPARA_4)
 )
 i_munoc_instance_1
 (
-	.rvx_port_5(munoc_port_14),
-	.rvx_port_0(munoc_port_09),
-	.rvx_port_8(),
-	.rvx_port_1(munoc_signal_29),
-	.rvx_port_2(munoc_signal_31),
-	.rvx_port_3(munoc_signal_33),
+	.rvx_port_3(munoc_port_14),
+	.rvx_port_7(munoc_port_09),
+	.rvx_port_5(),
+	.rvx_port_0(munoc_signal_29),
+	.rvx_port_6(munoc_signal_31),
+	.rvx_port_1(munoc_signal_33),
 	.rvx_port_4(munoc_signal_05),
-	.rvx_port_7(munoc_signal_18),
-	.rvx_port_6(munoc_signal_28)
+	.rvx_port_8(munoc_signal_18),
+	.rvx_port_2(munoc_signal_28)
 );
 
 assign munoc_signal_29 = munoc_signal_01;

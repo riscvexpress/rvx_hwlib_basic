@@ -20,7 +20,7 @@
 `include "ervp_endian.vh"
 `include "ervp_axi_define.vh"
 
-`include "rvx_include_08.vh"
+`include "rvx_include_04.vh"
 
 
 
@@ -69,14 +69,14 @@ parameter BW_STATUS = 1;
 parameter BW_EXTINPUT = 32;
 parameter DMA_FIFO_DEPTH = 32;
 
-localparam  RVX_LPARA_06 = 0;
-localparam  RVX_LPARA_03 = 0;
-localparam  RVX_LPARA_05 = BW_CONFIG+RVX_LPARA_06;
-localparam  RVX_LPARA_08 = BW_STATUS+RVX_LPARA_03;
+localparam  RVX_LPARA_01 = 0;
+localparam  RVX_LPARA_08 = 0;
+localparam  RVX_LPARA_02 = BW_CONFIG+RVX_LPARA_01;
+localparam  RVX_LPARA_06 = BW_STATUS+RVX_LPARA_08;
+localparam  RVX_LPARA_00 = 1;
+localparam  RVX_LPARA_09 = `RVX_GDEF_213;
 localparam  RVX_LPARA_07 = 1;
-localparam  RVX_LPARA_01 = `RVX_GDEF_574;
-localparam  RVX_LPARA_04 = 1;
-localparam  RVX_LPARA_09 = BW_EXTINPUT;
+localparam  RVX_LPARA_04 = BW_EXTINPUT;
 
 input wire clk_system;
 input wire tick_1us;
@@ -84,23 +84,23 @@ input wire tick_1us;
 input wire clk;
 input wire rstnn;
 
-input wire [(RVX_LPARA_05)-1:0] control_rmx_core_config;
-output wire [(RVX_LPARA_08)-1:0] control_rmx_core_status;
+input wire [(RVX_LPARA_02)-1:0] control_rmx_core_config;
+output wire [(RVX_LPARA_06)-1:0] control_rmx_core_status;
 input wire control_rmx_clear_request;
 output wire control_rmx_clear_finish;
 input wire control_rmx_log_fifo_wready;
 output wire control_rmx_log_fifo_wrequest;
-output wire [(RVX_LPARA_07)-1:0] control_rmx_log_fifo_wdata;
+output wire [(RVX_LPARA_00)-1:0] control_rmx_log_fifo_wdata;
 input wire control_rmx_inst_fifo_rready;
-input wire [(RVX_LPARA_01)-1:0] control_rmx_inst_fifo_rdata;
+input wire [(RVX_LPARA_09)-1:0] control_rmx_inst_fifo_rdata;
 output wire control_rmx_inst_fifo_rrequest;
 output wire control_rmx_operation_finish;
 input wire control_rmx_input_fifo_rready;
-input wire [(RVX_LPARA_04)-1:0] control_rmx_input_fifo_rdata;
+input wire [(RVX_LPARA_07)-1:0] control_rmx_input_fifo_rdata;
 output wire control_rmx_input_fifo_rrequest;
 input wire control_rmx_output_fifo_wready;
 output wire control_rmx_output_fifo_wrequest;
-output wire [(RVX_LPARA_09)-1:0] control_rmx_output_fifo_wdata;
+output wire [(RVX_LPARA_04)-1:0] control_rmx_output_fifo_wdata;
 
 output wire [BW_CONFIG-1:0] extinput_config;
 input wire [BW_STATUS-1:0] extinput_status;
@@ -111,27 +111,27 @@ input wire extinput_valid;
 input wire [BW_EXTINPUT-1:0] extinput_data;
 output wire extinput_ready;
 
-localparam  RVX_LPARA_02 = BW_ADDR;
-localparam  RVX_LPARA_00 = 1;
+localparam  RVX_LPARA_03 = BW_ADDR;
+localparam  RVX_LPARA_05 = 1;
 
-wire [(2)-1:0] rvx_signal_14;
-wire rvx_signal_06;
-wire rvx_signal_07;
-wire rvx_signal_15;
-wire [`BW_AXI_ALEN-1:0] rvx_signal_04;
-wire [`BW_AXI_ASIZE-1:0] rvx_signal_01;
-wire [`BW_AXI_ABURST-1:0] rvx_signal_16;
-wire [`BW_AXI_WSTRB(BW_AXI_DATA)-1:0] rvx_signal_09;
-wire [BW_AXI_DATA-1:0] rvx_signal_03;
-wire [RVX_LPARA_02-1:0] rvx_signal_12;
-wire [RVX_LPARA_00-1:0] rvx_signal_00;
-wire [(2)-1:0] rvx_signal_10;
-wire rvx_signal_11;
+wire [(2)-1:0] rvx_signal_16;
 wire rvx_signal_05;
-wire rvx_signal_08;
-wire [`BW_AXI_RESP-1:0] rvx_signal_13;
-wire [BW_AXI_DATA-1:0] rvx_signal_02;
-wire [RVX_LPARA_00-1:0] rvx_signal_17;
+wire rvx_signal_17;
+wire rvx_signal_15;
+wire [`BW_AXI_ALEN-1:0] rvx_signal_02;
+wire [`BW_AXI_ASIZE-1:0] rvx_signal_14;
+wire [`BW_AXI_ABURST-1:0] rvx_signal_04;
+wire [`BW_AXI_WSTRB(BW_AXI_DATA)-1:0] rvx_signal_03;
+wire [BW_AXI_DATA-1:0] rvx_signal_01;
+wire [RVX_LPARA_03-1:0] rvx_signal_08;
+wire [RVX_LPARA_05-1:0] rvx_signal_00;
+wire [(2)-1:0] rvx_signal_10;
+wire rvx_signal_07;
+wire rvx_signal_06;
+wire rvx_signal_09;
+wire [`BW_AXI_RESP-1:0] rvx_signal_12;
+wire [BW_AXI_DATA-1:0] rvx_signal_13;
+wire [RVX_LPARA_05-1:0] rvx_signal_11;
 
 ERVP_EXTINPUT_BACKEND_DMA
 #(
@@ -168,24 +168,24 @@ i_rvx_instance_0
   .control_rmx_output_fifo_wrequest(control_rmx_output_fifo_wrequest),
   .control_rmx_output_fifo_wdata(control_rmx_output_fifo_wdata),
 
-  .dma_slxqdready(rvx_signal_14),
-  .dma_slxqvalid(rvx_signal_06),
-  .dma_slxqlast(rvx_signal_07),
+  .dma_slxqdready(rvx_signal_16),
+  .dma_slxqvalid(rvx_signal_05),
+  .dma_slxqlast(rvx_signal_17),
   .dma_slxqwrite(rvx_signal_15),
-  .dma_slxqlen(rvx_signal_04),
-  .dma_slxqsize(rvx_signal_01),
-  .dma_slxqburst(rvx_signal_16),
-  .dma_slxqwstrb(rvx_signal_09),
-  .dma_slxqwdata(rvx_signal_03),
-  .dma_slxqaddr(rvx_signal_12),
+  .dma_slxqlen(rvx_signal_02),
+  .dma_slxqsize(rvx_signal_14),
+  .dma_slxqburst(rvx_signal_04),
+  .dma_slxqwstrb(rvx_signal_03),
+  .dma_slxqwdata(rvx_signal_01),
+  .dma_slxqaddr(rvx_signal_08),
   .dma_slxqburden(rvx_signal_00),
   .dma_slxydready(rvx_signal_10),
-  .dma_slxyvalid(rvx_signal_11),
-  .dma_slxylast(rvx_signal_05),
-  .dma_slxywreply(rvx_signal_08),
-  .dma_slxyresp(rvx_signal_13),
-  .dma_slxyrdata(rvx_signal_02),
-  .dma_slxyburden(rvx_signal_17),
+  .dma_slxyvalid(rvx_signal_07),
+  .dma_slxylast(rvx_signal_06),
+  .dma_slxywreply(rvx_signal_09),
+  .dma_slxyresp(rvx_signal_12),
+  .dma_slxyrdata(rvx_signal_13),
+  .dma_slxyburden(rvx_signal_11),
 
   .extinput_config(extinput_config),
   .extinput_status(extinput_status),
@@ -197,12 +197,12 @@ i_rvx_instance_0
   .extinput_ready(extinput_ready)
 );
 
-assign rvx_signal_14 = 0;
-assign rvx_signal_11 = 0;
-assign rvx_signal_05 = 0;
-assign rvx_signal_08 = 0;
+assign rvx_signal_16 = 0;
+assign rvx_signal_07 = 0;
+assign rvx_signal_06 = 0;
+assign rvx_signal_09 = 0;
+assign rvx_signal_12 = 0;
 assign rvx_signal_13 = 0;
-assign rvx_signal_02 = 0;
-assign rvx_signal_17 = 0;
+assign rvx_signal_11 = 0;
 
 endmodule

@@ -56,11 +56,11 @@ input wire right_shift;
 input wire is_upper_limit, is_lower_limit;
 output reg [BW_REGISTER-1:0] value;
 
-wire [BW_REGISTER+SHIFT_AMOUNT-1:0] rvx_signal_0;
 wire [BW_REGISTER+SHIFT_AMOUNT-1:0] rvx_signal_1;
+wire [BW_REGISTER+SHIFT_AMOUNT-1:0] rvx_signal_0;
 
-assign rvx_signal_0 = {value,right_insertion};
-assign rvx_signal_1 = {left_insertion,value};
+assign rvx_signal_1 = {value,right_insertion};
+assign rvx_signal_0 = {left_insertion,value};
 
 always@(posedge clk, negedge rstnn)
 begin
@@ -75,13 +75,13 @@ begin
     else if(left_shift && (~right_shift))
     begin
       if(~is_upper_limit)
-        value <= rvx_signal_0;
+        value <= rvx_signal_1;
     end
     else if(right_shift && (~left_shift))
     begin
       if(~is_lower_limit)
       begin
-        value <= rvx_signal_1[BW_REGISTER+SHIFT_AMOUNT-1 -:BW_REGISTER];
+        value <= rvx_signal_0[BW_REGISTER+SHIFT_AMOUNT-1 -:BW_REGISTER];
       end
     end
   end

@@ -53,45 +53,45 @@ integer i;
 `include "ervp_log_util.vf"
 `include "ervp_bitwidth_util.vf"
 
-localparam  RVX_LPARA_0 = `DIVIDERU(BW_WIDE_DATA, BW_MMIO);
-localparam  RVX_LPARA_1 = RVX_LPARA_0;
+localparam  RVX_LPARA_1 = `DIVIDERU(BW_WIDE_DATA, BW_MMIO);
+localparam  RVX_LPARA_0 = RVX_LPARA_1;
 
-wire rvx_signal_0;
-wire [RVX_LPARA_1-1:0] rvx_signal_2;
+wire rvx_signal_2;
+wire [RVX_LPARA_0-1:0] rvx_signal_0;
 
-wire [BW_MMIO*RVX_LPARA_0-1:0] rvx_signal_1;
+wire [BW_MMIO*RVX_LPARA_1-1:0] rvx_signal_1;
 
 ERVP_COUNTER_WITH_ONEHOT_ENCODING
 #(
-	.COUNT_LENGTH(RVX_LPARA_1),
+	.COUNT_LENGTH(RVX_LPARA_0),
 	.CIRCULAR(1)
 )
-i_rvx_instance_1
+i_rvx_instance_0
 (
 	.clk(clk),
 	.rstnn(rstnn),
 	.enable(enable),
 	.init(clear),
-	.count(rvx_signal_0),
-	.value(rvx_signal_2),
+	.count(rvx_signal_2),
+	.value(rvx_signal_0),
 	.is_first_count(),
 	.is_last_count()
 );
 
-assign rvx_signal_0 = mmio_re;
+assign rvx_signal_2 = mmio_re;
 
 assign rvx_signal_1 = wide_data_in;
 
 ERVP_MUX_WITH_ONEHOT_ENCODED_SELECT
 #(
   .BW_DATA(BW_MMIO),
-  .NUM_DATA(RVX_LPARA_0),
+  .NUM_DATA(RVX_LPARA_1),
   .ACTIVE_HIGH(1)
 )
-i_rvx_instance_0
+i_rvx_instance_1
 (
 	.data_input_list(rvx_signal_1),
-	.select(rvx_signal_2),
+	.select(rvx_signal_0),
 	.data_output(mmio_rdata)
 );
 
