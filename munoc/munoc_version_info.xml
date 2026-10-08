@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<version_info>
+  <micro_noc.path>riscv_git/micro_noc</micro_noc.path>
+  <micro_noc.url>git@bitbucket.org:kyuseung_han/micro_noc.git</micro_noc.url>
+  <micro_noc.commit>1eedd81</micro_noc.commit>
+  <micro_noc.date>2026-06-08-22-01</micro_noc.date>
+</version_info>
