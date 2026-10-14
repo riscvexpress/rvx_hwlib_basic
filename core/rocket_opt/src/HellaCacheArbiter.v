@@ -1,0 +1,83 @@
+`default_nettype wire
+`include "timescale.vh"
+module HellaCacheArbiter(
+  output        io_requestor_0_req_ready,
+  input         io_requestor_0_req_valid,
+  input  [31:0] io_requestor_0_req_bits_addr,
+  input  [5:0]  io_requestor_0_req_bits_tag,
+  input  [4:0]  io_requestor_0_req_bits_cmd,
+  input  [1:0]  io_requestor_0_req_bits_size,
+  input         io_requestor_0_req_bits_signed,
+  input         io_requestor_0_s1_kill,
+  input  [31:0] io_requestor_0_s1_data_data,
+  output        io_requestor_0_s2_nack,
+  output        io_requestor_0_resp_valid,
+  output [5:0]  io_requestor_0_resp_bits_tag,
+  output [31:0] io_requestor_0_resp_bits_data,
+  output        io_requestor_0_resp_bits_replay,
+  output        io_requestor_0_resp_bits_has_data,
+  output [31:0] io_requestor_0_resp_bits_data_word_bypass,
+  output        io_requestor_0_replay_next,
+  output        io_requestor_0_s2_xcpt_ma_ld,
+  output        io_requestor_0_s2_xcpt_ma_st,
+  output        io_requestor_0_s2_xcpt_pf_ld,
+  output        io_requestor_0_s2_xcpt_pf_st,
+  output        io_requestor_0_s2_xcpt_ae_ld,
+  output        io_requestor_0_s2_xcpt_ae_st,
+  output        io_requestor_0_ordered,
+  output        io_requestor_0_perf_release,
+  output        io_requestor_0_perf_grant,
+  input         io_mem_req_ready,
+  output        io_mem_req_valid,
+  output [31:0] io_mem_req_bits_addr,
+  output [5:0]  io_mem_req_bits_tag,
+  output [4:0]  io_mem_req_bits_cmd,
+  output [1:0]  io_mem_req_bits_size,
+  output        io_mem_req_bits_signed,
+  output        io_mem_s1_kill,
+  output [31:0] io_mem_s1_data_data,
+  input         io_mem_s2_nack,
+  input         io_mem_resp_valid,
+  input  [5:0]  io_mem_resp_bits_tag,
+  input  [31:0] io_mem_resp_bits_data,
+  input         io_mem_resp_bits_replay,
+  input         io_mem_resp_bits_has_data,
+  input  [31:0] io_mem_resp_bits_data_word_bypass,
+  input         io_mem_replay_next,
+  input         io_mem_s2_xcpt_ma_ld,
+  input         io_mem_s2_xcpt_ma_st,
+  input         io_mem_s2_xcpt_pf_ld,
+  input         io_mem_s2_xcpt_pf_st,
+  input         io_mem_s2_xcpt_ae_ld,
+  input         io_mem_s2_xcpt_ae_st,
+  input         io_mem_ordered,
+  input         io_mem_perf_release,
+  input         io_mem_perf_grant
+);
+  assign io_requestor_0_req_ready = io_mem_req_ready;
+  assign io_requestor_0_s2_nack = io_mem_s2_nack;
+  assign io_requestor_0_resp_valid = io_mem_resp_valid;
+  assign io_requestor_0_resp_bits_tag = io_mem_resp_bits_tag;
+  assign io_requestor_0_resp_bits_data = io_mem_resp_bits_data;
+  assign io_requestor_0_resp_bits_replay = io_mem_resp_bits_replay;
+  assign io_requestor_0_resp_bits_has_data = io_mem_resp_bits_has_data;
+  assign io_requestor_0_resp_bits_data_word_bypass = io_mem_resp_bits_data_word_bypass;
+  assign io_requestor_0_replay_next = io_mem_replay_next;
+  assign io_requestor_0_s2_xcpt_ma_ld = io_mem_s2_xcpt_ma_ld;
+  assign io_requestor_0_s2_xcpt_ma_st = io_mem_s2_xcpt_ma_st;
+  assign io_requestor_0_s2_xcpt_pf_ld = io_mem_s2_xcpt_pf_ld;
+  assign io_requestor_0_s2_xcpt_pf_st = io_mem_s2_xcpt_pf_st;
+  assign io_requestor_0_s2_xcpt_ae_ld = io_mem_s2_xcpt_ae_ld;
+  assign io_requestor_0_s2_xcpt_ae_st = io_mem_s2_xcpt_ae_st;
+  assign io_requestor_0_ordered = io_mem_ordered;
+  assign io_requestor_0_perf_release = io_mem_perf_release;
+  assign io_requestor_0_perf_grant = io_mem_perf_grant;
+  assign io_mem_req_valid = io_requestor_0_req_valid;
+  assign io_mem_req_bits_addr = io_requestor_0_req_bits_addr;
+  assign io_mem_req_bits_tag = io_requestor_0_req_bits_tag;
+  assign io_mem_req_bits_cmd = io_requestor_0_req_bits_cmd;
+  assign io_mem_req_bits_size = io_requestor_0_req_bits_size;
+  assign io_mem_req_bits_signed = io_requestor_0_req_bits_signed;
+  assign io_mem_s1_kill = io_requestor_0_s1_kill;
+  assign io_mem_s1_data_data = io_requestor_0_s1_data_data;
+endmodule
