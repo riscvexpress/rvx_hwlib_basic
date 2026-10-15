@@ -16,7 +16,7 @@
 ## ****************************************************************************
 ## ****************************************************************************
 
-all:include:v:${RVX_HWLIB_BASIC_HOME}/peripheral/extinput_backend/include
-all:lib:v:${RVX_HWLIB_BASIC_HOME}/peripheral/extinput_backend/src
 all:include:v:${RVX_HWLIB_BASIC_HOME}/peripheral/dma/include
 all:lib:v:${RVX_HWLIB_BASIC_HOME}/peripheral/dma/src
+all:include:v:${RVX_HWLIB_BASIC_HOME}/peripheral/extinput_backend/include
+all:lib:v:${RVX_HWLIB_BASIC_HOME}/peripheral/extinput_backend/src

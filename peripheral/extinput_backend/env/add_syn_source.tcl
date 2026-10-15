@@ -11,13 +11,12 @@
 ## IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 ## COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 ## ****************************************************************************
-## 2024-12-12
+## 2026-10-15
 ## Kyuseung Han (han@etri.re.kr)
 ## ****************************************************************************
 ## ****************************************************************************
 
+lappend verilog_include_list ${RVX_HWLIB_BASIC_HOME}/peripheral/dma/include
+set verilog_module_list [concat_file_list $verilog_module_list ${RVX_HWLIB_BASIC_HOME}/peripheral/dma/src/*.v]
 lappend verilog_include_list ${RVX_HWLIB_BASIC_HOME}/peripheral/extinput_backend/include
 set verilog_module_list [concat_file_list $verilog_module_list ${RVX_HWLIB_BASIC_HOME}/peripheral/extinput_backend/src/*.v]
-# ERVP_DMA_WRITER is used by the DMA writeback
-lappend verilog_include_list ${RVX_HWLIB_BASIC_HOME}/peripheral/dma/include
-set verilog_module_list [concat_file_list $verilog_module_list ${RVX_HWLIB_BASIC_HOME}/peripheral/dma/src/ervp_dma_writer.v]

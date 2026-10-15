@@ -11,13 +11,12 @@
 ## IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 ## COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 ## ****************************************************************************
-## 2024-12-12
+## 2026-10-15
 ## Kyuseung Han (han@etri.re.kr)
 ## ****************************************************************************
 ## ****************************************************************************
 
-INC_DIR_LIST += ${RVX_HWLIB_BASIC_HOME}/peripheral/extinput_backend/include
-LIB_DIR_LIST += ${RVX_HWLIB_BASIC_HOME}/peripheral/extinput_backend/src
-# ERVP_DMA_WRITER is used by the DMA writeback
 INC_DIR_LIST += ${RVX_HWLIB_BASIC_HOME}/peripheral/dma/include
 LIB_DIR_LIST += ${RVX_HWLIB_BASIC_HOME}/peripheral/dma/src
+INC_DIR_LIST += ${RVX_HWLIB_BASIC_HOME}/peripheral/extinput_backend/include
+LIB_DIR_LIST += ${RVX_HWLIB_BASIC_HOME}/peripheral/extinput_backend/src
