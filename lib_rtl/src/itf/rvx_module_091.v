@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-15
+// 2026-10-29
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -23,42 +23,42 @@
 
 module RVX_MODULE_091
 (
+  rvx_port_1,
   rvx_port_0,
-  rvx_port_3,
   rvx_port_2,
   rvx_port_6,
-  rvx_port_4,
-  rvx_port_1,
-  rvx_port_5
+  rvx_port_5,
+  rvx_port_3,
+  rvx_port_4
 );
 
 
 
 
-parameter RVX_GPARA_0 = 1;
-parameter RVX_GPARA_1 = 4;
+parameter RVX_GPARA_1 = 1;
+parameter RVX_GPARA_0 = 4;
 
-input wire [RVX_GPARA_0-1:0] rvx_port_0;
-output wire [RVX_GPARA_0-1:0] rvx_port_3;
-input wire [RVX_GPARA_0*RVX_GPARA_1-1:0] rvx_port_2;
-input wire [RVX_GPARA_0-1:0] rvx_port_6;
-output wire rvx_port_4;
-input wire rvx_port_1;
-output wire [RVX_GPARA_1-1:0] rvx_port_5;
+input wire [RVX_GPARA_1-1:0] rvx_port_1;
+output wire [RVX_GPARA_1-1:0] rvx_port_0;
+input wire [RVX_GPARA_1*RVX_GPARA_0-1:0] rvx_port_2;
+input wire [RVX_GPARA_1-1:0] rvx_port_6;
+output wire rvx_port_5;
+input wire rvx_port_3;
+output wire [RVX_GPARA_0-1:0] rvx_port_4;
 
-assign rvx_port_3 = rvx_port_1? rvx_port_6 : 0;
-assign rvx_port_4 = ((rvx_port_0&rvx_port_6)!=0);
+assign rvx_port_0 = rvx_port_3? rvx_port_6 : 0;
+assign rvx_port_5 = ((rvx_port_1&rvx_port_6)!=0);
 
 ERVP_MUX_WITH_ONEHOT_ENCODED_SELECT
 #(
-  .BW_DATA(RVX_GPARA_1),
-  .NUM_DATA(RVX_GPARA_0)
+  .BW_DATA(RVX_GPARA_0),
+  .NUM_DATA(RVX_GPARA_1)
  )
 i_rvx_instance_0
 (
 	.data_input_list(rvx_port_2),
 	.select(rvx_port_6),
-	.data_output(rvx_port_5)
+	.data_output(rvx_port_4)
 );
 
 endmodule

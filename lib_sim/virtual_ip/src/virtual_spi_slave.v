@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-15
+// 2026-10-29
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -42,69 +42,69 @@ module VIRTUAL_SPI_SLAVE (
 	wire cpol = 1'b0;
 	wire cpha  = 1'b0;
 
-	reg [7:0] rvx_signal_09 [7:0]; 
-	reg [2:0] rvx_signal_03;   
-	reg [7:0] rvx_signal_00;    
+	reg [7:0] rvx_signal_03 [7:0]; 
+	reg [2:0] rvx_signal_06;   
+	reg [7:0] rvx_signal_02;    
 
-	reg [7:0] rvx_signal_02, rvx_signal_06;  
+	reg [7:0] rvx_signal_10, rvx_signal_04;  
 
 	reg [2:0] rvx_signal_01;
-	reg       rvx_signal_10;
+	reg       rvx_signal_07;
 
-	wire rvx_signal_04;
+	wire rvx_signal_00;
 
         initial
         begin
-         rvx_signal_09[0] = 8'h11;
-         rvx_signal_09[1] = 8'h22;
-         rvx_signal_09[2] = 8'h33;
-         rvx_signal_09[3] = 8'h44;
-         rvx_signal_09[4] = 8'h55;
-         rvx_signal_09[5] = 8'h66;
-         rvx_signal_09[6] = 8'h77;
-         rvx_signal_09[7] = 8'h88;
-         rvx_signal_02    = 8'h99;
+         rvx_signal_03[0] = 8'h11;
+         rvx_signal_03[1] = 8'h22;
+         rvx_signal_03[2] = 8'h33;
+         rvx_signal_03[3] = 8'h44;
+         rvx_signal_03[4] = 8'h55;
+         rvx_signal_03[5] = 8'h66;
+         rvx_signal_03[6] = 8'h77;
+         rvx_signal_03[7] = 8'h88;
+         rvx_signal_10    = 8'h99;
         end
 	
 	
 	
 
-	assign rvx_signal_04 = cpol ^ cpha ^ sck;
+	assign rvx_signal_00 = cpol ^ cpha ^ sck;
 
 	
-	always @(posedge rvx_signal_04)
-	  rvx_signal_02 <= #1 {rvx_signal_02[6:0],din};
+	always @(posedge rvx_signal_00)
+	  rvx_signal_10 <= #1 {rvx_signal_10[6:0],din};
 
-	always @(posedge rvx_signal_04)
+	always @(posedge rvx_signal_00)
 	  if (&rvx_signal_01)
-	    rvx_signal_06 <= #1 rvx_signal_09[rvx_signal_03];
+	    rvx_signal_04 <= #1 rvx_signal_03[rvx_signal_06];
 	  else
-	    rvx_signal_06 <= #1 {rvx_signal_06[6:0],1'bx};
+	    rvx_signal_04 <= #1 {rvx_signal_04[6:0],1'bx};
 
-	assign dout = (csn==1'b 0)? rvx_signal_06[7] : 1'b z;
+	assign dout = (csn==1'b 0)? rvx_signal_04[7] : 1'b z;
 
 	
-	always @(posedge rvx_signal_04, posedge csn)
+	always @(posedge rvx_signal_00, posedge csn)
 	  if(csn)
 	    rvx_signal_01 <= #1 3'b111;
 	  else
 	    rvx_signal_01 <= #1 rvx_signal_01 - 3'h1;
 
 	
-        always @(posedge rvx_signal_04)
-	  rvx_signal_10 <= #1 ~(|rvx_signal_01);
+        always @(posedge rvx_signal_00)
+	  rvx_signal_07 <= #1 ~(|rvx_signal_01);
 
-	always @(negedge rvx_signal_04)
-          if (rvx_signal_10) begin
-	    rvx_signal_09[rvx_signal_03] <= #1 rvx_signal_02;
-	    rvx_signal_03      <= #1 rvx_signal_03 + 1'b1;
+	always @(negedge rvx_signal_00)
+          if (rvx_signal_07) begin
+	    rvx_signal_03[rvx_signal_06] <= #1 rvx_signal_10;
+	    rvx_signal_06      <= #1 rvx_signal_06 + 1'b1;
 	  end
 
 	initial
 	begin
 	  rvx_signal_01=3'b111;
-	  rvx_signal_03 = 0;
-	  rvx_signal_06 = rvx_signal_09[rvx_signal_03];
+	  rvx_signal_06 = 0;
+	  rvx_signal_04 = rvx_signal_03[rvx_signal_06];
 	end
 endmodule
 

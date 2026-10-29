@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-15
+// 2026-10-29
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -41,7 +41,7 @@ localparam  RVX_LPARA_1 = BW_WIDE_WORD/BW_ORIGINAL_WORD;
 
 parameter BW_INDEX = RVX_LPARA_1;
 
-localparam  RVX_LPARA_2 = `GET_AXI_SIZE(BW_ORIGINAL_WORD);
+localparam  RVX_LPARA_0 = `GET_AXI_SIZE(BW_ORIGINAL_WORD);
 localparam  RVX_LPARA_3 = `GET_AXI_SIZE(BW_WIDE_WORD);
 
 input wire original_valid;
@@ -51,26 +51,26 @@ output wire [RVX_LPARA_3-1:0] aligned_addr_offset;
 output wire [BW_INDEX-1:0] subword_index;
 output wire [RVX_LPARA_1-1:0] subword_index_onehot;
 
-localparam  RVX_LPARA_0 = BW_ADDR + RVX_LPARA_3;
+localparam  RVX_LPARA_2 = BW_ADDR + RVX_LPARA_3;
 
+wire [RVX_LPARA_0-1:0] rvx_signal_1;
 wire [RVX_LPARA_2-1:0] rvx_signal_0;
-wire [RVX_LPARA_0-1:0] rvx_signal_2;
-wire [RVX_LPARA_0-1:0] rvx_signal_4;
+wire [RVX_LPARA_2-1:0] rvx_signal_4;
 
-wire rvx_signal_1;
+wire rvx_signal_2;
 
 wire [RVX_LPARA_1-1:0] rvx_signal_3;
 
-assign {rvx_signal_2[RVX_LPARA_0-1:RVX_LPARA_2],rvx_signal_0} = original_addr;
-assign rvx_signal_2[RVX_LPARA_2-1:0] = 0;
+assign {rvx_signal_0[RVX_LPARA_2-1:RVX_LPARA_0],rvx_signal_1} = original_addr;
+assign rvx_signal_0[RVX_LPARA_0-1:0] = 0;
 
-assign {rvx_signal_4[RVX_LPARA_0-1:RVX_LPARA_3],aligned_addr_offset} = rvx_signal_2;
+assign {rvx_signal_4[RVX_LPARA_2-1:RVX_LPARA_3],aligned_addr_offset} = rvx_signal_0;
 assign rvx_signal_4[RVX_LPARA_3-1:0] = 0;
 assign aligned_addr = rvx_signal_4;
 
-assign rvx_signal_1 = original_valid & (rvx_signal_0!=0);
+assign rvx_signal_2 = original_valid & (rvx_signal_1!=0);
 
-assign rvx_signal_3 = rvx_signal_2[RVX_LPARA_0-1:RVX_LPARA_2];
+assign rvx_signal_3 = rvx_signal_0[RVX_LPARA_2-1:RVX_LPARA_0];
 assign subword_index = rvx_signal_3;
 
 ERVP_INDEX2ONEHOT

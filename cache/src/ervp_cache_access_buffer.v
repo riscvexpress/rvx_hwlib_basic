@@ -25,6 +25,7 @@ module ERVP_CACHE_ACCESS_BUFFER
   rcqready,
   rcqvalid,
   rcqaddr,
+  rcqregion,
   rcqwrite,
   rcqwstrb,
   rcqwdata,
@@ -34,6 +35,7 @@ module ERVP_CACHE_ACCESS_BUFFER
   scqready,
   scqvalid,
   scqaddr,
+  scqregion,
   scqwrite,
   scqwstrb,
   scqwdata,
@@ -59,6 +61,7 @@ output wire busy;
 output wire rcqready;
 input wire rcqvalid;
 input wire [BW_ADDR-1:0] rcqaddr;
+input wire rcqregion;
 input wire rcqwrite;
 input wire [`BW_AXI_WSTRB(BW_ACCESS)-1:0] rcqwstrb;
 input wire [BW_ACCESS-1:0] rcqwdata;
@@ -68,6 +71,7 @@ output wire [BW_ACCESS-1:0] rcyrdata;
 input wire scqready;
 output wire scqvalid;
 output wire [BW_ADDR-1:0] scqaddr;
+output wire scqregion;
 output wire scqwrite;
 output wire [`BW_AXI_WSTRB(BW_ACCESS)-1:0] scqwstrb;
 output wire [BW_ACCESS-1:0] scqwdata;
@@ -80,7 +84,7 @@ input wire [BW_ACCESS-1:0] scyrdata;
 
 localparam HAS_REQUEST_BUFFER = (NUM_REQUEST_BUFFER!=0);
 localparam NUM_REQUEST_BUFFER__ = `MAX(NUM_REQUEST_BUFFER,2);
-localparam BW_REQUEST_BUFFER = BW_ADDR + 1 + `BW_AXI_WSTRB(BW_ACCESS) + BW_ACCESS;
+localparam BW_REQUEST_BUFFER = BW_ADDR + 1 + 1 + `BW_AXI_WSTRB(BW_ACCESS) + BW_ACCESS;
 
 wire i_request_buffer_wready;
 wire i_request_buffer_wrequest;
@@ -120,12 +124,12 @@ i_request_buffer
 );
 
 assign i_request_buffer_wrequest = rcqvalid;
-assign i_request_buffer_wdata = {rcqaddr,rcqwrite,rcqwstrb,rcqwdata};
+assign i_request_buffer_wdata = {rcqaddr,rcqregion,rcqwrite,rcqwstrb,rcqwdata};
 assign i_request_buffer_rrequest = scqready;
 
 assign rcqready = (HAS_REQUEST_BUFFER==1)? i_request_buffer_wready : scqready;
 assign scqvalid = (HAS_REQUEST_BUFFER==1)? i_request_buffer_rready : rcqvalid;
-assign {scqaddr,scqwrite,scqwstrb,scqwdata} = (HAS_REQUEST_BUFFER==1)? i_request_buffer_rdata : {rcqaddr,rcqwrite,rcqwstrb,rcqwdata};
+assign {scqaddr,scqregion,scqwrite,scqwstrb,scqwdata} = (HAS_REQUEST_BUFFER==1)? i_request_buffer_rdata : {rcqaddr,rcqregion,rcqwrite,rcqwstrb,rcqwdata};
 
 always@(posedge clk or negedge rstnn)
 begin

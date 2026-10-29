@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-15
+// 2026-10-29
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -42,12 +42,12 @@ parameter BASE_ADDR = 0;
 
 `include "ervp_log_util.vf"
 
-localparam  RVX_LPARA_2 = 32;
-localparam  RVX_LPARA_4 = (LOG2RU_MIN1(`NUM_BYTE(RVX_LPARA_2)));
+localparam  RVX_LPARA_1 = 32;
+localparam  RVX_LPARA_2 = (LOG2RU_MIN1(`NUM_BYTE(RVX_LPARA_1)));
 
 localparam  RVX_LPARA_3 = (`IROM_CAPACITY < 4096)? `IROM_CAPACITY : 1;		
-localparam  RVX_LPARA_0 = `DIVIDERU(RVX_LPARA_3,`NUM_BYTE(RVX_LPARA_2));
-localparam  RVX_LPARA_1 = LOG2RU_MIN1(RVX_LPARA_0);
+localparam  RVX_LPARA_0 = `DIVIDERU(RVX_LPARA_3,`NUM_BYTE(RVX_LPARA_1));
+localparam  RVX_LPARA_4 = LOG2RU_MIN1(RVX_LPARA_0);
 
 input wire clk, rstnn;
 
@@ -55,8 +55,8 @@ input wire [BW_ADDR-1:0] rpaddr;
 input wire rpwrite;
 input wire rpsel;
 input wire rpenable;
-input wire [RVX_LPARA_2-1:0] rpwdata;
-output wire [RVX_LPARA_2-1:0] rprdata;
+input wire [RVX_LPARA_1-1:0] rpwdata;
+output wire [RVX_LPARA_1-1:0] rprdata;
 output wire rpready;
 output wire rpslverr;
 
@@ -66,14 +66,14 @@ integer j;
 integer file_pointer, read_status;
 reg [32-1:0] rvx_signal_0;
 
-wire [RVX_LPARA_1-1:0] rom_index;
+wire [RVX_LPARA_4-1:0] rom_index;
 `ifdef INCLUDE_IROM
-reg [RVX_LPARA_2-1:0] rom_data;
+reg [RVX_LPARA_1-1:0] rom_data;
 `else
-wire [RVX_LPARA_2-1:0] rom_data;
+wire [RVX_LPARA_1-1:0] rom_data;
 `endif
 
-assign rom_index = $unsigned(rpaddr-BASE_ADDR) >> RVX_LPARA_4;
+assign rom_index = $unsigned(rpaddr-BASE_ADDR) >> RVX_LPARA_2;
 assign rprdata = rom_data;
 assign rpready = 1;
 assign rpslverr = rpsel & rpenable & rpwrite;

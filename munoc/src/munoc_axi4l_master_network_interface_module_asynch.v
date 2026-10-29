@@ -11,17 +11,17 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-13
+// 2026-10-20
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
 
-`include "munoc_include_06.vh"
+`include "munoc_include_01.vh"
 `include "munoc_extended_config.vh"
 `include "ervp_axi_define.vh"
 `include "munoc_network_link.vh"
 `include "munoc_control.vh"
-`include "munoc_include_04.vh"
+`include "munoc_include_03.vh"
 `include "munoc_tid_control_type.vh"
 
 
@@ -85,9 +85,9 @@ parameter NUM_AXIW_BUFFER = 4;
 parameter NUM_AXIR_BUFFER = 4;
 parameter NUM_AXIB_BUFFER = 2;
 
-localparam  MUNOC_LPARA_0 = 1;
-localparam  MUNOC_LPARA_2 = 0;
+localparam  MUNOC_LPARA_2 = 1;
 localparam  MUNOC_LPARA_1 = 0;
+localparam  MUNOC_LPARA_0 = 0;
 
 input wire clk_master, rstnn_master;
 input wire clk_network, rstnn_network;
@@ -136,22 +136,22 @@ wire [`BW_AXI_ALEN-1:0] rx4larlen = `AXI_LENGTH_01;
 wire [`BW_AXI_ASIZE-1:0] rx4larsize = `GET_AXI_SIZE(BW_NODE_DATA);
 wire [`BW_AXI_ABURST-1:0] rx4larburst = `AXI_BURST_FIXED;
 
-wire munoc_signal_01;
+wire munoc_signal_12;
 
-wire [MUNOC_LPARA_0-1:0] rx4lawid = 0;
-wire [MUNOC_LPARA_0-1:0] munoc_signal_18;
-wire [MUNOC_LPARA_0-1:0] rx4larid = 0;
-wire [MUNOC_LPARA_0-1:0] munoc_signal_12;
+wire [MUNOC_LPARA_2-1:0] rx4lawid = 0;
+wire [MUNOC_LPARA_2-1:0] munoc_signal_07;
+wire [MUNOC_LPARA_2-1:0] rx4larid = 0;
+wire [MUNOC_LPARA_2-1:0] munoc_signal_10;
 
-wire [BW_PLATFORM_ADDR-1:0] munoc_signal_16;
-wire munoc_signal_04;
-wire munoc_signal_15;
+wire [BW_PLATFORM_ADDR-1:0] munoc_signal_20;
 wire munoc_signal_14;
-wire [BW_NODE_DATA-1:0] munoc_signal_02;
+wire munoc_signal_01;
+wire munoc_signal_09;
+wire [BW_NODE_DATA-1:0] munoc_signal_15;
 wire [BW_NODE_DATA-1:0] local_sprdata = 0;
 wire local_spready = 0;
 wire local_spslverr = 0;
-wire munoc_signal_09;
+wire munoc_signal_17;
 
  MUNOC_AXI4_MASTER_NETWORK_INTERFACE_MODULE_ASYNCH
  #(
@@ -161,9 +161,9 @@ wire munoc_signal_09;
   .BW_BNI_PHIT(BW_BNI_PHIT),
   .BW_PLATFORM_ADDR(BW_PLATFORM_ADDR),
   .BW_NODE_DATA(BW_NODE_DATA),
-  .BW_AXI_MASTER_TID(MUNOC_LPARA_0),
-  .LOCAL_ENABLE(MUNOC_LPARA_2),
-  .LOCAL_UPPER_ADDR(MUNOC_LPARA_1),
+  .BW_AXI_MASTER_TID(MUNOC_LPARA_2),
+  .LOCAL_ENABLE(MUNOC_LPARA_1),
+  .LOCAL_UPPER_ADDR(MUNOC_LPARA_0),
   .TID_CONTROL_TYPE(TID_CONTROL_TYPE),
   .NUM_AXIAR_BUFFER(NUM_AXIAR_BUFFER),
   .NUM_AXIAW_BUFFER(NUM_AXIAW_BUFFER),
@@ -199,7 +199,7 @@ i_munoc_instance_0
 	.rx4wvalid(rx4lwvalid),
 	.rx4wready(rx4lwready), 
 
-	.rx4bid(munoc_signal_18),
+	.rx4bid(munoc_signal_07),
 	.rx4bresp(rx4lbresp),
 	.rx4bvalid(rx4lbvalid),
 	.rx4bready(rx4lbready),
@@ -212,23 +212,23 @@ i_munoc_instance_0
 	.rx4arvalid(rx4larvalid),
 	.rx4arready(rx4larready),
 
-	.rx4rid(munoc_signal_12),
+	.rx4rid(munoc_signal_10),
 	.rx4rdata(rx4lrdata),
 	.rx4rresp(rx4lrresp),
-	.rx4rlast(munoc_signal_01),
+	.rx4rlast(munoc_signal_12),
 	.rx4rvalid(rx4lrvalid),
 	.rx4rready(rx4lrready),
 
-	.local_spaddr(munoc_signal_16),
-	.local_spwrite(munoc_signal_04),
-	.local_spsel(munoc_signal_15),
-	.local_spenable(munoc_signal_14),
-	.local_spwdata(munoc_signal_02),
+	.local_spaddr(munoc_signal_20),
+	.local_spwrite(munoc_signal_14),
+	.local_spsel(munoc_signal_01),
+	.local_spenable(munoc_signal_09),
+	.local_spwdata(munoc_signal_15),
 	.local_sprdata(local_sprdata),
 	.local_spready(local_spready),
 	.local_spslverr(local_spslverr),
 
-	.local_allows_holds(munoc_signal_09),
+	.local_allows_holds(munoc_signal_17),
 
 	.svri_rlink(svri_rlink),
 	.svri_rack(svri_rack),

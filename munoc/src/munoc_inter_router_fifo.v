@@ -11,13 +11,13 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-13
+// 2026-10-20
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
 
 
-`include "munoc_include_06.vh"
+`include "munoc_include_01.vh"
 `include "munoc_extended_config.vh"
 `include "munoc_network_type.vh"
 `include "munoc_network_link.vh"
@@ -64,7 +64,7 @@ ERVP_SMALL_FIFO
 	.BW_DATA(MUNOC_LPARA_1-1),
 	.DEPTH(NUM_BUFFER)
 )
-i_munoc_instance_0
+i_munoc_instance_1
 (
 	.clk(clk),
 	.rstnn(rstnn),
@@ -85,7 +85,7 @@ ERVP_SMALL_FIFO
 	.BW_DATA(MUNOC_LPARA_0-1),
 	.DEPTH(NUM_BUFFER)
 )
-i_munoc_instance_1
+i_munoc_instance_0
 (
 	.clk(clk),
 	.rstnn(rstnn),

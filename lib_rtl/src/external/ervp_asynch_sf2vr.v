@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-15
+// 2026-10-29
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -47,10 +47,10 @@ input wire rrstnn;
 output wire rvalid;
 input wire rready;
 
-wire rvx_signal_0;
 wire rvx_signal_2;
-wire rvx_signal_4;
 wire rvx_signal_3;
+wire rvx_signal_4;
+wire rvx_signal_0;
 
 localparam  RVX_LPARA_0 = 1;
 localparam  RVX_LPARA_1 = 0;
@@ -65,7 +65,7 @@ begin
   else
     case(rvx_signal_1)
       RVX_LPARA_1:
-        if(rvx_signal_2)
+        if(rvx_signal_3)
           rvx_signal_1 <= RVX_LPARA_2;
       RVX_LPARA_2:
         if(wfinish)
@@ -73,9 +73,9 @@ begin
     endcase
 end
 
-assign rvx_signal_2 = (rvx_signal_1==RVX_LPARA_1) & wstart;
+assign rvx_signal_3 = (rvx_signal_1==RVX_LPARA_1) & wstart;
 assign wbusy = (rvx_signal_1==RVX_LPARA_2);
-assign wfinish = (rvx_signal_1==RVX_LPARA_2) & rvx_signal_0;
+assign wfinish = (rvx_signal_1==RVX_LPARA_2) & rvx_signal_2;
 
 ERVP_ASYNCH_REGISTER
 #(
@@ -85,17 +85,17 @@ i_rvx_instance_0
 (
 	.wclk(wclk),
 	.wrstnn(wrstnn),
-	.wready(rvx_signal_0),
-	.wrequest(rvx_signal_2),
+	.wready(rvx_signal_2),
+	.wrequest(rvx_signal_3),
 	.wdata(1'b 0),
 	.rclk(rclk),
 	.rrstnn(rrstnn),
-	.rready(rvx_signal_3),
+	.rready(rvx_signal_0),
 	.rrequest(rvx_signal_4),
 	.rdata()
 );
 
-assign rvalid = rvx_signal_3;
+assign rvalid = rvx_signal_0;
 assign rvx_signal_4 = rready;
 
 endmodule

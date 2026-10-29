@@ -120,6 +120,7 @@ module sys_call
   wire [REGISTER_SIZE-1:0]  mtval;
   wire [REGISTER_SIZE-1:0]  mtime;
   wire [REGISTER_SIZE-1:0]  mtimeh;
+  reg  [63:0]               mcycle_full;
   wire [REGISTER_SIZE-1:0]  meimask;
   wire [REGISTER_SIZE-1:0]  meimask_full;
   wire [REGISTER_SIZE-1:0]  meipend;
@@ -267,6 +268,14 @@ module sys_call
   assign mtime  = timer_value[REGISTER_SIZE-1:0];
   assign mtimeh = timer_value[63:63-REGISTER_SIZE+1];
 
+  always @(posedge clk or posedge reset) begin
+    if (reset == 1'b1) begin
+      mcycle_full <= 64'd0;
+    end else begin
+      mcycle_full <= mcycle_full + 64'd1;
+    end
+  end
+
   // misa: only bits 31:30, 23, 12, 8 assigned in VHDL; remaining bits were
   // left unassigned ('U') and are tied to 0 here.
   assign misa[REGISTER_SIZE-1:REGISTER_SIZE-2] = 2'b01;
@@ -292,6 +301,10 @@ module sys_call
       `CSR_MTIMEH:     csr_readdata = mtimeh;
       `CSR_UTIME:      csr_readdata = mtime;
       `CSR_UTIMEH:     csr_readdata = mtimeh;
+      `CSR_MCYCLE:     csr_readdata = mcycle_full[REGISTER_SIZE-1:0];
+      `CSR_MCYCLEH:    csr_readdata = mcycle_full[63:63-REGISTER_SIZE+1];
+      `CSR_UCYCLE:     csr_readdata = mcycle_full[REGISTER_SIZE-1:0];
+      `CSR_UCYCLEH:    csr_readdata = mcycle_full[63:63-REGISTER_SIZE+1];
       `CSR_MCACHE:     csr_readdata = mcache;
       `CSR_MTVEC:      csr_readdata = mtvec;
       `CSR_MAMR0_BASE: csr_readdata = mamr_base[REGISTER_SIZE-1:0];

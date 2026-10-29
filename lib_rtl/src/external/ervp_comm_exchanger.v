@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-15
+// 2026-10-29
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -40,12 +40,12 @@ output wire [RVX_LPARA_0*BW_RESPONSE_DATA-1:0] original_response_data_list;
 output wire [RVX_LPARA_0*BW_REQUEST_DATA-1:0] exchanged_request_data_list;
 input wire [RVX_LPARA_0*BW_RESPONSE_DATA-1:0] exchanged_response_data_list;
 
-wire [BW_REQUEST_DATA-1:0] rvx_signal_1 [0:RVX_LPARA_0-1];
-wire [BW_RESPONSE_DATA-1:0] rvx_signal_0 [0:RVX_LPARA_0-1];
+wire [BW_REQUEST_DATA-1:0] rvx_signal_0 [0:RVX_LPARA_0-1];
+wire [BW_RESPONSE_DATA-1:0] rvx_signal_1 [0:RVX_LPARA_0-1];
 
-assign {rvx_signal_1[1],rvx_signal_1[0]} = original_request_data_list;
-assign exchanged_request_data_list = select? {rvx_signal_1[1],rvx_signal_1[0]} : {rvx_signal_1[0],rvx_signal_1[1]};
-assign {rvx_signal_0[1],rvx_signal_0[0]} = exchanged_response_data_list;
-assign original_response_data_list = select? {rvx_signal_0[1],rvx_signal_0[0]} : {rvx_signal_0[0],rvx_signal_0[1]};
+assign {rvx_signal_0[1],rvx_signal_0[0]} = original_request_data_list;
+assign exchanged_request_data_list = select? {rvx_signal_0[1],rvx_signal_0[0]} : {rvx_signal_0[0],rvx_signal_0[1]};
+assign {rvx_signal_1[1],rvx_signal_1[0]} = exchanged_response_data_list;
+assign original_response_data_list = select? {rvx_signal_1[1],rvx_signal_1[0]} : {rvx_signal_1[0],rvx_signal_1[1]};
 
 endmodule

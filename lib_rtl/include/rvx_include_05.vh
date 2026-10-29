@@ -11,12 +11,18 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-15
+// 2026-10-29
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
-localparam BW_IEEEDP_EXPONENT          = 11;
-localparam BW_IEEEDP_MANTISSA          = 52;
 
-localparam BW_IEEEDP_VALUE = 1 + BW_IEEEDP_EXPONENT + BW_IEEEDP_MANTISSA;
-localparam BW_IEEEDP_SIGNIFICAND = BW_IEEEDP_MANTISSA + 1;
+
+`ifndef RVX_GDEF_029
+`define RVX_GDEF_029
+
+`define RVX_GDEF_436 3
+`define RVX_GDEF_535 7
+`define RVX_GDEF_510 11 
+
+`endif
+

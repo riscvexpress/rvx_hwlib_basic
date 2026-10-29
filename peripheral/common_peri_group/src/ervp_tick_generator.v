@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-15
+// 2026-10-29
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -34,29 +34,29 @@ module ERVP_TICK_GENERATOR
 `include "ervp_log_util.vf"
 `include "ervp_bitwidth_util.vf"
 
-localparam  RVX_LPARA_3 = 11;
+localparam  RVX_LPARA_5 = 11;
 
 localparam  RVX_LPARA_1 = 1000000;
-localparam  RVX_LPARA_4 = 10;
+localparam  RVX_LPARA_2 = 10;
 
 localparam  RVX_LPARA_0 = 16;
-localparam  RVX_LPARA_2 = `DIVIDERU(RVX_LPARA_1, RVX_LPARA_0);
-localparam  RVX_LPARA_5 = REQUIRED_BITWIDTH_UNSIGNED(RVX_LPARA_2);
+localparam  RVX_LPARA_3 = `DIVIDERU(RVX_LPARA_1, RVX_LPARA_0);
+localparam  RVX_LPARA_4 = REQUIRED_BITWIDTH_UNSIGNED(RVX_LPARA_3);
 
 input wire clk, rstnn;
-input wire [RVX_LPARA_3-1:0] tick_config;
+input wire [RVX_LPARA_5-1:0] tick_config;
 output wire tick_1us;
 output wire tick_62d5ms;
 
 wire rvx_signal_1;
-wire [RVX_LPARA_4-1:0] rvx_signal_2;
-wire [RVX_LPARA_4-1:0] rvx_signal_0;
+wire [RVX_LPARA_2-1:0] rvx_signal_2;
+wire [RVX_LPARA_2-1:0] rvx_signal_0;
 
 assign {rvx_signal_2,rvx_signal_1} = tick_config;
 
 ERVP_COUNTER
 #(
-	.BW_COUNTER(RVX_LPARA_4),
+	.BW_COUNTER(RVX_LPARA_2),
 	.RESET_NUMBER(1),
 	.CIRCULAR(0)
 )
@@ -76,8 +76,8 @@ assign tick_1us = (rvx_signal_0==rvx_signal_2);
 
 ERVP_COUNTER
 #(
-	.BW_COUNTER(RVX_LPARA_5),
-	.LAST_NUMBER(RVX_LPARA_2-1),
+	.BW_COUNTER(RVX_LPARA_4),
+	.LAST_NUMBER(RVX_LPARA_3-1),
 	.CIRCULAR(0)
 )
 i_rvx_instance_1

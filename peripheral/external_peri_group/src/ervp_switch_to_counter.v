@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-15
+// 2026-10-29
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -39,8 +39,8 @@ parameter BW_VALUE = 1;
 `include "ervp_log_util.vf"
 `include "ervp_bitwidth_util.vf"
 
-localparam  RVX_LPARA_0 = TICK_HZ/(1000/PERIOD_MS);
-localparam  RVX_LPARA_1 = REQUIRED_BITWIDTH_UNSIGNED(RVX_LPARA_0);
+localparam  RVX_LPARA_1 = TICK_HZ/(1000/PERIOD_MS);
+localparam  RVX_LPARA_0 = REQUIRED_BITWIDTH_UNSIGNED(RVX_LPARA_1);
 
 input wire clk, rstnn;
 input wire tick_1us;
@@ -74,11 +74,11 @@ end
 
 ERVP_COUNTER
 #(
-	.BW_COUNTER(RVX_LPARA_1),
-	.LAST_NUMBER(RVX_LPARA_0-1),
+	.BW_COUNTER(RVX_LPARA_0),
+	.LAST_NUMBER(RVX_LPARA_1-1),
 	.CIRCULAR(1)
 )
-i_rvx_instance_1
+i_rvx_instance_0
 (
 	.clk(clk),
 	.rstnn(rstnn),
@@ -95,7 +95,7 @@ ERVP_COUNTER
 	.BW_COUNTER(BW_VALUE),
 	.CIRCULAR(1)
 )
-i_rvx_instance_0
+i_rvx_instance_1
 (
 	.clk(clk),
 	.rstnn(rstnn),

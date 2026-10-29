@@ -11,16 +11,21 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-13
+// 2026-10-20
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
 
 
-`ifndef MUNOC_GDEF_42
-`define MUNOC_GDEF_42
+`ifndef MUNOC_GDEF_22
+`define MUNOC_GDEF_22
 
-`include "ervp_misc_util.vh"
+`define MUNOC_GDEF_31(bw_node_data) `MAX((REQUIRED_BITWIDTH_INDEX(`BW_LONGEST_MASTER_DATA/(bw_node_data))),(`BW_AXI_ALEN+1))
+
+`define MUNOC_GDEF_45 (`BW_AXI_ALEN+3)
+
+`define MUNOC_GDEF_68 (`BW_PACKET_DATATYPE+`BW_AXI_ASIZE+`BW_ADDR_OFFSET+`MUNOC_GDEF_45)
+`define MUNOC_GDEF_12(bw_node_data) (`BW_MASTER_NODE_ID+`BW_LONGEST_AXI_TID+`MUNOC_GDEF_31(bw_node_data))
 
 `endif
 

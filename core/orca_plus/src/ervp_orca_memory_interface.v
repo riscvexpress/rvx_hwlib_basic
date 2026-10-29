@@ -262,6 +262,7 @@ parameter DCACHE_LINE_SIZE = 16;
 parameter DCACHE_EXTERNAL_WIDTH = 32;
 parameter DCACHE_WRITEBACK = 1;
 parameter DCACHE_DIRTY_BITS = DCACHE_WRITEBACK;
+parameter INSTRUCTION_RETURN_REGISTER = 0;
 
 localparam DCACHE_POLICY = DCACHE_WRITEBACK? `CACHE_POLICY_WRITE_BACK : `CACHE_POLICY_WRITE_THROUGH;
 
@@ -716,12 +717,39 @@ assign i_icache_access_cqaddr = ifetch_oimm_address;
 assign i_icache_access_cqwrite = 0;
 assign i_icache_access_cqwstrb = 0;
 assign i_icache_access_cqwdata = 0;
-assign ifetch_oimm_readdatavalid = i_icache_access_cyvalid;
-assign ifetch_oimm_readdata = i_icache_access_cyrdata;
+generate
+if(INSTRUCTION_RETURN_REGISTER)
+begin : i_gen_ifetch_return_register
+  reg ifetch_readdatavalid_reg;
+  reg [REGISTER_SIZE-1:0] ifetch_readdata_reg;
 
-RVX_MODULE_064
+  always@(posedge clk or posedge reset)
+  begin
+    if(reset)
+      ifetch_readdatavalid_reg <= 0;
+    else
+      ifetch_readdatavalid_reg <= i_icache_access_cyvalid;
+  end
+
+  always@(posedge clk)
+  begin
+    if(i_icache_access_cyvalid)
+      ifetch_readdata_reg <= i_icache_access_cyrdata;
+  end
+
+  assign ifetch_oimm_readdatavalid = ifetch_readdatavalid_reg;
+  assign ifetch_oimm_readdata = ifetch_readdata_reg;
+end
+else
+begin : i_gen_ifetch_return_direct
+  assign ifetch_oimm_readdatavalid = i_icache_access_cyvalid;
+  assign ifetch_oimm_readdata = i_icache_access_cyrdata;
+end
+endgenerate
+
+RVX_MODULE_050
 #(
-  .RVX_GPARA_0(ICACHE_BW_ADDR),
+  .RVX_GPARA_2(ICACHE_BW_ADDR),
   .RVX_GPARA_1(ICACHE_EXTERNAL_WIDTH),
   .RVX_GPARA_3(AXI_ID_WIDTH),
   .MEMORY_OPERATION_TYPE(3),
@@ -730,58 +758,58 @@ RVX_MODULE_064
 )
 i_icache2axi
 (
-	.rvx_port_30(clk),
-	.rvx_port_10(~reset),
-  .rvx_port_03(1'b 0),
-  .rvx_port_15(1'b 1),
+	.rvx_port_37(clk),
+	.rvx_port_11(~reset),
+  .rvx_port_09(1'b 0),
+  .rvx_port_21(1'b 1),
 
-  .rvx_port_06(i_icache_memory_lqdready),
-  .rvx_port_31(i_icache_memory_lqvalid),
-  .rvx_port_13(i_icache_memory_lqhint),
-  .rvx_port_27(i_icache_memory_lqlast),
-  .rvx_port_42(i_icache_memory_lqafy),
-  .rvx_port_09(i_icache_memory_lqdata),
+  .rvx_port_14(i_icache_memory_lqdready),
+  .rvx_port_28(i_icache_memory_lqvalid),
+  .rvx_port_32(i_icache_memory_lqhint),
+  .rvx_port_19(i_icache_memory_lqlast),
+  .rvx_port_06(i_icache_memory_lqafy),
+  .rvx_port_26(i_icache_memory_lqdata),
 
-  .rvx_port_26(i_icache_memory_lydready),
-  .rvx_port_40(i_icache_memory_lyvalid),
-  .rvx_port_17(i_icache_memory_lyhint),
-  .rvx_port_16(i_icache_memory_lylast),
-  .rvx_port_35(i_icache_memory_lydata),
+  .rvx_port_41(i_icache_memory_lydready),
+  .rvx_port_39(i_icache_memory_lyvalid),
+  .rvx_port_34(i_icache_memory_lyhint),
+  .rvx_port_02(i_icache_memory_lylast),
+  .rvx_port_24(i_icache_memory_lydata),
 
-  .rvx_port_28(IUC_AWID),
-	.rvx_port_04(IUC_AWADDR),
+  .rvx_port_04(IUC_AWID),
+	.rvx_port_13(IUC_AWADDR),
 	.rvx_port_12(IUC_AWLEN),
 	.rvx_port_38(IUC_AWSIZE),
-	.rvx_port_22(IUC_AWBURST),
-	.rvx_port_00(IUC_AWVALID),
-	.rvx_port_36(IUC_AWREADY),
+	.rvx_port_03(IUC_AWBURST),
+	.rvx_port_43(IUC_AWVALID),
+	.rvx_port_01(IUC_AWREADY),
 
-	.rvx_port_21(IUC_WID),
-	.rvx_port_24(IUC_WDATA),
-	.rvx_port_11(IUC_WSTRB),
-	.rvx_port_14(IUC_WLAST),
-	.rvx_port_34(IUC_WVALID),
-	.rvx_port_23(IUC_WREADY), 
+	.rvx_port_27(IUC_WID),
+	.rvx_port_15(IUC_WDATA),
+	.rvx_port_23(IUC_WSTRB),
+	.rvx_port_08(IUC_WLAST),
+	.rvx_port_00(IUC_WVALID),
+	.rvx_port_16(IUC_WREADY), 
 
-	.rvx_port_33(IUC_BID),
-	.rvx_port_32(IUC_BRESP),
-	.rvx_port_01(IUC_BVALID),
-	.rvx_port_18(IUC_BREADY),
+	.rvx_port_20(IUC_BID),
+	.rvx_port_25(IUC_BRESP),
+	.rvx_port_31(IUC_BVALID),
+	.rvx_port_35(IUC_BREADY),
 
-	.rvx_port_39(IUC_ARID),
+	.rvx_port_18(IUC_ARID),
 	.rvx_port_07(IUC_ARADDR),
-	.rvx_port_43(IUC_ARLEN),
-	.rvx_port_02(IUC_ARSIZE),
-	.rvx_port_29(IUC_ARBURST),
-	.rvx_port_20(IUC_ARVALID),
-	.rvx_port_25(IUC_ARREADY),
+	.rvx_port_40(IUC_ARLEN),
+	.rvx_port_36(IUC_ARSIZE),
+	.rvx_port_10(IUC_ARBURST),
+	.rvx_port_42(IUC_ARVALID),
+	.rvx_port_44(IUC_ARREADY),
 
-	.rvx_port_41(IUC_RID),
-	.rvx_port_05(IUC_RDATA),
-	.rvx_port_37(IUC_RRESP),
-	.rvx_port_08(IUC_RLAST),
-	.rvx_port_44(IUC_RVALID),
-	.rvx_port_19(IUC_RREADY)
+	.rvx_port_17(IUC_RID),
+	.rvx_port_22(IUC_RDATA),
+	.rvx_port_05(IUC_RRESP),
+	.rvx_port_30(IUC_RLAST),
+	.rvx_port_33(IUC_RVALID),
+	.rvx_port_29(IUC_RREADY)
 );
 
 /* dcache */
@@ -797,7 +825,8 @@ ERVP_CACHE_P2
   .CACHE_POLICY(DCACHE_POLICY),
   .HAS_CACHE(HAS_DCACHE),
   .HAS_REGION(1),
-  .NUM_REGION(DCACHE_NUM_REGION)
+  .NUM_REGION(DCACHE_NUM_REGION),
+  .HAS_FRONTEND_BUFFER(1)
 )
 i_dcache
 (
@@ -887,9 +916,9 @@ assign i_dcache_access_cqwdata = lsu_oimm_writedata;
 assign lsu_oimm_readdatavalid = i_dcache_access_cyvalid;
 assign lsu_oimm_readdata = i_dcache_access_cyrdata;
 
-RVX_MODULE_064
+RVX_MODULE_050
 #(
-  .RVX_GPARA_0(DCACHE_BW_ADDR),
+  .RVX_GPARA_2(DCACHE_BW_ADDR),
   .RVX_GPARA_1(DCACHE_EXTERNAL_WIDTH),
   .RVX_GPARA_3(AXI_ID_WIDTH),
   .MEMORY_OPERATION_TYPE(3),
@@ -897,63 +926,63 @@ RVX_MODULE_064
 )
 i_dcache_cca_2axi
 (
-	.rvx_port_30(clk),
-	.rvx_port_10(~reset),
-  .rvx_port_03(1'b 0),
-  .rvx_port_15(1'b 1),
+	.rvx_port_37(clk),
+	.rvx_port_11(~reset),
+  .rvx_port_09(1'b 0),
+  .rvx_port_21(1'b 1),
 
-  .rvx_port_06(i_dcache_cca_slqdready),
-  .rvx_port_31(i_dcache_cca_slqvalid),
-  .rvx_port_13(i_dcache_cca_slqhint),
-  .rvx_port_27(i_dcache_cca_slqlast),
-  .rvx_port_42(i_dcache_cca_slqafy),
-  .rvx_port_09(i_dcache_cca_slqdata),
+  .rvx_port_14(i_dcache_cca_slqdready),
+  .rvx_port_28(i_dcache_cca_slqvalid),
+  .rvx_port_32(i_dcache_cca_slqhint),
+  .rvx_port_19(i_dcache_cca_slqlast),
+  .rvx_port_06(i_dcache_cca_slqafy),
+  .rvx_port_26(i_dcache_cca_slqdata),
 
-  .rvx_port_26(i_dcache_cca_slydready),
-  .rvx_port_40(i_dcache_cca_slyvalid),
-  .rvx_port_17(i_dcache_cca_slyhint),
-  .rvx_port_16(i_dcache_cca_slylast),
-  .rvx_port_35(i_dcache_cca_slydata),
+  .rvx_port_41(i_dcache_cca_slydready),
+  .rvx_port_39(i_dcache_cca_slyvalid),
+  .rvx_port_34(i_dcache_cca_slyhint),
+  .rvx_port_02(i_dcache_cca_slylast),
+  .rvx_port_24(i_dcache_cca_slydata),
 
-  .rvx_port_28(DC_AWID),
-	.rvx_port_04(DC_AWADDR),
+  .rvx_port_04(DC_AWID),
+	.rvx_port_13(DC_AWADDR),
 	.rvx_port_12(DC_AWLEN),
 	.rvx_port_38(DC_AWSIZE),
-	.rvx_port_22(DC_AWBURST),
-	.rvx_port_00(DC_AWVALID),
-	.rvx_port_36(DC_AWREADY),
+	.rvx_port_03(DC_AWBURST),
+	.rvx_port_43(DC_AWVALID),
+	.rvx_port_01(DC_AWREADY),
 
-	.rvx_port_21(DC_WID),
-	.rvx_port_24(DC_WDATA),
-	.rvx_port_11(DC_WSTRB),
-	.rvx_port_14(DC_WLAST),
-	.rvx_port_34(DC_WVALID),
-	.rvx_port_23(DC_WREADY), 
+	.rvx_port_27(DC_WID),
+	.rvx_port_15(DC_WDATA),
+	.rvx_port_23(DC_WSTRB),
+	.rvx_port_08(DC_WLAST),
+	.rvx_port_00(DC_WVALID),
+	.rvx_port_16(DC_WREADY), 
 
-	.rvx_port_33(DC_BID),
-	.rvx_port_32(DC_BRESP),
-	.rvx_port_01(DC_BVALID),
-	.rvx_port_18(DC_BREADY),
+	.rvx_port_20(DC_BID),
+	.rvx_port_25(DC_BRESP),
+	.rvx_port_31(DC_BVALID),
+	.rvx_port_35(DC_BREADY),
 
-	.rvx_port_39(DC_ARID),
+	.rvx_port_18(DC_ARID),
 	.rvx_port_07(DC_ARADDR),
-	.rvx_port_43(DC_ARLEN),
-	.rvx_port_02(DC_ARSIZE),
-	.rvx_port_29(DC_ARBURST),
-	.rvx_port_20(DC_ARVALID),
-	.rvx_port_25(DC_ARREADY),
+	.rvx_port_40(DC_ARLEN),
+	.rvx_port_36(DC_ARSIZE),
+	.rvx_port_10(DC_ARBURST),
+	.rvx_port_42(DC_ARVALID),
+	.rvx_port_44(DC_ARREADY),
 
-	.rvx_port_41(DC_RID),
-	.rvx_port_05(DC_RDATA),
-	.rvx_port_37(DC_RRESP),
-	.rvx_port_08(DC_RLAST),
-	.rvx_port_44(DC_RVALID),
-	.rvx_port_19(DC_RREADY)
+	.rvx_port_17(DC_RID),
+	.rvx_port_22(DC_RDATA),
+	.rvx_port_05(DC_RRESP),
+	.rvx_port_30(DC_RLAST),
+	.rvx_port_33(DC_RVALID),
+	.rvx_port_29(DC_RREADY)
 );
 
-RVX_MODULE_064
+RVX_MODULE_050
 #(
-  .RVX_GPARA_0(DCACHE_BW_ADDR),
+  .RVX_GPARA_2(DCACHE_BW_ADDR),
   .RVX_GPARA_1(DCACHE_EXTERNAL_WIDTH),
   .RVX_GPARA_3(AXI_ID_WIDTH),
   .MEMORY_OPERATION_TYPE(3),
@@ -961,58 +990,58 @@ RVX_MODULE_064
 )
 i_dcache_uca_2axi
 (
-	.rvx_port_30(clk),
-	.rvx_port_10(~reset),
-  .rvx_port_03(1'b 0),
-  .rvx_port_15(1'b 1),
+	.rvx_port_37(clk),
+	.rvx_port_11(~reset),
+  .rvx_port_09(1'b 0),
+  .rvx_port_21(1'b 1),
 
-  .rvx_port_06(i_dcache_uca_slqdready),
-  .rvx_port_31(i_dcache_uca_slqvalid),
-  .rvx_port_13(i_dcache_uca_slqhint),
-  .rvx_port_27(i_dcache_uca_slqlast),
-  .rvx_port_42(i_dcache_uca_slqafy),
-  .rvx_port_09(i_dcache_uca_slqdata),
+  .rvx_port_14(i_dcache_uca_slqdready),
+  .rvx_port_28(i_dcache_uca_slqvalid),
+  .rvx_port_32(i_dcache_uca_slqhint),
+  .rvx_port_19(i_dcache_uca_slqlast),
+  .rvx_port_06(i_dcache_uca_slqafy),
+  .rvx_port_26(i_dcache_uca_slqdata),
 
-  .rvx_port_26(i_dcache_uca_slydready),
-  .rvx_port_40(i_dcache_uca_slyvalid),
-  .rvx_port_17(i_dcache_uca_slyhint),
-  .rvx_port_16(i_dcache_uca_slylast),
-  .rvx_port_35(i_dcache_uca_slydata),
+  .rvx_port_41(i_dcache_uca_slydready),
+  .rvx_port_39(i_dcache_uca_slyvalid),
+  .rvx_port_34(i_dcache_uca_slyhint),
+  .rvx_port_02(i_dcache_uca_slylast),
+  .rvx_port_24(i_dcache_uca_slydata),
 
-  .rvx_port_28(DUC_AWID),
-	.rvx_port_04(DUC_AWADDR),
+  .rvx_port_04(DUC_AWID),
+	.rvx_port_13(DUC_AWADDR),
 	.rvx_port_12(DUC_AWLEN),
 	.rvx_port_38(DUC_AWSIZE),
-	.rvx_port_22(DUC_AWBURST),
-	.rvx_port_00(DUC_AWVALID),
-	.rvx_port_36(DUC_AWREADY),
+	.rvx_port_03(DUC_AWBURST),
+	.rvx_port_43(DUC_AWVALID),
+	.rvx_port_01(DUC_AWREADY),
 
-	.rvx_port_21(DUC_WID),
-	.rvx_port_24(DUC_WDATA),
-	.rvx_port_11(DUC_WSTRB),
-	.rvx_port_14(DUC_WLAST),
-	.rvx_port_34(DUC_WVALID),
-	.rvx_port_23(DUC_WREADY), 
+	.rvx_port_27(DUC_WID),
+	.rvx_port_15(DUC_WDATA),
+	.rvx_port_23(DUC_WSTRB),
+	.rvx_port_08(DUC_WLAST),
+	.rvx_port_00(DUC_WVALID),
+	.rvx_port_16(DUC_WREADY), 
 
-	.rvx_port_33(DUC_BID),
-	.rvx_port_32(DUC_BRESP),
-	.rvx_port_01(DUC_BVALID),
-	.rvx_port_18(DUC_BREADY),
+	.rvx_port_20(DUC_BID),
+	.rvx_port_25(DUC_BRESP),
+	.rvx_port_31(DUC_BVALID),
+	.rvx_port_35(DUC_BREADY),
 
-	.rvx_port_39(DUC_ARID),
+	.rvx_port_18(DUC_ARID),
 	.rvx_port_07(DUC_ARADDR),
-	.rvx_port_43(DUC_ARLEN),
-	.rvx_port_02(DUC_ARSIZE),
-	.rvx_port_29(DUC_ARBURST),
-	.rvx_port_20(DUC_ARVALID),
-	.rvx_port_25(DUC_ARREADY),
+	.rvx_port_40(DUC_ARLEN),
+	.rvx_port_36(DUC_ARSIZE),
+	.rvx_port_10(DUC_ARBURST),
+	.rvx_port_42(DUC_ARVALID),
+	.rvx_port_44(DUC_ARREADY),
 
-	.rvx_port_41(DUC_RID),
-	.rvx_port_05(DUC_RDATA),
-	.rvx_port_37(DUC_RRESP),
-	.rvx_port_08(DUC_RLAST),
-	.rvx_port_44(DUC_RVALID),
-	.rvx_port_19(DUC_RREADY)
+	.rvx_port_17(DUC_RID),
+	.rvx_port_22(DUC_RDATA),
+	.rvx_port_05(DUC_RRESP),
+	.rvx_port_30(DUC_RLAST),
+	.rvx_port_33(DUC_RVALID),
+	.rvx_port_29(DUC_RREADY)
 );
 
 assign memory_interface_idle = (~i_icache_busy) & (~i_dcache_busy);

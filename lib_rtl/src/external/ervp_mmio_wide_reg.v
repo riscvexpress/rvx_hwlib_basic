@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-15
+// 2026-10-29
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -61,41 +61,41 @@ integer i;
 localparam  RVX_LPARA_0 = `DIVIDERU(BW_WIDE_DATA, BW_MMIO);
 localparam  RVX_LPARA_1 = RVX_LPARA_0;
 
-wire rvx_signal_1;
-wire [RVX_LPARA_1-1:0] rvx_signal_0;
+wire rvx_signal_2;
+wire [RVX_LPARA_1-1:0] rvx_signal_1;
 
-reg [BW_MMIO*RVX_LPARA_0-1:0] rvx_signal_2;
+reg [BW_MMIO*RVX_LPARA_0-1:0] rvx_signal_0;
 
 ERVP_COUNTER_WITH_ONEHOT_ENCODING
 #(
 	.COUNT_LENGTH(RVX_LPARA_1),
 	.CIRCULAR(1)
 )
-i_rvx_instance_0
+i_rvx_instance_1
 (
 	.clk(clk),
 	.rstnn(rstnn),
 	.enable(enable),
 	.init(clear),
-	.count(rvx_signal_1),
-	.value(rvx_signal_0),
+	.count(rvx_signal_2),
+	.value(rvx_signal_1),
 	.is_first_count(),
 	.is_last_count()
 );
 
-assign rvx_signal_1 = mmio_re | mmio_we;
+assign rvx_signal_2 = mmio_re | mmio_we;
 
 always @(posedge clk or negedge rstnn)
 begin
 	if(rstnn==0)
-    rvx_signal_2 <= DEFAULT_VALUE;
+    rvx_signal_0 <= DEFAULT_VALUE;
   else if(clear)
-    rvx_signal_2 <= DEFAULT_VALUE;
+    rvx_signal_0 <= DEFAULT_VALUE;
   else if(enable && mmio_we)
   begin
     for(i=0;i<RVX_LPARA_0; i=i+1)
-      if(rvx_signal_0[i])
-        rvx_signal_2[BW_MMIO*(i+1)-1-:BW_MMIO] <= mmio_wdata;
+      if(rvx_signal_1[i])
+        rvx_signal_0[BW_MMIO*(i+1)-1-:BW_MMIO] <= mmio_wdata;
   end
 end
 
@@ -105,13 +105,13 @@ ERVP_MUX_WITH_ONEHOT_ENCODED_SELECT
   .NUM_DATA(RVX_LPARA_0),
   .ACTIVE_HIGH(1)
 )
-i_rvx_instance_1
+i_rvx_instance_0
 (
-	.data_input_list(rvx_signal_2),
-	.select(rvx_signal_0),
+	.data_input_list(rvx_signal_0),
+	.select(rvx_signal_1),
 	.data_output(mmio_rdata)
 );
 
-assign wide_data_out = rvx_signal_2;
+assign wide_data_out = rvx_signal_0;
 
 endmodule

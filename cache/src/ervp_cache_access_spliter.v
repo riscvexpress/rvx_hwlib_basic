@@ -23,12 +23,11 @@ module ERVP_CACHE_ACCESS_SPLITER
   busy,
 
   caching_enable,
-  cacheable_region_start_list,
-  cacheable_region_last_list,
 
   access_rcqready,
   access_rcqvalid,
   access_rcqaddr,
+  access_rcqregion,
   access_rcqwrite,
   access_rcqwstrb,
   access_rcqwdata,
@@ -62,7 +61,6 @@ parameter BW_ADDR = 32;
 parameter BW_ACCESS = 32;
 parameter HAS_CACHE = 0;
 parameter HAS_REGION = 0;
-parameter NUM_REGION = 4;
 parameter NUM_TXN_BUFFER = 4;
 
 input wire clk;
@@ -72,12 +70,11 @@ input wire enable;
 output wire busy;
 
 input wire caching_enable;
-input wire [BW_ADDR*NUM_REGION-1:0] cacheable_region_start_list;
-input wire [BW_ADDR*NUM_REGION-1:0] cacheable_region_last_list;
 
 output wire access_rcqready;
 input wire access_rcqvalid;
 input wire [BW_ADDR-1:0] access_rcqaddr;
+input wire access_rcqregion;
 input wire access_rcqwrite;
 input wire [`BW_AXI_WSTRB(BW_ACCESS)-1:0] access_rcqwstrb;
 input wire [BW_ACCESS-1:0] access_rcqwdata;
@@ -106,12 +103,7 @@ input wire [BW_ACCESS-1:0] uca_scyrdata;
 /* signals */
 /////////////
 
-genvar i;
-
 wire is_request_cacheable;
-wire [BW_ADDR-1:0] cacheable_region_start [NUM_REGION-1:0];
-wire [BW_ADDR-1:0] cacheable_region_last [NUM_REGION-1:0];
-wire [NUM_REGION-1:0] region_match;
 
 localparam BW_TXN_BUFFER = 1;
 
@@ -131,16 +123,7 @@ reg is_reply_from_cache;
 /* logics */
 ////////////
 
-assign is_request_cacheable = HAS_CACHE & caching_enable & ((~HAS_REGION) | (region_match!=0));
-
-generate
-for(i=0; i<NUM_REGION; i=i+1)
-begin : i_gen_region_select
-  assign cacheable_region_start[i] = cacheable_region_start_list[BW_ADDR*(i+1)-1 -:BW_ADDR];
-  assign cacheable_region_last[i] = cacheable_region_last_list[BW_ADDR*(i+1)-1 -:BW_ADDR];
-  assign region_match[i] = (access_rcqaddr>=cacheable_region_start[i]) & (access_rcqaddr<=cacheable_region_last[i]);
-end
-endgenerate
+assign is_request_cacheable = HAS_CACHE & caching_enable & ((~HAS_REGION) | access_rcqregion);
 
 ERVP_SMALL_FIFO
 #(

@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-15
+// 2026-10-29
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -36,9 +36,9 @@ parameter NUM_LED = 1;
 `include "ervp_log_util.vf"
 
 localparam  RVX_LPARA_1 = 1;
-localparam  RVX_LPARA_2 = 16;
-localparam  RVX_LPARA_3 = RVX_LPARA_2/RVX_LPARA_1;
-localparam  RVX_LPARA_0 = LOG2RU(RVX_LPARA_3);
+localparam  RVX_LPARA_3 = 16;
+localparam  RVX_LPARA_0 = RVX_LPARA_3/RVX_LPARA_1;
+localparam  RVX_LPARA_2 = LOG2RU(RVX_LPARA_0);
 
 input wire clk;
 input wire tick_62d5ms;
@@ -46,12 +46,12 @@ input wire rstnn;
 input wire app_finished;
 output reg [NUM_LED-1:0] led_list;
 
-wire [RVX_LPARA_0-1:0] rvx_signal_0;
+wire [RVX_LPARA_2-1:0] rvx_signal_0;
 wire rvx_signal_1;
 
 ERVP_COUNTER
 #(
-	.BW_COUNTER(RVX_LPARA_0),
+	.BW_COUNTER(RVX_LPARA_2),
 	.CIRCULAR(1)
 )
 i_rvx_instance_0
@@ -68,7 +68,7 @@ i_rvx_instance_0
 
 ERVP_COUNTER
 #(
-	.BW_COUNTER(RVX_LPARA_0+1)
+	.BW_COUNTER(RVX_LPARA_2+1)
 )
 i_rvx_instance_1
 (
@@ -90,7 +90,7 @@ begin
     if(app_finished==1)
       led_list[0] = 1;
     else
-      led_list[0] = rvx_signal_0[RVX_LPARA_0-1];
+      led_list[0] = rvx_signal_0[RVX_LPARA_2-1];
   end
 end
 

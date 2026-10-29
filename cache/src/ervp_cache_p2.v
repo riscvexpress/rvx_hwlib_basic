@@ -102,6 +102,7 @@ parameter CACHE_POLICY = `CACHE_POLICY_WRITE_BACK;
 parameter HAS_CACHE = 0;
 parameter HAS_REGION = 0;
 parameter NUM_REGION = 4;
+parameter HAS_FRONTEND_BUFFER = 0;
 
 localparam NUM_LOCAL_INTERFACE = 2;
 
@@ -189,7 +190,6 @@ input wire [BW_LPI_YDATA-1:0] uca_slydata;
 /* signals */
 /////////////
 
-localparam HAS_FRONTEND_BUFFER = 0;
 localparam NUM_FRONTEND_REQUEST_BUFFER = (HAS_FRONTEND_BUFFER>=1)? 2 : 0;
 localparam HAS_FRONTEND_REPLY_BUFFER = 0;
 
@@ -203,8 +203,15 @@ wire i_uca_buffer_busy;
 wire i_core_controller_busy;
 
 wire access_buffer_cqready;
+genvar i;
+wire [BW_ADDR-1:0] cacheable_region_start [NUM_REGION-1:0];
+wire [BW_ADDR-1:0] cacheable_region_last [NUM_REGION-1:0];
+wire [NUM_REGION-1:0] access_region_match;
+wire access_cqregion;
+
 wire access_buffer_cqvalid;
 wire [BW_ADDR-1:0] access_buffer_cqaddr;
+wire access_buffer_cqregion;
 wire access_buffer_cqwrite;
 wire [`BW_AXI_WSTRB(BW_ACCESS)-1:0] access_buffer_cqwstrb;
 wire [BW_ACCESS-1:0] access_buffer_cqwdata;
@@ -260,6 +267,17 @@ wire [BW_AXI_DATA-1:0] uca_xrdata;
 
 // access buffer
 
+generate
+for(i=0; i<NUM_REGION; i=i+1)
+begin : i_gen_region_select
+  assign cacheable_region_start[i] = cacheable_region_start_list[BW_ADDR*(i+1)-1 -:BW_ADDR];
+  assign cacheable_region_last[i] = cacheable_region_last_list[BW_ADDR*(i+1)-1 -:BW_ADDR];
+  assign access_region_match[i] = (access_cqaddr>=cacheable_region_start[i]) & (access_cqaddr<=cacheable_region_last[i]);
+end
+endgenerate
+
+assign access_cqregion = (access_region_match!=0);
+
 ERVP_CACHE_ACCESS_BUFFER
 #(
   .BW_ADDR(BW_ADDR),
@@ -278,6 +296,7 @@ i_access_buffer
   .rcqready(access_cqready),
   .rcqvalid(access_cqvalid),
   .rcqaddr(access_cqaddr),
+  .rcqregion(access_cqregion),
   .rcqwrite(access_cqwrite),
   .rcqwstrb(access_cqwstrb),
   .rcqwdata(access_cqwdata),
@@ -287,6 +306,7 @@ i_access_buffer
   .scqready(access_buffer_cqready),
   .scqvalid(access_buffer_cqvalid),
   .scqaddr(access_buffer_cqaddr),
+  .scqregion(access_buffer_cqregion),
   .scqwrite(access_buffer_cqwrite),
   .scqwstrb(access_buffer_cqwstrb),
   .scqwdata(access_buffer_cqwdata),
@@ -299,8 +319,7 @@ ERVP_CACHE_ACCESS_SPLITER
   .BW_ADDR(BW_ADDR),
   .BW_ACCESS(BW_ACCESS),
   .HAS_CACHE(HAS_CACHE),
-  .HAS_REGION(HAS_REGION),
-  .NUM_REGION(NUM_REGION)
+  .HAS_REGION(HAS_REGION)
 )
 i_access_spliter
 (
@@ -311,12 +330,11 @@ i_access_spliter
   .busy(i_access_spliter_busy),
 
   .caching_enable(caching_enable),
-  .cacheable_region_start_list(cacheable_region_start_list),
-  .cacheable_region_last_list(cacheable_region_last_list),
 
   .access_rcqready(access_buffer_cqready),
   .access_rcqvalid(access_buffer_cqvalid),
   .access_rcqaddr(access_buffer_cqaddr),
+  .access_rcqregion(access_buffer_cqregion),
   .access_rcqwrite(access_buffer_cqwrite),
   .access_rcqwstrb(access_buffer_cqwstrb),
   .access_rcqwdata(access_buffer_cqwdata),

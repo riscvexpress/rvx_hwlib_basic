@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-15
+// 2026-10-29
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -88,36 +88,36 @@ generate
 	end
 endgenerate
 
-RVX_MODULE_081
+RVX_MODULE_103
 #(
 	.RVX_GPARA_0(NUM_MODULE),
-	.RVX_GPARA_1(BW_ADDR),
-	.RVX_GPARA_2(BW_DATA)
+	.RVX_GPARA_2(BW_ADDR),
+	.RVX_GPARA_1(BW_DATA)
 )
 i_rvx_instance_0
 (
-	.rvx_port_17(clk),
-	.rvx_port_12(rstnn),
+	.rvx_port_16(clk),
+	.rvx_port_08(rstnn),
 
-	.rvx_port_01(rpsel),
-	.rvx_port_13(rpenable),
-	.rvx_port_06(rpaddr),
-	.rvx_port_08(rpwrite),
-	.rvx_port_10(rpwdata),
-	.rvx_port_05(rprdata),
-	.rvx_port_16(rpready),
-	.rvx_port_04(rpslverr),
+	.rvx_port_06(rpsel),
+	.rvx_port_11(rpenable),
+	.rvx_port_17(rpaddr),
+	.rvx_port_18(rpwrite),
+	.rvx_port_04(rpwdata),
+	.rvx_port_00(rprdata),
+	.rvx_port_05(rpready),
+	.rvx_port_02(rpslverr),
 
 	.rvx_port_07(rvx_signal_0),
 	
-	.rvx_port_18(spsel_list),
-	.rvx_port_02(spenable_list),
-	.rvx_port_15(spaddr_list),
-	.rvx_port_11(spwrite_list),
-	.rvx_port_09(spwdata_list),
-	.rvx_port_14(sprdata_list),
-	.rvx_port_03(spready_list),
-	.rvx_port_00(spslverr_list)
+	.rvx_port_12(spsel_list),
+	.rvx_port_14(spenable_list),
+	.rvx_port_10(spaddr_list),
+	.rvx_port_15(spwrite_list),
+	.rvx_port_03(spwdata_list),
+	.rvx_port_13(sprdata_list),
+	.rvx_port_01(spready_list),
+	.rvx_port_09(spslverr_list)
 );
 
 endmodule

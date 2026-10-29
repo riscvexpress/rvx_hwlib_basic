@@ -11,24 +11,38 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-13
+// 2026-10-20
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
 
 
-`ifndef MUNOC_GDEF_20
-`define MUNOC_GDEF_20
+`ifndef MUNOC_GDEF_57
+`define MUNOC_GDEF_57
 
-`include "ervp_string_util.vh"
+`include "munoc_extended_config.vh"
+`include "munoc_include_07.vh"
+`include "munoc_include_08.vh"
 
-`define MUNOC_GDEF_91 16
-`define MUNOC_GDEF_15 "micro NoC 4.5"
+`define MUNOC_GDEF_44(bw_addr,bw_data,bw_fwn_plit) (`MUNOC_GDEF_24(bw_addr,bw_data,bw_fwn_plit)*(bw_fwn_plit))
 
-`define MUNOC_GDEF_43 8
+`define MUNOC_GDEF_86 3
 
-`define MUNOC_GDEF_65 (`MUNOC_GDEF_91*`BITS_PER_CHAR)
-`define MUNOC_GDEF_69 (`MUNOC_GDEF_43*`BITS_PER_CHAR)
+`define MUNOC_GDEF_61(bw_addr,bw_fwn_plit) (`MUNOC_GDEF_78(bw_addr,bw_fwn_plit)*(bw_fwn_plit))
+`define MUNOC_GDEF_05(bw_data,bw_fwn_plit) (`MUNOC_GDEF_56(bw_data,bw_fwn_plit)*(bw_fwn_plit))
+
+`define MUNOC_GDEF_81 2
+
+`define MUNOC_GDEF_91 (`REQUIRED_BW_OF_SLAVE_TID+`BW_PACKET_DATATYPE)
+`define MUNOC_GDEF_71(bw_data,bw_bwn_plit) (`MUNOC_GDEF_41(bw_data,bw_bwn_plit)*(bw_bwn_plit))
+
+`define MUNOC_GDEF_93 2
+
+`define MUNOC_GDEF_60(bw_data,bw_bwn_plit) (`MUNOC_GDEF_41(bw_data,bw_bwn_plit)*(bw_bwn_plit))
+`define MUNOC_GDEF_34(bw_bwn_plit) (`MUNOC_GDEF_35(bw_bwn_plit)*(bw_bwn_plit))
+`define MUNOC_GDEF_14(bw_data,bw_bwn_plit) (`MUNOC_GDEF_23(bw_data,bw_bwn_plit)*(bw_bwn_plit))
+
+`define MUNOC_GDEF_94 2
 
 `endif
 

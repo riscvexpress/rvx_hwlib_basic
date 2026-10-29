@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-15
+// 2026-10-29
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -49,42 +49,42 @@ output wire [BW_DATA-1:0] data_output;
 
 genvar i;
 
-reg [BW_SHIFT_AMOUNT-1:0] rvx_signal_6;
-reg rvx_signal_4; 
-reg rvx_signal_2;
+reg [BW_SHIFT_AMOUNT-1:0] rvx_signal_2;
+reg rvx_signal_0; 
+reg rvx_signal_1;
 
-wire [BW_DATA-1:0] rvx_signal_0 [RVX_LPARA_0-1:0];
-wire [BW_DATA-1:0] rvx_signal_1 [RVX_LPARA_0-1:0];
-wire rvx_signal_3, rvx_signal_5;
+wire [BW_DATA-1:0] rvx_signal_6 [RVX_LPARA_0-1:0];
+wire [BW_DATA-1:0] rvx_signal_4 [RVX_LPARA_0-1:0];
+wire rvx_signal_5, rvx_signal_3;
 
-assign rvx_signal_3 = (ARITHMETIC_SHIFT==1)? data_input[BW_DATA-1] : MSB_FILL_VALUE;
-assign rvx_signal_5 = (ARITHMETIC_SHIFT==1)? 0 : LSB_FILL_VALUE;
+assign rvx_signal_5 = (ARITHMETIC_SHIFT==1)? data_input[BW_DATA-1] : MSB_FILL_VALUE;
+assign rvx_signal_3 = (ARITHMETIC_SHIFT==1)? 0 : LSB_FILL_VALUE;
 
 always@(*)
 begin
-	rvx_signal_4 = 0;
-	rvx_signal_6 = shift_amount;
-	rvx_signal_2 = 0;
+	rvx_signal_0 = 0;
+	rvx_signal_2 = shift_amount;
+	rvx_signal_1 = 0;
 	if(PLUS_TO_LEFT)
 	begin
 		if(SIGNED_AMOUNT)
 		begin
 			if(shift_amount[BW_SHIFT_AMOUNT-1])
 			begin
-				rvx_signal_4 = 1;
-				rvx_signal_6 = ~shift_amount;
-				rvx_signal_2 = 1;
+				rvx_signal_0 = 1;
+				rvx_signal_2 = ~shift_amount;
+				rvx_signal_1 = 1;
 			end
 			else
 			begin
-				rvx_signal_4 = 0;
-				rvx_signal_6 = shift_amount;
+				rvx_signal_0 = 0;
+				rvx_signal_2 = shift_amount;
 			end
 		end
 		else
 		begin
-			rvx_signal_4 = 0;
-			rvx_signal_6 = shift_amount;
+			rvx_signal_0 = 0;
+			rvx_signal_2 = shift_amount;
 		end
 	end
 	else
@@ -93,36 +93,36 @@ begin
 		begin
 			if(shift_amount[BW_SHIFT_AMOUNT-1])
 			begin
-				rvx_signal_4 = 0;
-				rvx_signal_6 = ~shift_amount;
-				rvx_signal_2 = 1;
+				rvx_signal_0 = 0;
+				rvx_signal_2 = ~shift_amount;
+				rvx_signal_1 = 1;
 			end
 			else
 			begin
-				rvx_signal_4 = 1;
-				rvx_signal_6 = shift_amount;
+				rvx_signal_0 = 1;
+				rvx_signal_2 = shift_amount;
 			end
 		end
 		else
 		begin
-			rvx_signal_4 = 1;
-			rvx_signal_6 = shift_amount;
+			rvx_signal_0 = 1;
+			rvx_signal_2 = shift_amount;
 		end
 	end
 end
 
-assign rvx_signal_0[0] = data_input;
+assign rvx_signal_6[0] = data_input;
 generate
 	for(i=1; i<RVX_LPARA_0; i=i+1)
 	begin : i_step_input
-		assign rvx_signal_0[i] = rvx_signal_1[i-1];
+		assign rvx_signal_6[i] = rvx_signal_4[i-1];
 	end
 endgenerate
 
 generate
 	for(i=0; i<(RVX_LPARA_0-1); i=i+1)
 	begin : i_step
-		RVX_MODULE_077
+		RVX_MODULE_078
 		#(
 			.RVX_GPARA_2(BW_DATA),
 			.RVX_GPARA_1((2**i)),
@@ -130,17 +130,17 @@ generate
 		)
 		i_rvx_instance_0
 		(
-			.rvx_port_3(rvx_signal_0[i]),
-			.rvx_port_4(rvx_signal_6[i]),
-			.rvx_port_5(rvx_signal_4),
-			.rvx_port_1(rvx_signal_3),
+			.rvx_port_3(rvx_signal_6[i]),
+			.rvx_port_5(rvx_signal_2[i]),
+			.rvx_port_2(rvx_signal_0),
 			.rvx_port_0(rvx_signal_5),
-			.rvx_port_2(rvx_signal_1[i])
+			.rvx_port_4(rvx_signal_3),
+			.rvx_port_1(rvx_signal_4[i])
 		);
 	end
 endgenerate
 
-RVX_MODULE_077
+RVX_MODULE_078
 #(
 	.RVX_GPARA_2(BW_DATA),
 	.RVX_GPARA_1((SIGNED_AMOUNT==1)? 1 : (2**(RVX_LPARA_0-1))),
@@ -148,12 +148,12 @@ RVX_MODULE_077
 )
 i_rvx_instance_1
 (
-	.rvx_port_3(rvx_signal_0[RVX_LPARA_0-1]),
-	.rvx_port_4((SIGNED_AMOUNT==1)? rvx_signal_2 : rvx_signal_6[RVX_LPARA_0-1]),
-	.rvx_port_5(rvx_signal_4),
-	.rvx_port_1(rvx_signal_3),
+	.rvx_port_3(rvx_signal_6[RVX_LPARA_0-1]),
+	.rvx_port_5((SIGNED_AMOUNT==1)? rvx_signal_1 : rvx_signal_2[RVX_LPARA_0-1]),
+	.rvx_port_2(rvx_signal_0),
 	.rvx_port_0(rvx_signal_5),
-	.rvx_port_2(data_output)
+	.rvx_port_4(rvx_signal_3),
+	.rvx_port_1(data_output)
 );
 
 endmodule

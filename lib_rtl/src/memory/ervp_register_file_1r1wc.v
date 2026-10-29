@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-15
+// 2026-10-29
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -46,10 +46,10 @@ parameter BW_SUBWORD = WIDTH;
 `include "ervp_log_util.vf"
 `include "ervp_bitwidth_util.vf"
 
-localparam  RVX_LPARA_3 = `DIVIDERU(WIDTH,BW_SUBWORD);
-localparam  RVX_LPARA_1 = REQUIRED_BITWIDTH_INDEX(DEPTH);
+localparam  RVX_LPARA_2 = `DIVIDERU(WIDTH,BW_SUBWORD);
+localparam  RVX_LPARA_3 = REQUIRED_BITWIDTH_INDEX(DEPTH);
 
-parameter BW_SELECT = RVX_LPARA_3;
+parameter BW_SELECT = RVX_LPARA_2;
 
 input wire clk, rstnn;
 
@@ -65,25 +65,25 @@ output wire [WIDTH-1:0] rdata_synch;
 
 genvar i;
 
-wire [RVX_LPARA_1-1:0] rvx_signal_5, rvx_signal_1, rvx_signal_6;
-wire [WIDTH-1:0] rvx_signal_4;
+wire [RVX_LPARA_3-1:0] rvx_signal_4, rvx_signal_5, rvx_signal_3;
+wire [WIDTH-1:0] rvx_signal_6;
 
-localparam  RVX_LPARA_0 = 0;
-localparam  RVX_LPARA_2 = 1;
+localparam  RVX_LPARA_1 = 0;
+localparam  RVX_LPARA_0 = 1;
 
-reg [WIDTH-1:0] rvx_signal_2;
-reg [RVX_LPARA_3-1:0] rvx_signal_0;
-wire [WIDTH-1:0] rvx_signal_3;
+reg [WIDTH-1:0] rvx_signal_1;
+reg [RVX_LPARA_2-1:0] rvx_signal_0;
+wire [WIDTH-1:0] rvx_signal_2;
 
-assign rvx_signal_5 = 0;
-assign rvx_signal_1 = $unsigned(windex);
-assign rvx_signal_6 = $unsigned(rindex);
+assign rvx_signal_4 = 0;
+assign rvx_signal_5 = $unsigned(windex);
+assign rvx_signal_3 = $unsigned(rindex);
 
 ERVP_REGISTER_FILE_1R1W
 #(
 	.DEPTH(DEPTH),
 	.WIDTH(WIDTH),
-	.BW_INDEX(RVX_LPARA_1),
+	.BW_INDEX(RVX_LPARA_3),
 	.BW_SUBWORD(BW_SUBWORD),
 	.BW_SELECT(BW_SELECT),
 	.USE_SINGLE_INDEX(0)
@@ -93,26 +93,26 @@ i_rvx_instance_0
 	.clk(clk),
 	.rstnn(rstnn),
 
-	.index(rvx_signal_5),
+	.index(rvx_signal_4),
 	
-	.windex(rvx_signal_1),
+	.windex(rvx_signal_5),
 	.wenable(wenable),
 	.wpermit(wpermit),
 	.wdata(wdata),
 
-	.rindex(rvx_signal_6),
+	.rindex(rvx_signal_3),
 	.rdata_list_asynch(),
 	.rdata_asynch(rdata_asynch),
 	.renable(renable),
-	.rdata_synch(rvx_signal_4)
+	.rdata_synch(rvx_signal_6)
 );
 
 always@(posedge clk or negedge rstnn)
 begin
   if(rstnn==0)
-    rvx_signal_2 <= 0;
-	else if(renable && wenable && (rvx_signal_6==rvx_signal_1))
-    rvx_signal_2 <= wdata;
+    rvx_signal_1 <= 0;
+	else if(renable && wenable && (rvx_signal_3==rvx_signal_5))
+    rvx_signal_1 <= wdata;
 end
 
 always@(posedge clk or negedge rstnn)
@@ -121,7 +121,7 @@ begin
     rvx_signal_0 <= 0;
   else if(renable)
   begin
-    if(wenable && (rvx_signal_6==rvx_signal_1))
+    if(wenable && (rvx_signal_3==rvx_signal_5))
       rvx_signal_0 <= wpermit;
     else
       rvx_signal_0 <= 0;
@@ -131,8 +131,8 @@ end
 generate
 for(i=0; i<WIDTH; i=i+1)
 begin : i_select_rdata
-  assign rvx_signal_3[i] = rvx_signal_0[i/BW_SUBWORD];
-  assign rdata_synch[i] = rvx_signal_3[i]? rvx_signal_2[i] : rvx_signal_4[i];
+  assign rvx_signal_2[i] = rvx_signal_0[i/BW_SUBWORD];
+  assign rdata_synch[i] = rvx_signal_2[i]? rvx_signal_1[i] : rvx_signal_6[i];
 end
 endgenerate
 

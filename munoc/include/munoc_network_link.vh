@@ -11,26 +11,26 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-13
+// 2026-10-20
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
 
-`ifndef MUNOC_GDEF_06
-`define MUNOC_GDEF_06
+`ifndef MUNOC_GDEF_72
+`define MUNOC_GDEF_72
 
 `include "munoc_network_type.vh"
 
-`define MUNOC_GDEF_54 3
-`define BW_FNI_LINK(bw_plit) ((bw_plit) + `MUNOC_GDEF_54)
+`define MUNOC_GDEF_88 3
+`define BW_FNI_LINK(bw_plit) ((bw_plit) + `MUNOC_GDEF_88)
 
-`define MUNOC_GDEF_75 3
-`define BW_BNI_LINK(bw_plit) ((bw_plit) + `MUNOC_GDEF_75)
+`define MUNOC_GDEF_15 3
+`define BW_BNI_LINK(bw_plit) ((bw_plit) + `MUNOC_GDEF_15)
 
-`define MUNOC_GDEF_82(network_type) 0
-`define MUNOC_GDEF_85(network_type) 1
-`define MUNOC_GDEF_00(network_type) 2
-`define MUNOC_GDEF_48(network_type) ((network_type==`FORWARD_NETWORK)? `MUNOC_GDEF_54 : `MUNOC_GDEF_75)
-`define MUNOC_GDEF_23(network_type) ((network_type==`FORWARD_NETWORK)? `MUNOC_GDEF_54 : `MUNOC_GDEF_75)
+`define MUNOC_GDEF_50(network_type) 0
+`define MUNOC_GDEF_90(network_type) 1
+`define MUNOC_GDEF_04(network_type) 2
+`define MUNOC_GDEF_63(network_type) ((network_type==`FORWARD_NETWORK)? `MUNOC_GDEF_88 : `MUNOC_GDEF_15)
+`define MUNOC_GDEF_13(network_type) ((network_type==`FORWARD_NETWORK)? `MUNOC_GDEF_88 : `MUNOC_GDEF_15)
 
 `endif

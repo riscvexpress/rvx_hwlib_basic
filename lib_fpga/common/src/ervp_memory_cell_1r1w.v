@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-15
+// 2026-10-29
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -47,10 +47,10 @@ parameter BW_SUBWORD = 8;
 
 `include "ervp_log_util.vf"
 
-localparam  RVX_LPARA_1 = `DIVIDERU(WIDTH,BW_SUBWORD);
-localparam  RVX_LPARA_0 = LOG2RU(DEPTH);
+localparam  RVX_LPARA_0 = `DIVIDERU(WIDTH,BW_SUBWORD);
+localparam  RVX_LPARA_1 = LOG2RU(DEPTH);
 
-parameter BW_SELECT = (USE_SUBWORD_ENABLE==1)? RVX_LPARA_1: 1;
+parameter BW_SELECT = (USE_SUBWORD_ENABLE==1)? RVX_LPARA_0: 1;
 
 input wire clk, rstnn;
 
@@ -70,24 +70,24 @@ genvar i;
 integer j;
 
 reg [WIDTH-1:0] rvx_signal_1 [0:DEPTH-1];
-wire [RVX_LPARA_0-1:0] rvx_signal_3, rvx_signal_0;
-reg [WIDTH-1:0] rvx_signal_2;	
+wire [RVX_LPARA_1-1:0] rvx_signal_2, rvx_signal_0;
+reg [WIDTH-1:0] rvx_signal_3;	
 
-assign rvx_signal_3 = (USE_SINGLE_INDEX==1)? $unsigned(index) : $unsigned(windex);
+assign rvx_signal_2 = (USE_SINGLE_INDEX==1)? $unsigned(index) : $unsigned(windex);
 assign rvx_signal_0 = (USE_SINGLE_INDEX==1)? $unsigned(index) : $unsigned(rindex);
 
 always@(*)
 begin
-	rvx_signal_2 = 0;
+	rvx_signal_3 = 0;
 	if(wenable)
 	begin
 		if(USE_SUBWORD_ENABLE)
 		begin
 			for(j=0; j<WIDTH; j=j+1)
-				rvx_signal_2[j] = wpermit[j/BW_SUBWORD];
+				rvx_signal_3[j] = wpermit[j/BW_SUBWORD];
 		end
 		else
-			rvx_signal_2 = `ALL_ONE;
+			rvx_signal_3 = `ALL_ONE;
 	end
 end
 
@@ -102,8 +102,8 @@ generate
 	begin : i_write_bit
 		always@(posedge clk)
 		begin
-			if(rvx_signal_2[i])
-				rvx_signal_1[rvx_signal_3][i] <= wdata[i];
+			if(rvx_signal_3[i])
+				rvx_signal_1[rvx_signal_2][i] <= wdata[i];
 		end
 	end
 endgenerate

@@ -11,14 +11,14 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-13
+// 2026-10-20
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
 
-`ifndef MUNOC_GDEF_81
-`define MUNOC_GDEF_81
+`ifndef MUNOC_GDEF_01
+`define MUNOC_GDEF_01
 
-`define MUNOC_GDEF_89 1
+`define MUNOC_GDEF_19 1
 
 `endif

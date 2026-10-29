@@ -115,6 +115,10 @@
 `define CSR_MTIMEH   12'hF81
 `define CSR_UTIME    12'hC01
 `define CSR_UTIMEH   12'hC81
+`define CSR_MCYCLE   12'hB00
+`define CSR_MCYCLEH  12'hB80
+`define CSR_UCYCLE   12'hC00
+`define CSR_UCYCLEH  12'hC80
 
 //NON-STANDARD
 `define CSR_MCACHE     12'hBC0

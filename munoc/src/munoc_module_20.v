@@ -11,12 +11,17 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-13
+// 2026-10-20
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
 
-`include "munoc_include_06.vh"
+
+`include "munoc_include_01.vh"
+`include "munoc_extended_config.vh"
+`include "munoc_network_type.vh"
+`include "munoc_network_link.vh"
+`include "munoc_arbitration_type.vh"
 
 
 
@@ -24,173 +29,186 @@
 
 module MUNOC_MODULE_20
 (
-	munoc_port_03,
-	munoc_port_09,
-	munoc_port_02,
-
-	munoc_port_10,
-	munoc_port_04,
-	munoc_port_11,
-	munoc_port_05,
-
-	munoc_port_06,
-	munoc_port_08,
-	munoc_port_07,
-	munoc_port_00,
-
-	munoc_port_01
+	munoc_port_4,
+	munoc_port_7,
+	munoc_port_3,
+	munoc_port_1,
+	munoc_port_0,
+	munoc_port_2,
+	munoc_port_5,
+	munoc_port_6
 );
 
 
 
 
 
-parameter MUNOC_GPARA_3 = 32;
-parameter MUNOC_GPARA_4 = 1;
-parameter MUNOC_GPARA_2 = 16;
-parameter MUNOC_GPARA_5 = 0;
-parameter MUNOC_GPARA_6 = 0;
-parameter MUNOC_GPARA_1 = 0;
-parameter MUNOC_GPARA_0 = 0;
+parameter MUNOC_GPARA_0 = `NOT_SELECTED; 
+parameter MUNOC_GPARA_1 = 8;
+parameter MUNOC_GPARA_2 = 1;
+parameter MUNOC_GPARA_3 = `QOS_ARBITRATION;
 
-input wire munoc_port_03, munoc_port_09;
-input wire munoc_port_02;
+localparam  MUNOC_LPARA_0 = (MUNOC_GPARA_0==`FORWARD_NETWORK)? `BW_FNI_LINK(MUNOC_GPARA_1) : `BW_BNI_LINK(MUNOC_GPARA_1);
 
-input wire [MUNOC_GPARA_3-1:0] munoc_port_10;
-input wire munoc_port_04;
-output wire munoc_port_11;
-input wire [MUNOC_GPARA_4-1:0] munoc_port_05;
-input wire [MUNOC_GPARA_3-1:0] munoc_port_06;
-input wire munoc_port_08;
-output wire munoc_port_07;
-input wire [MUNOC_GPARA_4-1:0] munoc_port_00;
+input wire munoc_port_4, munoc_port_7;
+input wire [MUNOC_LPARA_0*MUNOC_GPARA_2-1:0] munoc_port_3;
+input wire [MUNOC_GPARA_2-1:0] munoc_port_1;
+input wire munoc_port_0;
+output wire [MUNOC_GPARA_2-1:0] munoc_port_2;
+output wire [MUNOC_GPARA_2-1:0] munoc_port_5;
+output wire munoc_port_6;
 
-output reg munoc_port_01;
+genvar i;
+integer j;
 
-wire munoc_signal_15;
-wire munoc_signal_13;
-wire [MUNOC_GPARA_3-1:0] munoc_signal_06;
-wire [MUNOC_GPARA_4-1:0] munoc_signal_00;
+wire [MUNOC_LPARA_0-1:0] munoc_signal_06[MUNOC_GPARA_2-1:0];
+wire [MUNOC_GPARA_2-1:0] munoc_signal_15;
+wire [MUNOC_GPARA_2-1:0] munoc_signal_16;
 
-wire munoc_signal_01;
+reg [MUNOC_GPARA_2-1:0] munoc_signal_07;
+reg [MUNOC_GPARA_2-1:0] munoc_signal_09;
+reg [MUNOC_GPARA_2-1:0] munoc_signal_13;
+reg munoc_signal_08;
+
+`define MUNOC_LDEF_1 0
+`define MUNOC_LDEF_0 1
+
+reg munoc_signal_02;
 wire munoc_signal_10;
-wire [MUNOC_GPARA_4-1:0] munoc_signal_09;
-wire munoc_signal_07;
-
-wire munoc_signal_03;
-wire munoc_signal_08;
-wire [MUNOC_GPARA_3-1:0] munoc_signal_11;
-wire [MUNOC_GPARA_4-1:0] munoc_signal_04;
-
-wire munoc_signal_05;
-wire munoc_signal_02;
-wire [MUNOC_GPARA_4-1:0] munoc_signal_16;
-wire munoc_signal_12;
-
+wire munoc_signal_00;
 wire munoc_signal_17;
-wire munoc_signal_14;
 
-ERVP_FIFO
-#(
-	.BW_DATA(MUNOC_GPARA_3+MUNOC_GPARA_4),
-	.DEPTH(MUNOC_GPARA_2)
-)
-i_munoc_instance_1
-(
-	.clk(munoc_port_03),
-	.rstnn(munoc_port_09),
-	.enable(munoc_port_02),
-  .clear(1'b 0),
-	.wready(munoc_port_11),
-	.wfull(),
-	.wrequest(munoc_port_04),
-	.wdata({munoc_port_05,munoc_port_10}),
-	.rready(munoc_signal_15),
-	.rempty(),
-	.rrequest(munoc_signal_13),
-	.rdata({munoc_signal_00,munoc_signal_06}),
-	.wnum(),
-	.rnum()
-);
+wire munoc_signal_04;
+wire munoc_signal_03;
 
-ERVP_FIFO
+wire [MUNOC_GPARA_2-1:0] munoc_signal_14;
+wire [MUNOC_GPARA_2-1:0] munoc_signal_05;
+
+wire [MUNOC_GPARA_2-1:0] munoc_signal_12;
+wire [MUNOC_GPARA_2-1:0] munoc_signal_01;
+wire munoc_signal_11;
+
+generate
+for(i=0;i<MUNOC_GPARA_2;i=i+1)
+begin : i_input_separation
+	assign munoc_signal_06[i] = munoc_port_3[MUNOC_LPARA_0*(i+1)-1-:MUNOC_LPARA_0];
+	assign munoc_signal_15[i] = munoc_signal_06[i][MUNOC_LPARA_0-1]&munoc_port_1[i];
+	assign munoc_signal_16[i] = munoc_signal_06[i][MUNOC_LPARA_0-1-1];
+end
+endgenerate
+
+always@(posedge munoc_port_4, negedge munoc_port_7)
+begin
+	if(munoc_port_7==0)
+		munoc_signal_07 <= 1;
+	else if(munoc_signal_08)
+		munoc_signal_07 <= munoc_signal_13;
+end
+
+assign munoc_signal_10 = ((munoc_signal_15 & munoc_signal_07)!=0);
+assign munoc_signal_00 = ((munoc_signal_16 & munoc_signal_07)!=0);
+assign munoc_signal_04 = munoc_port_6 & munoc_port_0;
+assign munoc_signal_03 = munoc_signal_04 & munoc_signal_00;
+
+generate
+for(i=0;i<MUNOC_GPARA_2;i=i+1)
+begin : i_ready_request
+	assign munoc_port_2[i] = munoc_signal_07[i];
+	assign munoc_port_5[i] = munoc_signal_07[i] & munoc_signal_15[i] & munoc_port_0;
+end
+endgenerate
+assign munoc_port_6 = munoc_signal_10;
+
+always@(posedge munoc_port_4, negedge munoc_port_7)
+begin
+	if(munoc_port_7==0)
+		munoc_signal_02 <= `MUNOC_LDEF_1;
+	else if(munoc_signal_04)
+		case(munoc_signal_02)
+			`MUNOC_LDEF_1:
+				if(~munoc_signal_00)
+					munoc_signal_02 <= `MUNOC_LDEF_0;
+			`MUNOC_LDEF_0:
+				if(munoc_signal_00)
+					munoc_signal_02 <= `MUNOC_LDEF_1;
+		endcase
+end
+
+always@(*)
+begin
+	munoc_signal_08 = 0;
+	if(munoc_signal_17)
+		case(munoc_signal_02)
+			`MUNOC_LDEF_1:
+				if(!munoc_signal_10)
+					munoc_signal_08 = 1;
+				else if(munoc_signal_03)
+					munoc_signal_08 = 1;
+			`MUNOC_LDEF_0:
+				if(munoc_signal_03)
+					munoc_signal_08 = 1;
+		endcase
+end
+
+assign munoc_signal_14 = munoc_signal_15 & (~munoc_signal_07);
+assign munoc_signal_17 = (munoc_signal_14!=0);
+
+RVX_MODULE_040
 #(
-	.BW_DATA(MUNOC_GPARA_3+MUNOC_GPARA_4),
-	.DEPTH(MUNOC_GPARA_2)
+	.RVX_GPARA_0(MUNOC_GPARA_2)
 )
 i_munoc_instance_0
 (
-	.clk(munoc_port_03),
-	.rstnn(munoc_port_09),
-	.enable(munoc_port_02),
-  .clear(1'b 0),
-	.wready(munoc_port_07),
-	.wfull(),
-	.wrequest(munoc_port_08),
-	.wdata({munoc_port_00,munoc_port_06}),
-	.rready(munoc_signal_03),
-	.rempty(),
-	.rrequest(munoc_signal_08),
-	.rdata({munoc_signal_04,munoc_signal_11}),
-	.wnum(),
-	.rnum()
+	.rvx_port_0(munoc_signal_14),
+	.rvx_port_1(munoc_signal_05)
 );
 
-assign munoc_signal_17 = munoc_port_02 & munoc_signal_15 & munoc_signal_03;
-assign munoc_signal_14 = munoc_signal_17 & (munoc_signal_06==munoc_signal_11);
+assign munoc_signal_12 = munoc_signal_15 & (~munoc_signal_07) & (~munoc_signal_09);
+assign munoc_signal_11 = (munoc_signal_12!=0);
 
-ERVP_COUNTER
-#(
-	.BW_COUNTER(MUNOC_GPARA_4),
-	.RESET_NUMBER((MUNOC_GPARA_6==1)? 0 : 1),
-	.CIRCULAR(0)
-)
-i_munoc_instance_3
-(
-	.clk(munoc_port_03),
-	.rstnn(munoc_port_09),
-	.enable((MUNOC_GPARA_5==1)&munoc_port_02),
-	.init(munoc_signal_01),
-	.count(munoc_signal_10),
-	.value(munoc_signal_09),
-	.is_first_count(),
-	.is_last_count()
-);
-
-assign munoc_signal_07 = (MUNOC_GPARA_5==1)? (munoc_signal_09==munoc_signal_00) : 1;
-assign munoc_signal_01 = munoc_signal_14 & munoc_signal_07;
-assign munoc_signal_10 = munoc_signal_14 & (~munoc_signal_07);
-assign munoc_signal_13 = munoc_signal_01;
-
-ERVP_COUNTER
-#(
-	.BW_COUNTER(MUNOC_GPARA_4),
-	.RESET_NUMBER((MUNOC_GPARA_0==1)? 0 : 1),
-	.CIRCULAR(0)
-)
-i_munoc_instance_2
-(
-	.clk(munoc_port_03),
-	.rstnn(munoc_port_09),
-	.enable((MUNOC_GPARA_1==1)&munoc_port_02),
-	.init(munoc_signal_05),
-	.count(munoc_signal_02),
-	.value(munoc_signal_16),
-	.is_first_count(),
-	.is_last_count()
-);
-
-assign munoc_signal_12 = (MUNOC_GPARA_1==1)? (munoc_signal_16==munoc_signal_04) : 1;
-assign munoc_signal_05 = munoc_signal_14 & munoc_signal_12;
-assign munoc_signal_02 = munoc_signal_14 & (~munoc_signal_12);
-assign munoc_signal_08 = munoc_signal_05;
-
-always@(posedge munoc_port_03, negedge munoc_port_09)
+always@(posedge munoc_port_4, negedge munoc_port_7)
 begin
-	if(munoc_port_09==0)
-		munoc_port_01 <= 0;
-	else if(munoc_signal_17 & (~munoc_signal_14))
-		munoc_port_01 <= 1;
+	if(munoc_port_7==0)
+		munoc_signal_09 <= 0;
+	else if(munoc_signal_03)
+	begin
+		if(munoc_signal_11)
+			munoc_signal_09 <= munoc_signal_09 | munoc_signal_07;
+		else
+			munoc_signal_09 <= 0;
+	end
 end
 
+RVX_MODULE_040
+#(
+	.RVX_GPARA_0(MUNOC_GPARA_2)
+)
+i_munoc_instance_1
+(
+	.rvx_port_0(munoc_signal_12),
+	.rvx_port_1(munoc_signal_01)
+);
+
+always@(*)
+begin
+	munoc_signal_13 = munoc_signal_07;
+	case(MUNOC_GPARA_3)
+		`LAZY_SCALABLE_ARBITRATION:
+			for(j=0;j<MUNOC_GPARA_2;j=j+1)
+				if(j==0)
+					munoc_signal_13[0] = munoc_signal_07[MUNOC_GPARA_2-1];
+				else
+					munoc_signal_13[j] = munoc_signal_07[j-1];
+		`PRIORITIZED_ARBITRATION:
+			munoc_signal_13 = munoc_signal_05;
+		`QOS_ARBITRATION:
+			if(munoc_signal_11)
+				munoc_signal_13 = munoc_signal_01;
+			else
+				munoc_signal_13 = munoc_signal_05;
+	endcase
+end
+
+`undef MUNOC_LDEF_0
+`undef MUNOC_LDEF_1
 endmodule

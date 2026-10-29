@@ -11,13 +11,13 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-13
+// 2026-10-20
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
 
 
-`include "munoc_include_06.vh"
+`include "munoc_include_01.vh"
 `include "munoc_extended_config.vh"
 `include "munoc_network_type.vh"
 `include "munoc_network_link.vh"
@@ -47,19 +47,19 @@ parameter NUM_MASTER = 1;
 parameter NUM_SLAVE = 1;
 parameter ARBITRATION_TYPE = `QOS_ARBITRATION;
 
-localparam  MUNOC_LPARA_0 = `BW_FNI_LINK(BW_FNI_PHIT);
-localparam  MUNOC_LPARA_1 = `BW_BNI_LINK(BW_BNI_PHIT);
+localparam  MUNOC_LPARA_1 = `BW_FNI_LINK(BW_FNI_PHIT);
+localparam  MUNOC_LPARA_0 = `BW_BNI_LINK(BW_BNI_PHIT);
 
 input wire clk, rstnn;
 
-input wire [MUNOC_LPARA_0*NUM_MASTER-1:0] rfni_link_list;
+input wire [MUNOC_LPARA_1*NUM_MASTER-1:0] rfni_link_list;
 output wire [NUM_MASTER-1:0] rfni_ready_list;
-output wire [MUNOC_LPARA_1*NUM_MASTER-1:0] rbni_link_list;
+output wire [MUNOC_LPARA_0*NUM_MASTER-1:0] rbni_link_list;
 input wire [NUM_MASTER-1:0] rbni_ready_list;
 
-output wire [MUNOC_LPARA_0*NUM_SLAVE-1:0] sfni_link_list;
+output wire [MUNOC_LPARA_1*NUM_SLAVE-1:0] sfni_link_list;
 input wire [NUM_SLAVE-1:0] sfni_ready_list;
-input wire [MUNOC_LPARA_1*NUM_SLAVE-1:0] sbni_link_list;
+input wire [MUNOC_LPARA_0*NUM_SLAVE-1:0] sbni_link_list;
 output wire [NUM_SLAVE-1:0] sbni_ready_list;
 
 MUNOC_NETWORK_ROUTER

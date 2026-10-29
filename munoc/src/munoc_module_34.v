@@ -11,14 +11,14 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-13
+// 2026-10-20
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
 
-`include "munoc_include_06.vh"
+`include "munoc_include_01.vh"
 `include "munoc_extended_config.vh"
-`include "munoc_include_02.vh"
+`include "munoc_include_05.vh"
 `include "ervp_ahb_define.vh"
 
 
@@ -27,17 +27,17 @@
 
 module MUNOC_MODULE_34
 (
-	munoc_port_2,
-	munoc_port_3,
-	munoc_port_0,
-
 	munoc_port_1,
-	munoc_port_4,	
-	munoc_port_6,
-
-	munoc_port_8,
+	munoc_port_4,
 	munoc_port_5,
-	munoc_port_7
+
+	munoc_port_7,
+	munoc_port_8,	
+	munoc_port_2,
+
+	munoc_port_3,
+	munoc_port_6,
+	munoc_port_0
 );
 
 
@@ -45,88 +45,88 @@ module MUNOC_MODULE_34
 
 
 parameter MUNOC_GPARA_0 = 16;
-parameter MUNOC_GPARA_1 = 500;
+parameter MUNOC_GPARA_2 = 500;
 
-parameter MUNOC_GPARA_2 = -1;
+parameter MUNOC_GPARA_1 = -1;
 
-input wire munoc_port_2, munoc_port_3;
-input wire munoc_port_0;
+input wire munoc_port_1, munoc_port_4;
+input wire munoc_port_5;
 
-input wire munoc_port_1;
-input wire [`BW_AHB_TRANS-1:0] munoc_port_4;
-input wire munoc_port_6;
+input wire munoc_port_7;
+input wire [`BW_AHB_TRANS-1:0] munoc_port_8;
+input wire munoc_port_2;
 
-output wire [`MUNOC_GDEF_32-1:0] munoc_port_8;
-output wire [`MUNOC_GDEF_32-1:0] munoc_port_5;
-output wire [`MUNOC_GDEF_24-1:0] munoc_port_7;
+output wire [`MUNOC_GDEF_42-1:0] munoc_port_3;
+output wire [`MUNOC_GDEF_42-1:0] munoc_port_6;
+output wire [`MUNOC_GDEF_66-1:0] munoc_port_0;
 
+wire munoc_signal_0;
 wire munoc_signal_2;
-wire munoc_signal_1;
 
 `define MUNOC_LDEF_0 0
 `define MUNOC_LDEF_1 1
-reg munoc_signal_0;
+reg munoc_signal_1;
 
-assign munoc_signal_2 = munoc_port_1 & ((munoc_port_4==`AHB_TRANS_NONSEQ) | (munoc_port_4==`AHB_TRANS_SEQ));
+assign munoc_signal_0 = munoc_port_7 & ((munoc_port_8==`AHB_TRANS_NONSEQ) | (munoc_port_8==`AHB_TRANS_SEQ));
 
 `ifdef __MUNOC_INCLUDE_TIMEOUT_MONITOR
 
-	MUNOC_MODULE_27
+	MUNOC_MODULE_18
 	#(
 		.MUNOC_GPARA_0(MUNOC_GPARA_0),
-		.MUNOC_GPARA_1(MUNOC_GPARA_1)
+		.MUNOC_GPARA_2(MUNOC_GPARA_2)
 	)
-	i_munoc_instance_1
+	i_munoc_instance_0
 	(
-		.munoc_port_3(munoc_port_2),
-		.munoc_port_4(munoc_port_3),
-		.munoc_port_1(munoc_port_0),
-		.munoc_port_6(munoc_signal_2),
-		.munoc_port_5(munoc_port_6),
-		.munoc_port_0(munoc_signal_1),
-		.munoc_port_7(),
-		.munoc_port_2()
+		.munoc_port_7(munoc_port_1),
+		.munoc_port_6(munoc_port_4),
+		.munoc_port_3(munoc_port_5),
+		.munoc_port_2(munoc_signal_0),
+		.munoc_port_1(munoc_port_2),
+		.munoc_port_4(munoc_signal_2),
+		.munoc_port_0(),
+		.munoc_port_5()
 	);
 `else
-	assign munoc_signal_1 = 0;
+	assign munoc_signal_2 = 0;
 `endif
 
-assign munoc_port_8 = (MUNOC_GPARA_2==1)? 0 : $unsigned(munoc_signal_1);
-assign munoc_port_5 = (MUNOC_GPARA_2==1)? $unsigned(munoc_signal_1) : 0;
+assign munoc_port_3 = (MUNOC_GPARA_1==1)? 0 : $unsigned(munoc_signal_2);
+assign munoc_port_6 = (MUNOC_GPARA_1==1)? $unsigned(munoc_signal_2) : 0;
 
 `ifdef __MUNOC_INCLUDE_BANDWIDTH_MONITOR
 
-	always @(posedge munoc_port_2, negedge munoc_port_3)
+	always @(posedge munoc_port_1, negedge munoc_port_4)
 	begin
-		if(munoc_port_3==0)
-			munoc_signal_0 <= `MUNOC_LDEF_0;
-		else if(munoc_port_0)
-			case(munoc_signal_0)
+		if(munoc_port_4==0)
+			munoc_signal_1 <= `MUNOC_LDEF_0;
+		else if(munoc_port_5)
+			case(munoc_signal_1)
 				`MUNOC_LDEF_0:
-					if(munoc_signal_2 && munoc_port_6)
-						munoc_signal_0 <= `MUNOC_LDEF_1;
+					if(munoc_signal_0 && munoc_port_2)
+						munoc_signal_1 <= `MUNOC_LDEF_1;
 					`MUNOC_LDEF_1:
-						if(munoc_port_1 && (munoc_port_4==`AHB_TRANS_IDLE) && munoc_port_6)
-							munoc_signal_0 <= `MUNOC_LDEF_0;
+						if(munoc_port_7 && (munoc_port_8==`AHB_TRANS_IDLE) && munoc_port_2)
+							munoc_signal_1 <= `MUNOC_LDEF_0;
 			endcase
 	end
 
-	MUNOC_MODULE_17
+	MUNOC_MODULE_04
 	#(
-		.MUNOC_GPARA_0(`MUNOC_GDEF_24),
-		.MUNOC_GPARA_1(`MUNOC_GDEF_08),
-		.MUNOC_GPARA_2(`MUNOC_GDEF_67)
+		.MUNOC_GPARA_2(`MUNOC_GDEF_66),
+		.MUNOC_GPARA_0(`MUNOC_GDEF_16),
+		.MUNOC_GPARA_1(`MUNOC_GDEF_76)
 		)
-	i_munoc_instance_0
+	i_munoc_instance_1
 	(
-		.munoc_port_1(munoc_port_2),
-		.munoc_port_2(munoc_port_3),
-		.munoc_port_4(munoc_port_0),
-		.munoc_port_0((munoc_signal_0==`MUNOC_LDEF_0)),
-		.munoc_port_3(munoc_port_7)
+		.munoc_port_4(munoc_port_1),
+		.munoc_port_1(munoc_port_4),
+		.munoc_port_2(munoc_port_5),
+		.munoc_port_0((munoc_signal_1==`MUNOC_LDEF_0)),
+		.munoc_port_3(munoc_port_0)
 	);
 `else
-	assign munoc_port_7 = 0;
+	assign munoc_port_0 = 0;
 `endif
 
 `undef MUNOC_LDEF_1

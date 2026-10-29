@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-15
+// 2026-10-29
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -55,27 +55,27 @@ input wire rrequest;
 output wire rempty;
 output wire [BW_DATA-1:0] rdata;
 
-reg rvx_signal_2;
+reg rvx_signal_0;
 
-localparam  RVX_LPARA_1 = 0;
-localparam  RVX_LPARA_0 = 1;
+localparam  RVX_LPARA_0 = 0;
+localparam  RVX_LPARA_1 = 1;
 
 reg [BW_DATA-1:0] rvx_signal_3;
+wire rvx_signal_2;
 wire rvx_signal_1;
-wire rvx_signal_0;
 
 always@(posedge clk, negedge rstnn)
 begin
 	if(rstnn==0)
-    rvx_signal_2 <= RVX_LPARA_1;
+    rvx_signal_0 <= RVX_LPARA_0;
   else if(clear)
-    rvx_signal_2 <= RVX_LPARA_1;
+    rvx_signal_0 <= RVX_LPARA_0;
   else if(enable)
   begin
-    if(rvx_signal_1)
-      rvx_signal_2 <= RVX_LPARA_0;
-    else if(rvx_signal_0)
-      rvx_signal_2 <= RVX_LPARA_1;
+    if(rvx_signal_2)
+      rvx_signal_0 <= RVX_LPARA_1;
+    else if(rvx_signal_1)
+      rvx_signal_0 <= RVX_LPARA_0;
   end
 end
 
@@ -83,16 +83,16 @@ always@(posedge clk, negedge rstnn)
 begin
 	if(rstnn==0)
     rvx_signal_3 <= 0;
-  else if(enable && rvx_signal_1)
+  else if(enable && rvx_signal_2)
     rvx_signal_3 <= wdata;
 end
 
-assign rvx_signal_1 = wrequest & wready;
-assign rvx_signal_0 = rrequest & rready;
+assign rvx_signal_2 = wrequest & wready;
+assign rvx_signal_1 = rrequest & rready;
 
-assign wready = (~clear) & (rvx_signal_2==RVX_LPARA_1);
+assign wready = (~clear) & (rvx_signal_0==RVX_LPARA_0);
 assign wfull = ~(wready[0]);
-assign rready = (rvx_signal_2==RVX_LPARA_0);
+assign rready = (rvx_signal_0==RVX_LPARA_1);
 assign rempty = ~(rready[0]);
 assign rdata = rvx_signal_3;
 

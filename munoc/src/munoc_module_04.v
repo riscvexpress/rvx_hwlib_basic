@@ -11,14 +11,12 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-13
+// 2026-10-20
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
 
-`include "munoc_include_06.vh"
-`include "munoc_extended_config.vh"
-`include "munoc_include_02.vh"
+`include "munoc_include_01.vh"
 
 
 
@@ -27,74 +25,109 @@
 module MUNOC_MODULE_04
 (
 	munoc_port_4,
-	munoc_port_0,
-
-	munoc_port_6,
 	munoc_port_1,
 	munoc_port_2,
 
-	munoc_port_3,
-	munoc_port_5
+	munoc_port_0,
+	munoc_port_3
 );
 
 
 
 
 
-parameter MUNOC_GPARA_2 = 16;
-parameter MUNOC_GPARA_1 = 100;
+parameter MUNOC_GPARA_2 = 32;
+parameter MUNOC_GPARA_0 = 4;
+parameter MUNOC_GPARA_1 = 10;
 
-parameter MUNOC_GPARA_0 = -1;
+localparam  MUNOC_LPARA_0 = `DIVIDERD(MUNOC_GPARA_2,MUNOC_GPARA_0);
 
-input wire munoc_port_4, munoc_port_0;
-input wire munoc_port_6;
-input wire munoc_port_1;
+input wire munoc_port_4, munoc_port_1;
 input wire munoc_port_2;
 
-output wire munoc_port_3;
-output wire [`MUNOC_GDEF_24-1:0] munoc_port_5;
+input wire munoc_port_0;
+output reg [MUNOC_GPARA_2-1:0] munoc_port_3;
 
+genvar i;
+integer j;
+
+wire [MUNOC_GPARA_1-1:0] munoc_signal_3;
 wire munoc_signal_0;
 
-assign munoc_signal_0 = munoc_port_6 & munoc_port_1;
+reg [MUNOC_GPARA_0-1:0] munoc_signal_2 [MUNOC_LPARA_0-1:0];
 
-`ifdef __MUNOC_INCLUDE_TIMEOUT_MONITOR
+wire [MUNOC_LPARA_0-1:0] munoc_signal_1;
 
-	MUNOC_MODULE_27
-	#(
-		.BW_COUNTER(MUNOC_GPARA_2),
-		.MUNOC_GPARA_1(MUNOC_GPARA_1)
-	)
-	i_munoc_instance_0
-	(
-		.munoc_port_3(munoc_port_4),
-		.munoc_port_4(munoc_port_0),
-		.munoc_port_6(munoc_signal_0),
-		.munoc_port_5(munoc_port_2),
-		.munoc_port_0(munoc_port_3),
-		.munoc_port_7(),
-		.munoc_port_2()
-	);
-`else
-	assign munoc_port_3 = 0;
-`endif
+ERVP_COUNTER
+#(
+	.BW_COUNTER(MUNOC_GPARA_1)
+)
+i_munoc_instance_0
+(
+	.clk(munoc_port_4),
+	.rstnn(munoc_port_1),
+	.enable(munoc_port_2),
+	.init(munoc_signal_0),
+	.count(1'b 1),
+	.value(),
+	.is_first_count(),
+	.is_last_count(munoc_signal_0)
+);
 
-`ifdef __MUNOC_INCLUDE_BANDWIDTH_MONITOR
+ERVP_COUNTER
+#(
+	.BW_COUNTER(MUNOC_GPARA_1)
+)
+i_munoc_instance_2
+(
+	.clk(munoc_port_4),
+	.rstnn(munoc_port_1),
+	.enable(munoc_port_2),
+	.init(munoc_signal_0),
+	.count(munoc_port_0),
+	.value(munoc_signal_3),
+	.is_first_count(),
+	.is_last_count()
+);
 
-	MUNOC_MODULE_17
-	#(
-		.MUNOC_GPARA_0(`MUNOC_GDEF_24),
-		.MUNOC_GPARA_1(`MUNOC_GDEF_08),
-		.MUNOC_GPARA_2(`MUNOC_GDEF_67)
-	)
-	i_munoc_instance_1
-	(
-		.munoc_port_1(munoc_port_4),
-		.munoc_port_2(munoc_port_0),
-		.munoc_port_0(~munoc_signal_0),
-		.munoc_port_3(munoc_port_5)
-	);
-`endif
+always@(*)
+begin
+	munoc_port_3 = 0;
+	for(j=0; j<MUNOC_LPARA_0; j=j+1)
+	begin
+		munoc_port_3[(j+1)*MUNOC_GPARA_0-1-:MUNOC_GPARA_0] = munoc_signal_2[j];
+	end
+end
+
+ERVP_COUNTER_WITH_ONEHOT_ENCODING
+#(
+	.COUNT_LENGTH(MUNOC_LPARA_0),
+	.CIRCULAR(1)
+)
+i_munoc_instance_1
+(
+	.clk(munoc_port_4),
+	.rstnn(munoc_port_1),
+	.enable(munoc_port_2),
+	.init(1'b 0),
+	.count(munoc_signal_0),
+	.value(munoc_signal_1),
+	.is_first_count(),
+	.is_last_count()
+);
+
+generate
+for(i=0; i<MUNOC_LPARA_0; i=i+1)
+begin : i_gen_idle_count
+	always @(posedge munoc_port_4, negedge munoc_port_1)
+	begin
+		if(munoc_port_1==0)
+			munoc_signal_2[i] <= -1;
+		else if(munoc_port_2)
+			if(munoc_signal_0 && munoc_signal_1[i])
+				munoc_signal_2[i] <= munoc_signal_3[MUNOC_GPARA_1-1 -:MUNOC_GPARA_0];
+	end
+end
+endgenerate
 
 endmodule
-

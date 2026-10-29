@@ -11,65 +11,71 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-13
+// 2026-10-20
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
 
-`include "munoc_include_06.vh"
+`include "munoc_include_01.vh"
+
 
 
 
 
 module MUNOC_MODULE_18
 (
-	munoc_port_5,
+	munoc_port_7,
+	munoc_port_6,
 	munoc_port_3,
 
-	munoc_port_7,
 	munoc_port_2,
 	munoc_port_1,
 
-	munoc_port_6,
+	munoc_port_4,
 	munoc_port_0,
-	munoc_port_4
+	munoc_port_5
 );
 
 
 
 
-parameter MUNOC_GPARA_0 = 1;
-parameter MUNOC_GPARA_1 = 1;
 
-input wire munoc_port_5, munoc_port_3;
+parameter MUNOC_GPARA_0 = 16;
+parameter MUNOC_GPARA_2 = 500;
+parameter MUNOC_GPARA_1 = 16;
 
-output wire munoc_port_7;
+input wire munoc_port_7, munoc_port_6;
+input wire munoc_port_3;
+
 input wire munoc_port_2;
-input wire [MUNOC_GPARA_0-1:0] munoc_port_1;
+input wire munoc_port_1;
 
-output wire munoc_port_6;
-input wire munoc_port_0;
-output wire [MUNOC_GPARA_0-1:0] munoc_port_4;
+output wire munoc_port_4;
+output wire [MUNOC_GPARA_0-1:0] munoc_port_0;
+output wire [MUNOC_GPARA_1-1:0] munoc_port_5;
 
-ERVP_SMALL_FIFO
+wire munoc_signal_0, munoc_signal_1;
+
+assign munoc_signal_0 = munoc_port_2 & munoc_port_1;
+assign munoc_signal_1 = munoc_port_2 & (~munoc_port_1);
+
+RVX_MODULE_034
 #(
-	.BW_DATA(MUNOC_GPARA_0),
-	.DEPTH(MUNOC_GPARA_1)
+	.RVX_GPARA_1(MUNOC_GPARA_0),
+	.RVX_GPARA_0(MUNOC_GPARA_2),
+	.RVX_GPARA_2(MUNOC_GPARA_1)
 )
 i_munoc_instance_0
 (
-	.clk(munoc_port_5),
-	.rstnn(munoc_port_3),
-	.enable(1'b 1),
-  .clear(1'b 0),
-	.wready(munoc_port_7),
-	.wfull(),
-	.wrequest(munoc_port_2),
-	.wdata(munoc_port_1),
-	.rready(munoc_port_6),
-	.rempty(),
-	.rrequest(munoc_port_0),
-	.rdata(munoc_port_4)
+	.rvx_port_0(munoc_port_7),
+	.rvx_port_2(munoc_port_6),
+	.rvx_port_3(munoc_port_3),
+	.rvx_port_7(munoc_signal_0),
+	.rvx_port_1(munoc_signal_1),
+	.rvx_port_4(munoc_port_4),
+	.rvx_port_5(munoc_port_0),
+	.rvx_port_6(munoc_port_5)
 );
 
 endmodule
+

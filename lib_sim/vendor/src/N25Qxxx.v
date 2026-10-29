@@ -166,7 +166,11 @@ reg die_active = 'h1;  // Indicates that this die is active
                        // Used for stacked die
 
 
+`ifdef VERILATOR
+buf b0(C, C_);
+`else
 buf (strong1, strong0) b0(C, C_);
+`endif
 
 //----------------------
 // Report Model Info 
@@ -482,7 +486,9 @@ reg dtr_dout_started; // it is set after negedge C where 1st bit was outputted (
 
 always @(negedge S) begin : CP_latchInit
 
+`ifndef VERILATOR
     disable VolatileReg.READ_VCR;//test Jan17
+`endif
 
     if (!XIP) latchingMode = "C";  
     

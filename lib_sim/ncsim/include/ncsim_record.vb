@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-15
+// 2026-10-29
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -41,6 +41,13 @@ begin
       $recordvars("depth=20");
       `endif
     `endif
+    `ifdef USE_VERILATOR
+      `ifndef DEBUG_INIT
+        wait(record_start==1);
+      `endif
+      $dumpfile("wave.fst");
+      $dumpvars;
+    `endif
 		$display("[NCSIM:INFO] record start %d", $time);
 		record_enable = 1;
 	`endif
@@ -51,6 +58,9 @@ begin
 		$display("record end %d", $time);
     `ifdef USE_RECORD_COMMAND
   		$recordoff;
+    `endif
+    `ifdef USE_VERILATOR
+      $dumpoff;
     `endif
 		$display("[NCSIM:INFO] record end %d", $time);
 		record_enable = 0;

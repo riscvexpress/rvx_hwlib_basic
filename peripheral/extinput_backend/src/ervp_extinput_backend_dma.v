@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-15
+// 2026-10-29
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -88,14 +88,14 @@ parameter BW_STATUS = 1;
 parameter BW_EXTINPUT = 32;
 parameter DMA_FIFO_DEPTH = 32;
 
-localparam  RVX_LPARA_07 = 0;
+localparam  RVX_LPARA_01 = 0;
 localparam  RVX_LPARA_00 = 0;
-localparam  RVX_LPARA_02 = BW_CONFIG+RVX_LPARA_07;
-localparam  RVX_LPARA_05 = BW_STATUS+RVX_LPARA_00;
-localparam  RVX_LPARA_03 = 1;
-localparam  RVX_LPARA_04 = `BW_ERVP_EXTINPUT_INST;
-localparam  RVX_LPARA_09 = 1;
-localparam  RVX_LPARA_01 = BW_EXTINPUT;
+localparam  RVX_LPARA_09 = BW_CONFIG+RVX_LPARA_01;
+localparam  RVX_LPARA_03 = BW_STATUS+RVX_LPARA_00;
+localparam  RVX_LPARA_04 = 1;
+localparam  RVX_LPARA_06 = `BW_ERVP_EXTINPUT_INST;
+localparam  RVX_LPARA_05 = 1;
+localparam  RVX_LPARA_08 = BW_EXTINPUT;
 
 input wire clk_system;
 input wire tick_1us;
@@ -103,26 +103,26 @@ input wire tick_1us;
 input wire clk;
 input wire rstnn;
 
-input wire [(RVX_LPARA_02)-1:0] control_rmx_core_config;
-output wire [(RVX_LPARA_05)-1:0] control_rmx_core_status;
+input wire [(RVX_LPARA_09)-1:0] control_rmx_core_config;
+output wire [(RVX_LPARA_03)-1:0] control_rmx_core_status;
 input wire control_rmx_clear_request;
 output wire control_rmx_clear_finish;
 input wire control_rmx_log_fifo_wready;
 output wire control_rmx_log_fifo_wrequest;
-output wire [(RVX_LPARA_03)-1:0] control_rmx_log_fifo_wdata;
+output wire [(RVX_LPARA_04)-1:0] control_rmx_log_fifo_wdata;
 input wire control_rmx_inst_fifo_rready;
-input wire [(RVX_LPARA_04)-1:0] control_rmx_inst_fifo_rdata;
+input wire [(RVX_LPARA_06)-1:0] control_rmx_inst_fifo_rdata;
 output wire control_rmx_inst_fifo_rrequest;
 output wire control_rmx_operation_finish;
 input wire control_rmx_input_fifo_rready;
-input wire [(RVX_LPARA_09)-1:0] control_rmx_input_fifo_rdata;
+input wire [(RVX_LPARA_05)-1:0] control_rmx_input_fifo_rdata;
 output wire control_rmx_input_fifo_rrequest;
 input wire control_rmx_output_fifo_wready;
 output wire control_rmx_output_fifo_wrequest;
-output wire [(RVX_LPARA_01)-1:0] control_rmx_output_fifo_wdata;
+output wire [(RVX_LPARA_08)-1:0] control_rmx_output_fifo_wdata;
 
-localparam  RVX_LPARA_06 = BW_ADDR;
-localparam  RVX_LPARA_08 = 1;
+localparam  RVX_LPARA_07 = BW_ADDR;
+localparam  RVX_LPARA_02 = 1;
 
 input wire [(2)-1:0] dma_slxqdready;
 output wire dma_slxqvalid;
@@ -133,15 +133,15 @@ output wire [`BW_AXI_ASIZE-1:0] dma_slxqsize;
 output wire [`BW_AXI_ABURST-1:0] dma_slxqburst;
 output wire [`BW_AXI_WSTRB(BW_AXI_DATA)-1:0] dma_slxqwstrb;
 output wire [BW_AXI_DATA-1:0] dma_slxqwdata;
-output wire [RVX_LPARA_06-1:0] dma_slxqaddr;
-output wire [RVX_LPARA_08-1:0] dma_slxqburden;
+output wire [RVX_LPARA_07-1:0] dma_slxqaddr;
+output wire [RVX_LPARA_02-1:0] dma_slxqburden;
 output wire [(2)-1:0] dma_slxydready;
 input wire dma_slxyvalid;
 input wire dma_slxylast;
 input wire dma_slxywreply;
 input wire [`BW_AXI_RESP-1:0] dma_slxyresp;
 input wire [BW_AXI_DATA-1:0] dma_slxyrdata;
-input wire [RVX_LPARA_08-1:0] dma_slxyburden;
+input wire [RVX_LPARA_02-1:0] dma_slxyburden;
 
 output wire [BW_CONFIG-1:0] extinput_config;
 input wire [BW_STATUS-1:0] extinput_status;
@@ -152,107 +152,107 @@ input wire extinput_valid;
 input wire [BW_EXTINPUT-1:0] extinput_data;
 output wire extinput_ready;
 
-wire rvx_signal_5;
-wire [BW_EXTINPUT-1:0] rvx_signal_4;
+wire rvx_signal_1;
+wire [BW_EXTINPUT-1:0] rvx_signal_3;
 wire rvx_signal_2;
 
-wire rvx_signal_1;
-wire [RVX_LPARA_04-1:0] rvx_signal_6;
-wire rvx_signal_0;
-wire rvx_signal_3;
+wire rvx_signal_6;
+wire [RVX_LPARA_06-1:0] rvx_signal_0;
+wire rvx_signal_4;
+wire rvx_signal_5;
 
-RVX_MODULE_028
+RVX_MODULE_019
 #(
   .RVX_GPARA_1(BW_ADDR),
-  .RVX_GPARA_2(BW_CONFIG),
+  .RVX_GPARA_3(BW_CONFIG),
   .RVX_GPARA_0(BW_STATUS),
-  .RVX_GPARA_3(BW_EXTINPUT)
-)
-i_rvx_instance_0
-(
-  .rvx_port_25(clk_system),
-  .rvx_port_10(tick_1us),
-
-  .rvx_port_28(clk),
-  .rvx_port_12(rstnn),
-
-  .rvx_port_00(control_rmx_core_config),
-  .rvx_port_33(control_rmx_core_status),
-  .rvx_port_04(control_rmx_clear_request),
-  .rvx_port_22(control_rmx_log_fifo_wready),
-  .rvx_port_27(control_rmx_log_fifo_wrequest),
-  .rvx_port_29(control_rmx_log_fifo_wdata),
-  .rvx_port_20(control_rmx_inst_fifo_rready),
-  .rvx_port_13(control_rmx_inst_fifo_rdata),
-  .rvx_port_11(control_rmx_inst_fifo_rrequest),
-  .rvx_port_19(control_rmx_input_fifo_rready),
-  .rvx_port_16(control_rmx_input_fifo_rdata),
-  .rvx_port_18(control_rmx_input_fifo_rrequest),
-  .rvx_port_09(control_rmx_output_fifo_wready),
-  .rvx_port_15(control_rmx_output_fifo_wrequest),
-  .rvx_port_05(control_rmx_output_fifo_wdata),
-
-  .rvx_port_21(extinput_config),
-  .rvx_port_26(extinput_status),
-  .rvx_port_24(extinput_clear),
-  .rvx_port_01(extinput_enable),
-  .rvx_port_08(extinput_start),
-  .rvx_port_14(extinput_valid),
-  .rvx_port_30(extinput_data),
-  .rvx_port_17(extinput_ready),
-
-  .rvx_port_23(rvx_signal_5),
-  .rvx_port_02(rvx_signal_4),
-  .rvx_port_32(rvx_signal_2),
-
-  .rvx_port_06(rvx_signal_1),
-  .rvx_port_07(rvx_signal_6),
-  .rvx_port_03(rvx_signal_0),
-  .rvx_port_31(rvx_signal_3)
-);
-
-RVX_MODULE_125
-#(
-  .RVX_GPARA_0(BW_ADDR),
-  .RVX_GPARA_2(BW_AXI_DATA),
-  .RVX_GPARA_3(BW_EXTINPUT),
-  .RVX_GPARA_1(DMA_FIFO_DEPTH)
+  .RVX_GPARA_2(BW_EXTINPUT)
 )
 i_rvx_instance_1
 (
-  .rvx_port_27(clk),
-  .rvx_port_13(rstnn),
+  .rvx_port_23(clk_system),
+  .rvx_port_28(tick_1us),
 
-  .rvx_port_08(rvx_signal_5),
-  .rvx_port_14(rvx_signal_4),
-  .rvx_port_00(rvx_signal_2),
+  .rvx_port_17(clk),
+  .rvx_port_30(rstnn),
 
-  .rvx_port_03(rvx_signal_1),
-  .rvx_port_17(rvx_signal_6),
-  .rvx_port_12(rvx_signal_0),
-  .rvx_port_01(rvx_signal_3),
+  .rvx_port_22(control_rmx_core_config),
+  .rvx_port_33(control_rmx_core_status),
+  .rvx_port_12(control_rmx_clear_request),
+  .rvx_port_15(control_rmx_log_fifo_wready),
+  .rvx_port_29(control_rmx_log_fifo_wrequest),
+  .rvx_port_32(control_rmx_log_fifo_wdata),
+  .rvx_port_03(control_rmx_inst_fifo_rready),
+  .rvx_port_07(control_rmx_inst_fifo_rdata),
+  .rvx_port_11(control_rmx_inst_fifo_rrequest),
+  .rvx_port_01(control_rmx_input_fifo_rready),
+  .rvx_port_09(control_rmx_input_fifo_rdata),
+  .rvx_port_08(control_rmx_input_fifo_rrequest),
+  .rvx_port_14(control_rmx_output_fifo_wready),
+  .rvx_port_27(control_rmx_output_fifo_wrequest),
+  .rvx_port_26(control_rmx_output_fifo_wdata),
 
-  .rvx_port_15(dma_slxqdready),
-  .rvx_port_23(dma_slxqvalid),
-  .rvx_port_06(dma_slxqlast),
-  .rvx_port_10(dma_slxqwrite),
-  .rvx_port_04(dma_slxqlen),
-  .rvx_port_09(dma_slxqsize),
-  .rvx_port_05(dma_slxqburst),
-  .rvx_port_02(dma_slxqwstrb),
-  .rvx_port_24(dma_slxqwdata),
-  .rvx_port_11(dma_slxqaddr),
-  .rvx_port_07(dma_slxqburden),
-  .rvx_port_26(dma_slxydready),
-  .rvx_port_19(dma_slxyvalid),
-  .rvx_port_21(dma_slxylast),
-  .rvx_port_22(dma_slxywreply),
-  .rvx_port_20(dma_slxyresp),
-  .rvx_port_16(dma_slxyrdata),
-  .rvx_port_25(dma_slxyburden),
+  .rvx_port_04(extinput_config),
+  .rvx_port_13(extinput_status),
+  .rvx_port_10(extinput_clear),
+  .rvx_port_00(extinput_enable),
+  .rvx_port_18(extinput_start),
+  .rvx_port_24(extinput_valid),
+  .rvx_port_06(extinput_data),
+  .rvx_port_25(extinput_ready),
 
-  .rvx_port_28(control_rmx_clear_finish),
-  .rvx_port_18(control_rmx_operation_finish)
+  .rvx_port_21(rvx_signal_1),
+  .rvx_port_31(rvx_signal_3),
+  .rvx_port_16(rvx_signal_2),
+
+  .rvx_port_05(rvx_signal_6),
+  .rvx_port_20(rvx_signal_0),
+  .rvx_port_19(rvx_signal_4),
+  .rvx_port_02(rvx_signal_5)
+);
+
+RVX_MODULE_021
+#(
+  .RVX_GPARA_1(BW_ADDR),
+  .RVX_GPARA_2(BW_AXI_DATA),
+  .RVX_GPARA_3(BW_EXTINPUT),
+  .RVX_GPARA_0(DMA_FIFO_DEPTH)
+)
+i_rvx_instance_0
+(
+  .rvx_port_23(clk),
+  .rvx_port_04(rstnn),
+
+  .rvx_port_19(rvx_signal_1),
+  .rvx_port_27(rvx_signal_3),
+  .rvx_port_15(rvx_signal_2),
+
+  .rvx_port_16(rvx_signal_6),
+  .rvx_port_18(rvx_signal_0),
+  .rvx_port_17(rvx_signal_4),
+  .rvx_port_09(rvx_signal_5),
+
+  .rvx_port_11(dma_slxqdready),
+  .rvx_port_28(dma_slxqvalid),
+  .rvx_port_26(dma_slxqlast),
+  .rvx_port_02(dma_slxqwrite),
+  .rvx_port_13(dma_slxqlen),
+  .rvx_port_00(dma_slxqsize),
+  .rvx_port_24(dma_slxqburst),
+  .rvx_port_05(dma_slxqwstrb),
+  .rvx_port_22(dma_slxqwdata),
+  .rvx_port_06(dma_slxqaddr),
+  .rvx_port_10(dma_slxqburden),
+  .rvx_port_01(dma_slxydready),
+  .rvx_port_03(dma_slxyvalid),
+  .rvx_port_12(dma_slxylast),
+  .rvx_port_07(dma_slxywreply),
+  .rvx_port_21(dma_slxyresp),
+  .rvx_port_25(dma_slxyrdata),
+  .rvx_port_20(dma_slxyburden),
+
+  .rvx_port_14(control_rmx_clear_finish),
+  .rvx_port_08(control_rmx_operation_finish)
 );
 
 endmodule

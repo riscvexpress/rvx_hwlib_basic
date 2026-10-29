@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-15
+// 2026-10-29
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -49,7 +49,7 @@ generate
 for(i=1; i<RVX_LPARA_0; i=i+1)
 begin : i_gen_stage
 	BUF
-	i_rvx_instance_0
+	i_rvx_instance_1
 	(
 		.I(rvx_signal_1[i-1]),
 		.O(rvx_signal_1[i])
@@ -69,7 +69,7 @@ ERVP_MUX
 	.BW_DATA(BW_SIGNAL),
 	.NUM_DATA(RVX_LPARA_0)
 )
-i_rvx_instance_1
+i_rvx_instance_0
 (
 	.data_input_list(rvx_signal_0),
 	.select(skew_value),

@@ -11,25 +11,19 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-13
+// 2026-10-20
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
 
 
-`ifndef MUNOC_GDEF_22
-`define MUNOC_GDEF_22
+`ifndef MUNOC_GDEF_28
+`define MUNOC_GDEF_28
 
-`define MUNOC_GDEF_60 3
+`include "ervp_string_util.vh"
 
-`define MUNOC_GDEF_34 0
-`define MUNOC_GDEF_79 1
-`define MUNOC_GDEF_95 2
-`define MUNOC_GDEF_56 3
-`define MUNOC_GDEF_62 4
-`define MUNOC_GDEF_10 5
-
-`define MUNOC_GDEF_51(bw_data) (((bw_data)==32)? `MUNOC_GDEF_34 : (((bw_data)==64)? `MUNOC_GDEF_79 : (((bw_data)==128)? `MUNOC_GDEF_95 : (((bw_data)==256)? `MUNOC_GDEF_56 : (((bw_data)==512)? `MUNOC_GDEF_62 : (((bw_data)==1024)? `MUNOC_GDEF_10 : -1))))))
+`define MUNOC_GDEF_38 32
+`define MUNOC_GDEF_58 (`MUNOC_GDEF_38*`BITS_PER_CHAR)
 
 `endif
 

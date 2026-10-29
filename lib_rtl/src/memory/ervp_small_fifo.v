@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-15
+// 2026-10-29
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -61,18 +61,18 @@ output wire [BW_DATA-1:0] rdata;
 genvar i;
 integer j;
 
-reg [BW_DATA-1:0] rvx_signal_1 [DEPTH-1:0];
-wire [BW_DATA*DEPTH-1:0] rvx_signal_3;
-wire [DEPTH-1:0] rvx_signal_2, rvx_signal_6;
-wire rvx_signal_0, rvx_signal_5;
-wire [DEPTH-1:0] rvx_signal_4;
+reg [BW_DATA-1:0] rvx_signal_3 [DEPTH-1:0];
+wire [BW_DATA*DEPTH-1:0] rvx_signal_2;
+wire [DEPTH-1:0] rvx_signal_6, rvx_signal_1;
+wire rvx_signal_5, rvx_signal_4;
+wire [DEPTH-1:0] rvx_signal_0;
 
 ERVP_SHIFT_REGISTER
 #(
 	.BW_REGISTER(DEPTH),
 	.RESET_NUMBER(0)
 )
-i_rvx_instance_3
+i_rvx_instance_1
 (
 	.clk(clk),
 	.rstnn(rstnn),
@@ -82,12 +82,42 @@ i_rvx_instance_3
 	.left_insertion(1'b 0),
 	.clear(clear),
 	.set(1'b 0),
-	.left_shift(rvx_signal_5),
-	.right_shift(rvx_signal_0),
+	.left_shift(rvx_signal_4),
+	.right_shift(rvx_signal_5),
 	.is_upper_limit(wfull),
 	.is_lower_limit(rempty),
-	.value(rvx_signal_4)
+	.value(rvx_signal_0)
 );
+
+ERVP_COUNTER_WITH_ONEHOT_ENCODING
+#(
+	.COUNT_LENGTH(DEPTH),
+	.CIRCULAR(1)
+)
+i_rvx_instance_0
+(
+	.clk(clk),
+	.rstnn(rstnn),
+	.enable(enable),
+	.init(clear),
+	.count(rvx_signal_4),
+	.value(rvx_signal_1),
+	.is_first_count(),
+	.is_last_count()
+);
+
+always@(posedge clk, negedge rstnn)
+begin
+	if(rstnn==0)
+		for (j=0; j<DEPTH; j=j+1)
+			rvx_signal_3[j] <= 0;
+	else if(enable && rvx_signal_4)
+	begin
+		for (j=0; j<DEPTH; j=j+1)
+			if(rvx_signal_1[j])
+				rvx_signal_3[j] <= wdata;
+	end
+end
 
 ERVP_COUNTER_WITH_ONEHOT_ENCODING
 #(
@@ -106,40 +136,10 @@ i_rvx_instance_2
 	.is_last_count()
 );
 
-always@(posedge clk, negedge rstnn)
-begin
-	if(rstnn==0)
-		for (j=0; j<DEPTH; j=j+1)
-			rvx_signal_1[j] <= 0;
-	else if(enable && rvx_signal_5)
-	begin
-		for (j=0; j<DEPTH; j=j+1)
-			if(rvx_signal_6[j])
-				rvx_signal_1[j] <= wdata;
-	end
-end
-
-ERVP_COUNTER_WITH_ONEHOT_ENCODING
-#(
-	.COUNT_LENGTH(DEPTH),
-	.CIRCULAR(1)
-)
-i_rvx_instance_1
-(
-	.clk(clk),
-	.rstnn(rstnn),
-	.enable(enable),
-	.init(clear),
-	.count(rvx_signal_0),
-	.value(rvx_signal_2),
-	.is_first_count(),
-	.is_last_count()
-);
-
 generate
 	for(i=0; i<DEPTH; i=i+1)
 	begin : i_concatenation
-		assign rvx_signal_3[BW_DATA*(i+1)-1-:BW_DATA] = rvx_signal_1[i];
+		assign rvx_signal_2[BW_DATA*(i+1)-1-:BW_DATA] = rvx_signal_3[i];
 	end
 endgenerate
 
@@ -148,10 +148,10 @@ ERVP_MUX_WITH_ONEHOT_ENCODED_SELECT
 	.BW_DATA(BW_DATA),
 	.NUM_DATA(DEPTH)
 )
-i_rvx_instance_0
+i_rvx_instance_3
 (
-	.data_input_list(rvx_signal_3),
-	.select(rvx_signal_2),
+	.data_input_list(rvx_signal_2),
+	.select(rvx_signal_6),
 	.data_output(rdata)
 );
 
@@ -160,15 +160,15 @@ begin
 	wready = 0;
 	for(j=0; j<WRITE_READY_SIZE; j=j+1)
 		if(j<DEPTH)
-			wready[j] = (~clear) & (~rvx_signal_4[DEPTH-1-j]);
+			wready[j] = (~clear) & (~rvx_signal_0[DEPTH-1-j]);
 end
 
 assign wfull = ~wready[0];
-assign rvx_signal_5 = wready[0] && wrequest;
+assign rvx_signal_4 = wready[0] && wrequest;
 
-assign rready = rvx_signal_4;
+assign rready = rvx_signal_0;
 
 assign rempty = ~rready[0];
-assign rvx_signal_0 = rready[0] & rrequest;
+assign rvx_signal_5 = rready[0] & rrequest;
 
 endmodule
