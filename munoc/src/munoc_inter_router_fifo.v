@@ -11,13 +11,13 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-20
+// 2026-11-09
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
 
 
-`include "munoc_include_01.vh"
+`include "munoc_include_10.vh"
 `include "munoc_extended_config.vh"
 `include "munoc_network_type.vh"
 `include "munoc_network_link.vh"

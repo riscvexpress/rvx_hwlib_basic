@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-29
+// 2026-11-11
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -44,11 +44,11 @@ output wire rcontrol;
 input wire rready;
 
 wire rvx_signal_3;
-wire rvx_signal_0;
 wire rvx_signal_2;
 wire rvx_signal_1;
-
 wire rvx_signal_4;
+
+wire rvx_signal_0;
 
 ERVP_ASYNCH_REGISTER
 #(
@@ -59,20 +59,20 @@ i_rvx_instance_0
 	.wclk(wclk),
 	.wrstnn(wrstnn),
 	.wready(rvx_signal_3),
-	.wrequest(rvx_signal_0),
+	.wrequest(rvx_signal_2),
 	.wdata(1'b 0),
 	.rclk(rclk),
 	.rrstnn(rrstnn),
-	.rready(rvx_signal_1),
-	.rrequest(rvx_signal_2),
+	.rready(rvx_signal_4),
+	.rrequest(rvx_signal_1),
 	.rdata()
 );
 
-assign rvx_signal_0 = wcontrol;
+assign rvx_signal_2 = wcontrol;
 assign wready = rvx_signal_3;
 
-assign rvx_signal_4 = rvx_signal_1 & rready;
-assign rcontrol = rvx_signal_1;
-assign rvx_signal_2 = rvx_signal_4;
+assign rvx_signal_0 = rvx_signal_4 & rready;
+assign rcontrol = rvx_signal_4;
+assign rvx_signal_1 = rvx_signal_0;
 
 endmodule

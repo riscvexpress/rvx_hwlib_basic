@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-29
+// 2026-11-11
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -87,19 +87,19 @@ parameter NUM_CELL = 1;
 `include "ervp_log_util.vf"
 `include "ervp_bitwidth_util.vf"
 
-localparam  RVX_LPARA_0 = BW_ADDR;
+localparam  RVX_LPARA_3 = BW_ADDR;
 localparam  RVX_LPARA_2 = BW_DATA;
 
-localparam  RVX_LPARA_4 = `NUM_BYTE(CELL_WIDTH);
-localparam  RVX_LPARA_1 = `DIVIDERU(CELL_SIZE,`NUM_BYTE(CELL_WIDTH));
-localparam  RVX_LPARA_3 = REQUIRED_BITWIDTH_INDEX(RVX_LPARA_1);
+localparam  RVX_LPARA_1 = `NUM_BYTE(CELL_WIDTH);
+localparam  RVX_LPARA_4 = `DIVIDERU(CELL_SIZE,`NUM_BYTE(CELL_WIDTH));
+localparam  RVX_LPARA_0 = REQUIRED_BITWIDTH_INDEX(RVX_LPARA_4);
 
 input wire clk;
 input wire rstnn;
 input wire enable;
 
 input wire [BW_AXI_TID-1:0] rxarid;
-input wire [RVX_LPARA_0-1:0] rxaraddr;
+input wire [RVX_LPARA_3-1:0] rxaraddr;
 input wire [`BW_AXI_ALEN-1:0] rxarlen;
 input wire [`BW_AXI_ASIZE-1:0] rxarsize;
 input wire [`BW_AXI_ABURST-1:0] rxarburst;
@@ -114,7 +114,7 @@ output wire rxrvalid;
 input wire rxrready;
 
 input wire [BW_AXI_TID-1:0] rxawid;
-input wire [RVX_LPARA_0-1:0] rxawaddr;
+input wire [RVX_LPARA_3-1:0] rxawaddr;
 input wire [`BW_AXI_ALEN-1:0] rxawlen;
 input wire [`BW_AXI_ASIZE-1:0] rxawsize;
 input wire [`BW_AXI_ABURST-1:0] rxawburst;
@@ -134,79 +134,79 @@ output wire rxbvalid;
 input wire rxbready;
 
 output wire [NUM_CELL-1:0] sscell_select_list;
-output wire [RVX_LPARA_3*NUM_CELL-1:0] sscell_index_list;
+output wire [RVX_LPARA_0*NUM_CELL-1:0] sscell_index_list;
 output wire [NUM_CELL-1:0] sscell_enable_list;
 output wire [NUM_CELL-1:0] sscell_wenable_list;
-output wire [RVX_LPARA_4*NUM_CELL-1:0] sscell_wenable_byte_list;
+output wire [RVX_LPARA_1*NUM_CELL-1:0] sscell_wenable_byte_list;
 output wire [CELL_WIDTH*NUM_CELL-1:0] sscell_wenable_bit_list;
 output wire [CELL_WIDTH*NUM_CELL-1:0] sscell_wdata_list;
 output wire [NUM_CELL-1:0] sscell_renable_list;
 input wire [CELL_WIDTH*NUM_CELL-1:0] sscell_rdata_list;
 input wire [NUM_CELL-1:0] sscell_stall_list;
 
-RVX_MODULE_129
+RVX_MODULE_033
 #(
-  .RVX_GPARA_0(RVX_LPARA_0),
-  .RVX_GPARA_4(RVX_LPARA_2),
-  .RVX_GPARA_6(BW_AXI_TID),
+  .RVX_GPARA_0(RVX_LPARA_3),
+  .RVX_GPARA_3(RVX_LPARA_2),
+  .RVX_GPARA_1(BW_AXI_TID),
   .MEMORY_OPERATION_TYPE(MEMORY_OPERATION_TYPE),
-  .RVX_GPARA_2(BASEADDR),
-  .RVX_GPARA_3(RVX_LPARA_3),
-  .RVX_GPARA_1(CELL_WIDTH),
-  .RVX_GPARA_5(NUM_CELL)
+  .RVX_GPARA_4(BASEADDR),
+  .RVX_GPARA_2(RVX_LPARA_0),
+  .RVX_GPARA_5(CELL_WIDTH),
+  .RVX_GPARA_6(NUM_CELL)
 )
 i_rvx_instance_0
 (
-	.rvx_port_00(clk),
-	.rvx_port_18(rstnn),
-  .rvx_port_29(1'b 0),
-  .rvx_port_06(enable),
+	.rvx_port_36(clk),
+	.rvx_port_08(rstnn),
+  .rvx_port_09(1'b 0),
+  .rvx_port_34(enable),
 
-  .rvx_port_04(rxarid),
-	.rvx_port_28(rxaraddr),
-	.rvx_port_33(rxarlen),
-	.rvx_port_05(rxarsize),
-	.rvx_port_26(rxarburst),
-	.rvx_port_17(rxarvalid),
-	.rvx_port_08(rxarready),
+  .rvx_port_22(rxarid),
+	.rvx_port_42(rxaraddr),
+	.rvx_port_28(rxarlen),
+	.rvx_port_10(rxarsize),
+	.rvx_port_04(rxarburst),
+	.rvx_port_27(rxarvalid),
+	.rvx_port_18(rxarready),
 
-	.rvx_port_15(rxrid),
-	.rvx_port_31(rxrdata),
-	.rvx_port_23(rxrresp),
-	.rvx_port_43(rxrlast),
-	.rvx_port_12(rxrvalid),
-	.rvx_port_03(rxrready),
+	.rvx_port_21(rxrid),
+	.rvx_port_03(rxrdata),
+	.rvx_port_26(rxrresp),
+	.rvx_port_16(rxrlast),
+	.rvx_port_41(rxrvalid),
+	.rvx_port_14(rxrready),
 
-	.rvx_port_24(rxawid),
-  .rvx_port_01(rxawaddr),
-  .rvx_port_20(rxawlen),
-  .rvx_port_11(rxawsize),
+	.rvx_port_33(rxawid),
+  .rvx_port_17(rxawaddr),
+  .rvx_port_12(rxawlen),
+  .rvx_port_29(rxawsize),
   .rvx_port_32(rxawburst),
-  .rvx_port_09(rxawvalid),
-  .rvx_port_16(rxawready),
+  .rvx_port_38(rxawvalid),
+  .rvx_port_11(rxawready),
 
-  .rvx_port_10(rxwid),
-  .rvx_port_13(rxwdata),
-  .rvx_port_02(rxwstrb),
-  .rvx_port_37(rxwlast),
-  .rvx_port_36(rxwvalid),
-  .rvx_port_35(rxwready),
+  .rvx_port_19(rxwid),
+  .rvx_port_35(rxwdata),
+  .rvx_port_37(rxwstrb),
+  .rvx_port_39(rxwlast),
+  .rvx_port_24(rxwvalid),
+  .rvx_port_02(rxwready),
 
-  .rvx_port_42(rxbid),
-  .rvx_port_14(rxbresp),
-  .rvx_port_07(rxbvalid),
-  .rvx_port_38(rxbready),
+  .rvx_port_31(rxbid),
+  .rvx_port_07(rxbresp),
+  .rvx_port_15(rxbvalid),
+  .rvx_port_30(rxbready),
 
-  .rvx_port_21(sscell_select_list),
-	.rvx_port_30(sscell_index_list),
-	.rvx_port_40(sscell_enable_list),
-	.rvx_port_22(sscell_wenable_list),
-	.rvx_port_39(sscell_wenable_byte_list),
-	.rvx_port_19(sscell_wenable_bit_list),
+  .rvx_port_13(sscell_select_list),
+	.rvx_port_23(sscell_index_list),
+	.rvx_port_20(sscell_enable_list),
+	.rvx_port_05(sscell_wenable_list),
+	.rvx_port_43(sscell_wenable_byte_list),
+	.rvx_port_40(sscell_wenable_bit_list),
 	.rvx_port_25(sscell_wdata_list),
-	.rvx_port_41(sscell_renable_list),
-	.rvx_port_27(sscell_rdata_list),
-  .rvx_port_34(sscell_stall_list)
+	.rvx_port_00(sscell_renable_list),
+	.rvx_port_01(sscell_rdata_list),
+  .rvx_port_06(sscell_stall_list)
 );
 
 endmodule

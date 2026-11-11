@@ -11,16 +11,17 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-20
+// 2026-11-09
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
 
 
-`ifndef MUNOC_GDEF_47
-`define MUNOC_GDEF_47
+`ifndef MUNOC_GDEF_09
+`define MUNOC_GDEF_09
 
-`include "ervp_misc_util.vh"
+`define MUNOC_GDEF_29(BW_ADDR,BW_DATA) ((BW_ADDR)+1+(BW_DATA)) 
+`define MUNOC_GDEF_61(BW_DATA) ((BW_DATA)+1+) 
 
 `endif
 

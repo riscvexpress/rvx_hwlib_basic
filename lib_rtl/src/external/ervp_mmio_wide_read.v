@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-29
+// 2026-11-11
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -66,7 +66,7 @@ ERVP_COUNTER_WITH_ONEHOT_ENCODING
 	.COUNT_LENGTH(RVX_LPARA_1),
 	.CIRCULAR(1)
 )
-i_rvx_instance_1
+i_rvx_instance_0
 (
 	.clk(clk),
 	.rstnn(rstnn),
@@ -88,7 +88,7 @@ ERVP_MUX_WITH_ONEHOT_ENCODED_SELECT
   .NUM_DATA(RVX_LPARA_0),
   .ACTIVE_HIGH(1)
 )
-i_rvx_instance_0
+i_rvx_instance_1
 (
 	.data_input_list(rvx_signal_0),
 	.select(rvx_signal_1),

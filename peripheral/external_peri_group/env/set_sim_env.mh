@@ -1,5 +1,5 @@
 include ${RVX_HWLIB_BASIC_HOME}/peripheral/uart/env/set_sim_env.mh
-include ${RVX_HWLIB_BASIC_HOME}/peripheral/spi/env/set_sim_env.mh
+include ${RVX_HWLIB_BASIC_HOME}/opentitan/env/set_sim_env.mh
 include ${RVX_HWLIB_BASIC_HOME}/peripheral/i2c/env/set_sim_env.mh
 include ${RVX_HWLIB_BASIC_HOME}/peripheral/gpio/env/set_sim_env.mh
 

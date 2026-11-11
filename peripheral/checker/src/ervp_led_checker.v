@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-29
+// 2026-11-11
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -35,9 +35,9 @@ parameter NUM_LED = 1;
 
 `include "ervp_log_util.vf"
 
-localparam  RVX_LPARA_1 = 1;
-localparam  RVX_LPARA_3 = 16;
-localparam  RVX_LPARA_0 = RVX_LPARA_3/RVX_LPARA_1;
+localparam  RVX_LPARA_3 = 1;
+localparam  RVX_LPARA_1 = 16;
+localparam  RVX_LPARA_0 = RVX_LPARA_1/RVX_LPARA_3;
 localparam  RVX_LPARA_2 = LOG2RU(RVX_LPARA_0);
 
 input wire clk;
@@ -54,7 +54,7 @@ ERVP_COUNTER
 	.BW_COUNTER(RVX_LPARA_2),
 	.CIRCULAR(1)
 )
-i_rvx_instance_0
+i_rvx_instance_1
 (
 	.clk(clk),
 	.rstnn(rstnn),
@@ -70,7 +70,7 @@ ERVP_COUNTER
 #(
 	.BW_COUNTER(RVX_LPARA_2+1)
 )
-i_rvx_instance_1
+i_rvx_instance_0
 (
 	.clk(clk),
 	.rstnn(rstnn),

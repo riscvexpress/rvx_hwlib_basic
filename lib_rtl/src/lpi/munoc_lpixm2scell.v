@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-29
+// 2026-11-11
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -105,20 +105,20 @@ output wire [NUM_CELL-1:0] sscell_renable_list;
 input wire [CELL_WIDTH*NUM_CELL-1:0] sscell_rdata_list;
 input wire [NUM_CELL-1:0] sscell_stall_list;
 
-wire [2-1:0] rvx_signal_10;
-wire rvx_signal_05;
-wire rvx_signal_09;
+wire [2-1:0] rvx_signal_03;
 wire rvx_signal_02;
-wire rvx_signal_03;
-wire [BW_LPI_QDATA-1:0] rvx_signal_06;
-
-wire [2-1:0] rvx_signal_07;
 wire rvx_signal_00;
-wire rvx_signal_08;
-wire rvx_signal_04;
-wire [BW_LPI_YDATA-1:0] rvx_signal_01;
+wire rvx_signal_10;
+wire rvx_signal_06;
+wire [BW_LPI_QDATA-1:0] rvx_signal_04;
 
-RVX_MODULE_012
+wire [2-1:0] rvx_signal_05;
+wire rvx_signal_07;
+wire rvx_signal_01;
+wire rvx_signal_08;
+wire [BW_LPI_YDATA-1:0] rvx_signal_09;
+
+RVX_MODULE_047
 #(
   .RVX_GPARA_0(BW_ADDR),
   .RVX_GPARA_1(BW_DATA),
@@ -128,79 +128,79 @@ RVX_MODULE_012
 )
 i_rvx_instance_1
 (
-	.rvx_port_16(clk),
-	.rvx_port_13(rstnn),
-  .rvx_port_17(clear),
-  .rvx_port_25(enable),
+	.rvx_port_01(clk),
+	.rvx_port_04(rstnn),
+  .rvx_port_12(clear),
+  .rvx_port_19(enable),
 
-  .rvx_port_00(rlqdready),
-  .rvx_port_06(rlqvalid),
-  .rvx_port_19(rlqhint),
-  .rvx_port_20(rlqlast),
-  .rvx_port_10(rlqafy),
-  .rvx_port_12(rlqdata),
+  .rvx_port_09(rlqdready),
+  .rvx_port_16(rlqvalid),
+  .rvx_port_22(rlqhint),
+  .rvx_port_08(rlqlast),
+  .rvx_port_15(rlqafy),
+  .rvx_port_24(rlqdata),
 
-  .rvx_port_18(rlydready),
-  .rvx_port_14(rlyvalid),
-  .rvx_port_08(rlyhint),
-  .rvx_port_01(rlylast),
-  .rvx_port_22(rlydata),
+  .rvx_port_02(rlydready),
+  .rvx_port_17(rlyvalid),
+  .rvx_port_06(rlyhint),
+  .rvx_port_10(rlylast),
+  .rvx_port_25(rlydata),
 
-  .rvx_port_04(rvx_signal_10),
+  .rvx_port_18(rvx_signal_03),
+  .rvx_port_21(rvx_signal_02),
+  .rvx_port_13(rvx_signal_00),
+  .rvx_port_07(rvx_signal_10),
+  .rvx_port_14(rvx_signal_06),
+  .rvx_port_20(rvx_signal_04),
+
   .rvx_port_23(rvx_signal_05),
-  .rvx_port_03(rvx_signal_09),
-  .rvx_port_15(rvx_signal_02),
-  .rvx_port_24(rvx_signal_03),
-  .rvx_port_11(rvx_signal_06),
-
-  .rvx_port_21(rvx_signal_07),
-  .rvx_port_07(rvx_signal_00),
-  .rvx_port_05(rvx_signal_08),
-  .rvx_port_09(rvx_signal_04),
-  .rvx_port_02(rvx_signal_01)
+  .rvx_port_00(rvx_signal_07),
+  .rvx_port_05(rvx_signal_01),
+  .rvx_port_11(rvx_signal_08),
+  .rvx_port_03(rvx_signal_09)
 );
 
-RVX_MODULE_007
+RVX_MODULE_090
 #(
-  .RVX_GPARA_4(BW_ADDR),
+  .RVX_GPARA_3(BW_ADDR),
   .RVX_GPARA_5(BW_DATA),
   .BW_LPI_BURDEN(BW_LPI_BURDEN),
   .MEMORY_OPERATION_TYPE(MEMORY_OPERATION_TYPE),
-  .RVX_GPARA_1(BASEADDR),
-  .RVX_GPARA_6(BW_CELL_INDEX),
-  .RVX_GPARA_2(CELL_WIDTH),
-  .RVX_GPARA_0(NUM_CELL)
+  .RVX_GPARA_6(BASEADDR),
+  .RVX_GPARA_0(BW_CELL_INDEX),
+  .RVX_GPARA_4(CELL_WIDTH),
+  .RVX_GPARA_1(NUM_CELL)
 )
 i_rvx_instance_0
 (
-	.rvx_port_16(clk),
-	.rvx_port_09(rstnn),
-  .rvx_port_02(clear),
-  .rvx_port_06(enable),
+	.rvx_port_17(clk),
+	.rvx_port_19(rstnn),
+  .rvx_port_20(clear),
+  .rvx_port_13(enable),
 
-  .rvx_port_18(rvx_signal_10),
-  .rvx_port_05(rvx_signal_05),
-  .rvx_port_03(rvx_signal_09),
-  .rvx_port_17(rvx_signal_02),
-  .rvx_port_21(rvx_signal_03),
-  .rvx_port_00(rvx_signal_06),
+  .rvx_port_14(rvx_signal_03),
+  .rvx_port_22(rvx_signal_02),
+  .rvx_port_23(rvx_signal_00),
+  .rvx_port_00(rvx_signal_10),
+  .rvx_port_24(rvx_signal_06),
+  .rvx_port_08(rvx_signal_04),
 
-  .rvx_port_11(rvx_signal_07),
-  .rvx_port_10(rvx_signal_00),
-  .rvx_port_14(rvx_signal_08),
-  .rvx_port_22(rvx_signal_04),
-  .rvx_port_15(rvx_signal_01),
+  .rvx_port_06(rvx_signal_05),
+  .rvx_port_07(rvx_signal_07),
+  .rvx_port_10(rvx_signal_01),
+  .rvx_port_04(rvx_signal_08),
+  .rvx_port_01(rvx_signal_09),
 
-  .rvx_port_12(sscell_select_list),
-	.rvx_port_19(sscell_index_list),
-	.rvx_port_20(sscell_enable_list),
-	.rvx_port_23(sscell_wenable_list),
-	.rvx_port_04(sscell_wenable_byte_list),
-	.rvx_port_07(sscell_wenable_bit_list),
-	.rvx_port_13(sscell_wdata_list),
-	.rvx_port_01(sscell_renable_list),
-	.rvx_port_24(sscell_rdata_list),
-  .rvx_port_08(sscell_stall_list)
+  .rvx_port_21(sscell_select_list),
+	.rvx_port_11(sscell_index_list),
+	.rvx_port_05(sscell_enable_list),
+	.rvx_port_09(sscell_wenable_list),
+	.rvx_port_15(sscell_wenable_byte_list),
+	.rvx_port_18(sscell_wenable_bit_list),
+	.rvx_port_02(sscell_wdata_list),
+	.rvx_port_03(sscell_renable_list),
+	.rvx_port_16(sscell_rdata_list),
+  .rvx_port_12(sscell_stall_list)
 );
 
 endmodule

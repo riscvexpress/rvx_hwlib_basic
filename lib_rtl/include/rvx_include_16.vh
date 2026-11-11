@@ -11,21 +11,12 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-29
+// 2026-11-11
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
-parameter BW_IEEE_EXPONENT          = 8;
-parameter BW_IEEE_MANTISSA          = 23;
+localparam BW_IEEEDP_EXPONENT          = 11;
+localparam BW_IEEEDP_MANTISSA          = 52;
 
-localparam BW_IEEE_VALUE = 1 + BW_IEEE_EXPONENT + BW_IEEE_MANTISSA;
-localparam BW_IEEE_SIGNIFICAND = BW_IEEE_MANTISSA + 1;
-localparam IEEE_EXPONENT_BIAS = (2**(BW_IEEE_EXPONENT-1)) - 1;
-localparam IEEE_EXPONENT_MAX = (2**BW_IEEE_EXPONENT) - 2;
-localparam IEEE_EXPONENT_MIN_NORMALIZED = 0 - (BW_IEEE_MANTISSA-1);
-
-localparam IEEE_NAN_EXPONENT = IEEE_EXPONENT_MAX + 1;
-localparam IEEE_NAN_MANTISSA = 1;
-
-localparam IEEE_INF_EXPONENT = IEEE_EXPONENT_MAX + 1;
-localparam IEEE_INF_MANTISSA = 0;
+localparam BW_IEEEDP_VALUE = 1 + BW_IEEEDP_EXPONENT + BW_IEEEDP_MANTISSA;
+localparam BW_IEEEDP_SIGNIFICAND = BW_IEEEDP_MANTISSA + 1;

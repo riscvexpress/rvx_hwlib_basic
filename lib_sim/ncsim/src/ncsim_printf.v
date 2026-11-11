@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-29
+// 2026-11-11
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -34,150 +34,150 @@ input wire uart_rx;
 output wire uart_tx;
 output reg core_finish;
 
-localparam  RVX_LPARA_11 = 115200;
-localparam integer RVX_LPARA_01 = (1.0)*UART_CLK_HZ/(16*RVX_LPARA_11);
-localparam integer RVX_LPARA_04 = (RVX_LPARA_01<=1)? 1 : RVX_LPARA_01;
-localparam  RVX_LPARA_12 = UART_CLK_HZ/(16*RVX_LPARA_04);
-localparam  RVX_LPARA_05 = (RVX_LPARA_12<=1)? 1 : RVX_LPARA_12;
-localparam  RVX_LPARA_15 = ((1000000.0/(RVX_LPARA_05/1000))/2.0);
-localparam  RVX_LPARA_13 = (RVX_LPARA_15/SAMPLING_RATE);	
+localparam  RVX_LPARA_02 = 115200;
+localparam integer RVX_LPARA_08 = (1.0)*UART_CLK_HZ/(16*RVX_LPARA_02);
+localparam integer RVX_LPARA_09 = (RVX_LPARA_08<=1)? 1 : RVX_LPARA_08;
+localparam  RVX_LPARA_04 = UART_CLK_HZ/(16*RVX_LPARA_09);
+localparam  RVX_LPARA_06 = (RVX_LPARA_04<=1)? 1 : RVX_LPARA_04;
+localparam  RVX_LPARA_16 = ((1000000.0/(RVX_LPARA_06/1000))/2.0);
+localparam  RVX_LPARA_10 = (RVX_LPARA_16/SAMPLING_RATE);	
 
-localparam  RVX_LPARA_09 = 4'h0;
-localparam  RVX_LPARA_02 = 4'h1;
-localparam  RVX_LPARA_10 = 4'h2;
-localparam  RVX_LPARA_14 = 4'h3;
-localparam  RVX_LPARA_03 = 4'h4;
-localparam  RVX_LPARA_07 = 4'h5;
-localparam  RVX_LPARA_00 = 4'h6;
-localparam  RVX_LPARA_08 = 4'h7;
-localparam  RVX_LPARA_06 = 4'h8;
-localparam  RVX_LPARA_16 = 4'h9;
+localparam  RVX_LPARA_13 = 4'h0;
+localparam  RVX_LPARA_03 = 4'h1;
+localparam  RVX_LPARA_05 = 4'h2;
+localparam  RVX_LPARA_11 = 4'h3;
+localparam  RVX_LPARA_14 = 4'h4;
+localparam  RVX_LPARA_00 = 4'h5;
+localparam  RVX_LPARA_07 = 4'h6;
+localparam  RVX_LPARA_15 = 4'h7;
+localparam  RVX_LPARA_01 = 4'h8;
+localparam  RVX_LPARA_12 = 4'h9;
 
 reg rvx_signal_5;
 
-reg	[3:0]	rvx_signal_2;
-reg	[7:0]	rvx_signal_0;
-
+reg	[3:0]	rvx_signal_0;
 reg	[7:0]	rvx_signal_6;
-reg	rvx_signal_3;
 
-reg	[SAMPLING_RATE-2:0]	rvx_signal_4;
-wire rvx_signal_7;
+reg	[7:0]	rvx_signal_1;
+reg	rvx_signal_7;
 
-wire rvx_signal_1;
+reg	[SAMPLING_RATE-2:0]	rvx_signal_2;
+wire rvx_signal_4;
+
+wire rvx_signal_3;
 
 integer result_file;
 
 `ifdef PRINTF_BOTH_OUT
+	`define RVX_LDEF_1
 	`define RVX_LDEF_0
-	`define RVX_LDEF_3
 `else
 	`ifdef PRINTF_FILE_OUT_ONLY
-		`define RVX_LDEF_0
+		`define RVX_LDEF_1
 	`else
-		`define RVX_LDEF_3
+		`define RVX_LDEF_0
 	`endif
 `endif
 
 initial rvx_signal_5 <= 0;
-always #(RVX_LPARA_13) rvx_signal_5 <= ~rvx_signal_5;
+always #(RVX_LPARA_10) rvx_signal_5 <= ~rvx_signal_5;
 
 always @(posedge rvx_signal_5)
 begin
-	rvx_signal_4 <= {rvx_signal_4, uart_rx};
+	rvx_signal_2 <= {rvx_signal_2, uart_rx};
 end
 
-assign rvx_signal_7 = (rvx_signal_4==0) ? 1'b0 : 1'b1;
-assign rvx_signal_1 = (rvx_signal_0==(SAMPLING_RATE-1));
+assign rvx_signal_4 = (rvx_signal_2==0) ? 1'b0 : 1'b1;
+assign rvx_signal_3 = (rvx_signal_6==(SAMPLING_RATE-1));
 
 initial begin
-	rvx_signal_2 <= RVX_LPARA_09;
-	rvx_signal_0	<= 0;
-	rvx_signal_6 <= 0;
-	rvx_signal_4 <= ~0;
+	rvx_signal_0 <= RVX_LPARA_13;
+	rvx_signal_6	<= 0;
+	rvx_signal_1 <= 0;
+	rvx_signal_2 <= ~0;
 end
 
 always @(posedge rvx_signal_5)
 begin
-	case(rvx_signal_2)
-	RVX_LPARA_09: begin
-		if(rvx_signal_7 == 0) begin
+	case(rvx_signal_0)
+	RVX_LPARA_13: begin
+		if(rvx_signal_4 == 0) begin
 			
-			rvx_signal_2 <= RVX_LPARA_02;
-			rvx_signal_0 <= 0;
+			rvx_signal_0 <= RVX_LPARA_03;
+			rvx_signal_6 <= 0;
 		end
-	end
-	RVX_LPARA_02: begin
-		if(rvx_signal_1==1) begin
-			rvx_signal_2			<= RVX_LPARA_10; 
-			rvx_signal_0			<= 0;
-			rvx_signal_6[0]	<= rvx_signal_7;
-		end
-		else rvx_signal_0 <= rvx_signal_0 + 1;
-	end
-	RVX_LPARA_10: begin
-		if(rvx_signal_1==1) begin
-			rvx_signal_2			<= RVX_LPARA_14; 
-			rvx_signal_0			<= 0;
-			rvx_signal_6[1]	<= rvx_signal_7;
-		end
-		else rvx_signal_0 <= rvx_signal_0 + 1;
-	end
-	RVX_LPARA_14: begin
-		if(rvx_signal_1==1) begin
-			rvx_signal_2			<= RVX_LPARA_03; 
-			rvx_signal_0			<= 0;
-			rvx_signal_6[2]	<= rvx_signal_7;
-		end
-		else rvx_signal_0 <= rvx_signal_0 + 1;
 	end
 	RVX_LPARA_03: begin
-		if(rvx_signal_1==1) begin
-			rvx_signal_2			<= RVX_LPARA_07; 
-			rvx_signal_0			<= 0;
-			rvx_signal_6[3]	<= rvx_signal_7;
+		if(rvx_signal_3==1) begin
+			rvx_signal_0			<= RVX_LPARA_05; 
+			rvx_signal_6			<= 0;
+			rvx_signal_1[0]	<= rvx_signal_4;
 		end
-		else rvx_signal_0 <= rvx_signal_0 + 1;
+		else rvx_signal_6 <= rvx_signal_6 + 1;
 	end
-	RVX_LPARA_07: begin
-		if(rvx_signal_1==1) begin
-			rvx_signal_2			<= RVX_LPARA_00; 
-			rvx_signal_0			<= 0;
-			rvx_signal_6[4]	<= rvx_signal_7;
+	RVX_LPARA_05: begin
+		if(rvx_signal_3==1) begin
+			rvx_signal_0			<= RVX_LPARA_11; 
+			rvx_signal_6			<= 0;
+			rvx_signal_1[1]	<= rvx_signal_4;
 		end
-		else rvx_signal_0 <= rvx_signal_0 + 1;
+		else rvx_signal_6 <= rvx_signal_6 + 1;
+	end
+	RVX_LPARA_11: begin
+		if(rvx_signal_3==1) begin
+			rvx_signal_0			<= RVX_LPARA_14; 
+			rvx_signal_6			<= 0;
+			rvx_signal_1[2]	<= rvx_signal_4;
+		end
+		else rvx_signal_6 <= rvx_signal_6 + 1;
+	end
+	RVX_LPARA_14: begin
+		if(rvx_signal_3==1) begin
+			rvx_signal_0			<= RVX_LPARA_00; 
+			rvx_signal_6			<= 0;
+			rvx_signal_1[3]	<= rvx_signal_4;
+		end
+		else rvx_signal_6 <= rvx_signal_6 + 1;
 	end
 	RVX_LPARA_00: begin
-		if(rvx_signal_1==1) begin
-			rvx_signal_2			<= RVX_LPARA_08; 
-			rvx_signal_0			<= 0;
-			rvx_signal_6[5]	<= rvx_signal_7;
+		if(rvx_signal_3==1) begin
+			rvx_signal_0			<= RVX_LPARA_07; 
+			rvx_signal_6			<= 0;
+			rvx_signal_1[4]	<= rvx_signal_4;
 		end
-		else rvx_signal_0 <= rvx_signal_0 + 1;
+		else rvx_signal_6 <= rvx_signal_6 + 1;
 	end
-	RVX_LPARA_08: begin
-		if(rvx_signal_1==1) begin
-			rvx_signal_2			<= RVX_LPARA_06; 
-			rvx_signal_0			<= 0;
-			rvx_signal_6[6]	<= rvx_signal_7;
+	RVX_LPARA_07: begin
+		if(rvx_signal_3==1) begin
+			rvx_signal_0			<= RVX_LPARA_15; 
+			rvx_signal_6			<= 0;
+			rvx_signal_1[5]	<= rvx_signal_4;
 		end
-		else rvx_signal_0 <= rvx_signal_0 + 1;
+		else rvx_signal_6 <= rvx_signal_6 + 1;
 	end
-	RVX_LPARA_06: begin
-		if(rvx_signal_1==1) begin
-			rvx_signal_2			<= RVX_LPARA_16; 
-			rvx_signal_0			<= 0;
-			rvx_signal_6[7]	<= rvx_signal_7;
+	RVX_LPARA_15: begin
+		if(rvx_signal_3==1) begin
+			rvx_signal_0			<= RVX_LPARA_01; 
+			rvx_signal_6			<= 0;
+			rvx_signal_1[6]	<= rvx_signal_4;
 		end
-		else rvx_signal_0 <= rvx_signal_0 + 1;
+		else rvx_signal_6 <= rvx_signal_6 + 1;
 	end
-	RVX_LPARA_16: begin
-		if(rvx_signal_1==1) begin
-			rvx_signal_2			<= RVX_LPARA_09; 
-			rvx_signal_0			<= 0;
-			rvx_signal_3 <= rvx_signal_7;			
+	RVX_LPARA_01: begin
+		if(rvx_signal_3==1) begin
+			rvx_signal_0			<= RVX_LPARA_12; 
+			rvx_signal_6			<= 0;
+			rvx_signal_1[7]	<= rvx_signal_4;
 		end
-		else rvx_signal_0 <= rvx_signal_0 + 1;
+		else rvx_signal_6 <= rvx_signal_6 + 1;
+	end
+	RVX_LPARA_12: begin
+		if(rvx_signal_3==1) begin
+			rvx_signal_0			<= RVX_LPARA_13; 
+			rvx_signal_6			<= 0;
+			rvx_signal_7 <= rvx_signal_4;			
+		end
+		else rvx_signal_6 <= rvx_signal_6 + 1;
 	end
 	endcase
 end
@@ -185,30 +185,30 @@ end
 initial
 begin
 	core_finish = 0;
-	`ifdef RVX_LDEF_0
+	`ifdef RVX_LDEF_1
 	result_file = $fopen("result.dat", "w");
 	`endif
 	while(1)
 	begin
-		wait(rvx_signal_2==RVX_LPARA_09);
-		wait(rvx_signal_2==RVX_LPARA_16);
-		wait(rvx_signal_1==1);
-		if(rvx_signal_6==4)
+		wait(rvx_signal_0==RVX_LPARA_13);
+		wait(rvx_signal_0==RVX_LPARA_12);
+		wait(rvx_signal_3==1);
+		if(rvx_signal_1==4)
 		begin
-			`ifdef RVX_LDEF_0
+			`ifdef RVX_LDEF_1
 			$fclose(result_file);
 			`endif
 			core_finish = 1;			
 		end
 		else
 		begin
-			if($unsigned(rvx_signal_6)!=13)
+			if($unsigned(rvx_signal_1)!=13)
 			begin
-				`ifdef RVX_LDEF_3
-				$write("%c", rvx_signal_6);
-				`endif
 				`ifdef RVX_LDEF_0
-				$fwrite(result_file, "%c", rvx_signal_6);
+				$write("%c", rvx_signal_1);
+				`endif
+				`ifdef RVX_LDEF_1
+				$fwrite(result_file, "%c", rvx_signal_1);
 				`endif				
 			end
 		end
@@ -218,13 +218,13 @@ end
 assign uart_tx = 1;
 
 `ifdef PRINTF_BOTH_OUT
+	`undef RVX_LDEF_1
 	`undef RVX_LDEF_0
-	`undef RVX_LDEF_3
 `else
 	`ifdef PRINTF_FILE_OUT_ONLY
-		`undef RVX_LDEF_0
+		`undef RVX_LDEF_1
 	`else
-		`undef RVX_LDEF_3
+		`undef RVX_LDEF_0
 	`endif
 `endif
 

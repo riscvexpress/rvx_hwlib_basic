@@ -11,12 +11,12 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-29
+// 2026-11-11
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
-localparam BW_IEEEDP_EXPONENT          = 11;
-localparam BW_IEEEDP_MANTISSA          = 52;
+localparam BW_IEEESP_EXPONENT          = 8;
+localparam BW_IEEESP_MANTISSA          = 23;
 
-localparam BW_IEEEDP_VALUE = 1 + BW_IEEEDP_EXPONENT + BW_IEEEDP_MANTISSA;
-localparam BW_IEEEDP_SIGNIFICAND = BW_IEEEDP_MANTISSA + 1;
+localparam BW_IEEESP_VALUE = 1 + BW_IEEESP_EXPONENT + BW_IEEESP_MANTISSA;
+localparam BW_IEEESP_SIGNIFICAND = BW_IEEESP_MANTISSA + 1;

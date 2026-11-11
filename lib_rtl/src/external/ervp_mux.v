@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-29
+// 2026-11-11
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -46,8 +46,8 @@ genvar i;
 
 wire [BW_DATA*NUM_DATA-1:0] rvx_signal_2;
 wire [BW_DATA*RVX_LPARA_0-1:0] rvx_signal_3;
-wire [BW_DATA-1:0] rvx_signal_1 [RVX_LPARA_0-1:0];
-wire [RVX_LPARA_1-1:0] rvx_signal_0;
+wire [BW_DATA-1:0] rvx_signal_0 [RVX_LPARA_0-1:0];
+wire [RVX_LPARA_1-1:0] rvx_signal_1;
 
 for(i=0; i<NUM_DATA; i=i+1)
 begin : i_reorder
@@ -55,13 +55,13 @@ begin : i_reorder
 end
 
 assign rvx_signal_3 = rvx_signal_2;
-assign rvx_signal_0 = $unsigned(select);
+assign rvx_signal_1 = $unsigned(select);
 
 for(i=0; i<RVX_LPARA_0; i=i+1)
 begin : i_split_input
-  assign rvx_signal_1[i] = rvx_signal_3[BW_DATA*(i+1)-1 -:BW_DATA];
+  assign rvx_signal_0[i] = rvx_signal_3[BW_DATA*(i+1)-1 -:BW_DATA];
 end
 
-assign data_output = (NUM_DATA<=1)? data_input_list : rvx_signal_1[$unsigned(rvx_signal_0)];
+assign data_output = (NUM_DATA<=1)? data_input_list : rvx_signal_0[$unsigned(rvx_signal_1)];
 
 endmodule

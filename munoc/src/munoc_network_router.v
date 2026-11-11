@@ -11,13 +11,13 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-20
+// 2026-11-09
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
 
 
-`include "munoc_include_01.vh"
+`include "munoc_include_10.vh"
 `include "munoc_extended_config.vh"
 `include "munoc_network_type.vh"
 `include "munoc_network_link.vh"
@@ -53,50 +53,50 @@ input wire [NUM_OUTPUT-1:0] output_ready_list;
 output wire [MUNOC_LPARA_0*NUM_OUTPUT-1:0] output_port_list;
 
 genvar i,j;
-wire [MUNOC_LPARA_0-1:0] munoc_signal_04[NUM_INPUT-1:0];
-wire [MUNOC_LPARA_0-1:0] munoc_signal_09[NUM_OUTPUT-1:0];
-wire [MUNOC_LPARA_0*NUM_INPUT-1:0] munoc_signal_07;
-wire [NUM_OUTPUT-1:0] munoc_signal_03[NUM_INPUT-1:0];
-wire [NUM_INPUT-1:0] munoc_signal_00[NUM_OUTPUT-1:0];
-wire [NUM_INPUT-1:0] munoc_signal_02 [NUM_OUTPUT-1:0];
-wire [NUM_INPUT-1:0] munoc_signal_06[NUM_OUTPUT-1:0];
-wire [NUM_OUTPUT-1:0] munoc_signal_05[NUM_INPUT-1:0];
-wire [NUM_OUTPUT-1:0] munoc_signal_01;
-wire [NUM_INPUT-1:0] munoc_signal_08;
+wire [MUNOC_LPARA_0-1:0] munoc_signal_07[NUM_INPUT-1:0];
+wire [MUNOC_LPARA_0-1:0] munoc_signal_01[NUM_OUTPUT-1:0];
+wire [MUNOC_LPARA_0*NUM_INPUT-1:0] munoc_signal_09;
+wire [NUM_OUTPUT-1:0] munoc_signal_04[NUM_INPUT-1:0];
+wire [NUM_INPUT-1:0] munoc_signal_03[NUM_OUTPUT-1:0];
+wire [NUM_INPUT-1:0] munoc_signal_00 [NUM_OUTPUT-1:0];
+wire [NUM_INPUT-1:0] munoc_signal_08[NUM_OUTPUT-1:0];
+wire [NUM_OUTPUT-1:0] munoc_signal_06[NUM_INPUT-1:0];
+wire [NUM_OUTPUT-1:0] munoc_signal_02;
+wire [NUM_INPUT-1:0] munoc_signal_05;
 
 generate
 for(i=0;i<NUM_INPUT;i=i+1)
 begin : i_input_separation
-	assign munoc_signal_04[i] = input_port_list[MUNOC_LPARA_0*(i+1)-1-:MUNOC_LPARA_0];
+	assign munoc_signal_07[i] = input_port_list[MUNOC_LPARA_0*(i+1)-1-:MUNOC_LPARA_0];
 end
 endgenerate
 
 generate
 for(i=0;i<NUM_OUTPUT;i=i+1)
 begin : i_output_separation
-	assign output_port_list[MUNOC_LPARA_0*(i+1)-1-:MUNOC_LPARA_0] = {munoc_signal_01[i],munoc_signal_09[i][MUNOC_LPARA_0-2:0]};
+	assign output_port_list[MUNOC_LPARA_0*(i+1)-1-:MUNOC_LPARA_0] = {munoc_signal_02[i],munoc_signal_01[i][MUNOC_LPARA_0-2:0]};
 end
 endgenerate
 
 generate
 for(i=0;i<NUM_INPUT;i=i+1)
 begin : i_input_port_with_routinhg_info
-	MUNOC_MODULE_25
+	MUNOC_MODULE_41
 	#(
-		.MUNOC_GPARA_3(NETWORK_TYPE),
-		.MUNOC_GPARA_1(ROUTER_ID),
-		.MUNOC_GPARA_2(BW_PHIT),
-		.MUNOC_GPARA_0(NUM_OUTPUT)
+		.MUNOC_GPARA_2(NETWORK_TYPE),
+		.MUNOC_GPARA_0(ROUTER_ID),
+		.MUNOC_GPARA_1(BW_PHIT),
+		.MUNOC_GPARA_3(NUM_OUTPUT)
 	)
 	i_munoc_instance_0
 	(
-		.munoc_port_0(clk),
-		.munoc_port_1(rstnn),
-		.munoc_port_4(input_ready_list[i]),
-		.munoc_port_3(munoc_signal_04[i]),
-		.munoc_port_2(munoc_signal_08[i]),
-		.munoc_port_6(munoc_signal_07[MUNOC_LPARA_0*(i+1)-1-:MUNOC_LPARA_0]),
-		.munoc_port_5(munoc_signal_03[i])
+		.munoc_port_1(clk),
+		.munoc_port_6(rstnn),
+		.munoc_port_2(input_ready_list[i]),
+		.munoc_port_0(munoc_signal_07[i]),
+		.munoc_port_4(munoc_signal_05[i]),
+		.munoc_port_5(munoc_signal_09[MUNOC_LPARA_0*(i+1)-1-:MUNOC_LPARA_0]),
+		.munoc_port_3(munoc_signal_04[i])
 	);
 end
 endgenerate
@@ -106,8 +106,8 @@ for(i=0;i<NUM_INPUT;i=i+1)
 begin : i_input_iter
 	for(j=0;j<NUM_OUTPUT;j=j+1)
 	begin : i_output_iter
-		assign munoc_signal_00[j][i] = munoc_signal_03[i][j];
-		assign munoc_signal_05[i][j] = munoc_signal_06[j][i];
+		assign munoc_signal_03[j][i] = munoc_signal_04[i][j];
+		assign munoc_signal_06[i][j] = munoc_signal_08[j][i];
 	end
 end
 endgenerate
@@ -115,14 +115,14 @@ endgenerate
 generate
 for(i=0;i<NUM_INPUT;i=i+1)
 begin : i_read_request_merging
-	assign munoc_signal_08[i] = (munoc_signal_05[i]!=0);
+	assign munoc_signal_05[i] = (munoc_signal_06[i]!=0);
 end
 endgenerate
 
 generate
 for(i=0;i<NUM_OUTPUT;i=i+1)
 begin : i_arbiter_gen
-	MUNOC_MODULE_20
+	MUNOC_MODULE_39
 	#(
 		.MUNOC_GPARA_0(NETWORK_TYPE),
 		.MUNOC_GPARA_1(BW_PHIT),
@@ -131,14 +131,14 @@ begin : i_arbiter_gen
 	)
 	i_munoc_instance_2
 	(
-		.munoc_port_4(clk),
+		.munoc_port_6(clk),
 		.munoc_port_7(rstnn),
-		.munoc_port_3(munoc_signal_07),
-		.munoc_port_1(munoc_signal_00[i]),
-		.munoc_port_0(output_ready_list[i]),
-		.munoc_port_2(munoc_signal_02[i]),
-		.munoc_port_5(munoc_signal_06[i]),
-		.munoc_port_6(munoc_signal_01[i])
+		.munoc_port_0(munoc_signal_09),
+		.munoc_port_5(munoc_signal_03[i]),
+		.munoc_port_1(output_ready_list[i]),
+		.munoc_port_4(munoc_signal_00[i]),
+		.munoc_port_2(munoc_signal_08[i]),
+		.munoc_port_3(munoc_signal_02[i])
 	);
 end
 endgenerate
@@ -153,9 +153,9 @@ begin : i_output_mux_gen
 	)
 	i_munoc_instance_1
 	(
-		.data_input_list(munoc_signal_07),
-		.select(munoc_signal_02[i]),
-		.data_output(munoc_signal_09[i])
+		.data_input_list(munoc_signal_09),
+		.select(munoc_signal_00[i]),
+		.data_output(munoc_signal_01[i])
 	);
 end
 endgenerate

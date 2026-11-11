@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-29
+// 2026-11-11
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -48,9 +48,9 @@ output wire rready;
 input wire rrequest;
 output reg [BW_DATA-1:0] rdata;
 
-reg rvx_signal_1, rvx_signal_4;
-wire rvx_signal_0, rvx_signal_2;
-wire rvx_signal_5, rvx_signal_3;
+reg rvx_signal_2, rvx_signal_0;
+wire rvx_signal_4, rvx_signal_1;
+wire rvx_signal_3, rvx_signal_5;
 
 ERVP_SYNCHRONIZER
 #(
@@ -61,8 +61,8 @@ i_rvx_instance_1
 	.clk(wclk),
 	.rstnn(rrstnn),	
 	.enable(1'b 1),
-	.asynch_value(rvx_signal_1),
-	.synch_value(rvx_signal_2)
+	.asynch_value(rvx_signal_2),
+	.synch_value(rvx_signal_1)
 );
 
 ERVP_SYNCHRONIZER
@@ -74,27 +74,27 @@ i_rvx_instance_0
 	.clk(rclk),
 	.rstnn(rrstnn),
 	.enable(1'b 1),
-	.asynch_value(rvx_signal_4),
-	.synch_value(rvx_signal_0)
+	.asynch_value(rvx_signal_0),
+	.synch_value(rvx_signal_4)
 );
 
 always @(posedge rclk or negedge rrstnn)
 	if (!rrstnn)
-		rvx_signal_1 <= 0;
-	else if(rvx_signal_5)
-		rvx_signal_1 <= ~rvx_signal_1;
+		rvx_signal_2 <= 0;
+	else if(rvx_signal_3)
+		rvx_signal_2 <= ~rvx_signal_2;
 
-assign rready = (rvx_signal_1!=rvx_signal_0);
-assign rvx_signal_5 = rready & rrequest;
+assign rready = (rvx_signal_2!=rvx_signal_4);
+assign rvx_signal_3 = rready & rrequest;
 
 always @(posedge wclk or negedge rrstnn)	
 	if (!rrstnn)
-		rvx_signal_4 <= 0;
-	else if(rvx_signal_3)
-		rvx_signal_4 <= ~rvx_signal_4;
+		rvx_signal_0 <= 0;
+	else if(rvx_signal_5)
+		rvx_signal_0 <= ~rvx_signal_0;
 
-assign wready = (rvx_signal_4==rvx_signal_2);
-assign rvx_signal_3 = wready & wrequest;
+assign wready = (rvx_signal_0==rvx_signal_1);
+assign rvx_signal_5 = wready & wrequest;
 
 always @(posedge wclk, negedge wrstnn)
 begin

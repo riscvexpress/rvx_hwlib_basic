@@ -11,24 +11,25 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-20
+// 2026-11-09
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
 
 
-`ifndef MUNOC_GDEF_89
-`define MUNOC_GDEF_89
+`ifndef MUNOC_GDEF_06
+`define MUNOC_GDEF_06
 
-`include "ervp_string_util.vh"
+`define MUNOC_GDEF_77 3
 
-`define MUNOC_GDEF_43 16
-`define MUNOC_GDEF_85 "micro NoC 4.5"
+`define MUNOC_GDEF_74 0
+`define MUNOC_GDEF_03 1
+`define MUNOC_GDEF_38 2
+`define MUNOC_GDEF_33 3
+`define MUNOC_GDEF_85 4
+`define MUNOC_GDEF_35 5
 
-`define MUNOC_GDEF_48 8
-
-`define MUNOC_GDEF_53 (`MUNOC_GDEF_43*`BITS_PER_CHAR)
-`define MUNOC_GDEF_39 (`MUNOC_GDEF_48*`BITS_PER_CHAR)
+`define MUNOC_GDEF_72(bw_data) (((bw_data)==32)? `MUNOC_GDEF_74 : (((bw_data)==64)? `MUNOC_GDEF_03 : (((bw_data)==128)? `MUNOC_GDEF_38 : (((bw_data)==256)? `MUNOC_GDEF_33 : (((bw_data)==512)? `MUNOC_GDEF_85 : (((bw_data)==1024)? `MUNOC_GDEF_35 : -1))))))
 
 `endif
 

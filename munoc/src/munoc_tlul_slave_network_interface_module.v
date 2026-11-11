@@ -11,19 +11,19 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-20
+// 2026-11-09
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
 
-`include "munoc_include_01.vh"
+`include "munoc_include_10.vh"
 `include "munoc_extended_config.vh"
 `include "ervp_axi_define.vh"
 `include "munoc_network_link.vh"
 `include "munoc_control.vh"
+`include "munoc_include_08.vh"
 `include "munoc_include_03.vh"
 `include "munoc_include_07.vh"
-`include "munoc_include_06.vh"
 
 
 
@@ -73,16 +73,16 @@ parameter BW_FNI_PHIT = 8;
 parameter BW_BNI_PHIT = 8;
 parameter BW_PLATFORM_ADDR = 32;
 parameter BW_NODE_DATA = 32;
-localparam  MUNOC_LPARA_0 = `REQUIRED_BW_OF_SLAVE_TID;
+localparam  MUNOC_LPARA_2 = `REQUIRED_BW_OF_SLAVE_TID;
 parameter SUPPORTED_DATA_WIDTH = `BW_LONGEST_MASTER_DATA;
 parameter PARTIAL_READ_WIDTH = `LLIMIT_OF_DATA_WIDTH;
 parameter BW_TLUL_SIZE = 2;
 parameter BW_TLUL_SOURCE = 8;
 parameter BW_TLUL_SINK = 1;
 
-localparam  MUNOC_LPARA_2 = BW_PLATFORM_ADDR;
+localparam  MUNOC_LPARA_0 = BW_PLATFORM_ADDR;
 localparam  MUNOC_LPARA_1 = BW_NODE_DATA;
-localparam  MUNOC_LPARA_3 = MUNOC_LPARA_0;
+localparam  MUNOC_LPARA_3 = MUNOC_LPARA_2;
 
 `include "lpit_function.vb"
 `include "lpixm_function.vb"
@@ -104,7 +104,7 @@ output wire [3-1:0] stlaopcode;
 output wire [3-1:0] stlaparam;
 output wire [BW_TLUL_SIZE-1:0] stlasize;
 output wire [BW_TLUL_SOURCE-1:0] stlasource;
-output wire [MUNOC_LPARA_2-1:0] stlaaddress;
+output wire [MUNOC_LPARA_0-1:0] stlaaddress;
 output wire [`BW_AXI_WSTRB(MUNOC_LPARA_1)-1:0] stlamask;
 output wire [MUNOC_LPARA_1-1:0] stladata;
 
@@ -123,25 +123,25 @@ output wire svri_rack;
 output wire [`BW_SVRING_LINK-1:0] svri_slink;
 input wire svri_sack;
 
-wire [(2)-1:0] munoc_signal_09;
-wire munoc_signal_02;
+wire [(2)-1:0] munoc_signal_12;
 wire munoc_signal_03;
-wire munoc_signal_12;
-wire [`BW_AXI_ALEN-1:0] munoc_signal_01;
-wire [`BW_AXI_ASIZE-1:0] munoc_signal_08;
-wire [`BW_AXI_ABURST-1:0] munoc_signal_14;
-wire [`BW_AXI_WSTRB(MUNOC_LPARA_1)-1:0] munoc_signal_17;
-wire [MUNOC_LPARA_1-1:0] munoc_signal_16;
-wire [MUNOC_LPARA_2-1:0] munoc_signal_15;
-wire [BW_LPI_BURDEN-1:0] munoc_signal_04;
-
-wire [(2)-1:0] munoc_signal_00;
-wire munoc_signal_11;
 wire munoc_signal_05;
 wire munoc_signal_06;
-wire [`BW_AXI_RESP-1:0] munoc_signal_07;
-wire [MUNOC_LPARA_1-1:0] munoc_signal_10;
-wire [BW_LPI_BURDEN-1:0] munoc_signal_13;
+wire [`BW_AXI_ALEN-1:0] munoc_signal_01;
+wire [`BW_AXI_ASIZE-1:0] munoc_signal_02;
+wire [`BW_AXI_ABURST-1:0] munoc_signal_17;
+wire [`BW_AXI_WSTRB(MUNOC_LPARA_1)-1:0] munoc_signal_07;
+wire [MUNOC_LPARA_1-1:0] munoc_signal_09;
+wire [MUNOC_LPARA_0-1:0] munoc_signal_04;
+wire [BW_LPI_BURDEN-1:0] munoc_signal_00;
+
+wire [(2)-1:0] munoc_signal_08;
+wire munoc_signal_16;
+wire munoc_signal_11;
+wire munoc_signal_15;
+wire [`BW_AXI_RESP-1:0] munoc_signal_14;
+wire [MUNOC_LPARA_1-1:0] munoc_signal_13;
+wire [BW_LPI_BURDEN-1:0] munoc_signal_10;
 
 MUNOC_XMI_SLAVE_NETWORK_INTERFACE_MODULE
 #(
@@ -151,11 +151,11 @@ MUNOC_XMI_SLAVE_NETWORK_INTERFACE_MODULE
   .BW_BNI_PHIT(BW_BNI_PHIT),
   .BW_PLATFORM_ADDR(BW_PLATFORM_ADDR),
   .BW_NODE_DATA(BW_NODE_DATA),
-  .BW_AXI_SLAVE_TID(MUNOC_LPARA_0),
+  .BW_AXI_SLAVE_TID(MUNOC_LPARA_2),
   .SUPPORTED_DATA_WIDTH(SUPPORTED_DATA_WIDTH),
   .PARTIAL_READ_WIDTH(PARTIAL_READ_WIDTH)
 )
-i_munoc_instance_0
+i_munoc_instance_1
 (
 	.clk(clk),
 	.rstnn(rstnn),
@@ -167,24 +167,24 @@ i_munoc_instance_0
 	.rbni_link(rbni_link),
 	.rbni_ready(rbni_ready),
 
-	.slxqdready(munoc_signal_09),
-	.slxqvalid(munoc_signal_02),
-	.slxqlast(munoc_signal_03),
-	.slxqwrite(munoc_signal_12),
+	.slxqdready(munoc_signal_12),
+	.slxqvalid(munoc_signal_03),
+	.slxqlast(munoc_signal_05),
+	.slxqwrite(munoc_signal_06),
 	.slxqlen(munoc_signal_01),
-	.slxqsize(munoc_signal_08),
-	.slxqburst(munoc_signal_14),
-	.slxqwstrb(munoc_signal_17),
-	.slxqwdata(munoc_signal_16),
-	.slxqaddr(munoc_signal_15),
-	.slxqburden(munoc_signal_04),
-	.slxydready(munoc_signal_00),
-	.slxyvalid(munoc_signal_11),
-	.slxylast(munoc_signal_05),
-	.slxywreply(munoc_signal_06),
-	.slxyresp(munoc_signal_07),
-	.slxyrdata(munoc_signal_10),
-	.slxyburden(munoc_signal_13),
+	.slxqsize(munoc_signal_02),
+	.slxqburst(munoc_signal_17),
+	.slxqwstrb(munoc_signal_07),
+	.slxqwdata(munoc_signal_09),
+	.slxqaddr(munoc_signal_04),
+	.slxqburden(munoc_signal_00),
+	.slxydready(munoc_signal_08),
+	.slxyvalid(munoc_signal_16),
+	.slxylast(munoc_signal_11),
+	.slxywreply(munoc_signal_15),
+	.slxyresp(munoc_signal_14),
+	.slxyrdata(munoc_signal_13),
+	.slxyburden(munoc_signal_10),
 
 	.svri_rlink(svri_rlink),
 	.svri_rack(svri_rack),
@@ -194,37 +194,37 @@ i_munoc_instance_0
 
 MUNOC_XMI2TLUL
 #(
-  .BW_ADDR(MUNOC_LPARA_2),
+  .BW_ADDR(MUNOC_LPARA_0),
   .BW_DATA(MUNOC_LPARA_1),
   .BW_BURDEN(BW_LPI_BURDEN),
   .BW_TLUL_SIZE(BW_TLUL_SIZE),
   .BW_TLUL_SOURCE(BW_TLUL_SOURCE),
   .BW_TLUL_SINK(BW_TLUL_SINK)
 )
-i_munoc_instance_1
+i_munoc_instance_0
 (
 	.clk(clk),
 	.rstnn(rstnn),
 
-	.rlxqdready(munoc_signal_09),
-	.rlxqvalid(munoc_signal_02),
-	.rlxqlast(munoc_signal_03),
-	.rlxqwrite(munoc_signal_12),
+	.rlxqdready(munoc_signal_12),
+	.rlxqvalid(munoc_signal_03),
+	.rlxqlast(munoc_signal_05),
+	.rlxqwrite(munoc_signal_06),
 	.rlxqlen(munoc_signal_01),
-	.rlxqsize(munoc_signal_08),
-	.rlxqburst(munoc_signal_14),
-	.rlxqwstrb(munoc_signal_17),
-	.rlxqwdata(munoc_signal_16),
-	.rlxqaddr(munoc_signal_15),
-	.rlxqburden(munoc_signal_04),
+	.rlxqsize(munoc_signal_02),
+	.rlxqburst(munoc_signal_17),
+	.rlxqwstrb(munoc_signal_07),
+	.rlxqwdata(munoc_signal_09),
+	.rlxqaddr(munoc_signal_04),
+	.rlxqburden(munoc_signal_00),
 
-	.rlxydready(munoc_signal_00),
-	.rlxyvalid(munoc_signal_11),
-	.rlxylast(munoc_signal_05),
-	.rlxywreply(munoc_signal_06),
-	.rlxyresp(munoc_signal_07),
-	.rlxyrdata(munoc_signal_10),
-	.rlxyburden(munoc_signal_13),
+	.rlxydready(munoc_signal_08),
+	.rlxyvalid(munoc_signal_16),
+	.rlxylast(munoc_signal_11),
+	.rlxywreply(munoc_signal_15),
+	.rlxyresp(munoc_signal_14),
+	.rlxyrdata(munoc_signal_13),
+	.rlxyburden(munoc_signal_10),
 
 	.stlavalid(stlavalid),
 	.stlaready(stlaready),

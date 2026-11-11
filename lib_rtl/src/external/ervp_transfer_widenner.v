@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-29
+// 2026-11-11
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -44,20 +44,20 @@ parameter BW_WIDE_DATA = 32;
 
 localparam  RVX_LPARA_0 = BW_WIDE_DATA/BW_DATA;
 
-localparam  RVX_LPARA_2 = `GET_AXI_SIZE(BW_DATA);
-localparam  RVX_LPARA_3 = `NUM_BYTE(BW_DATA);
+localparam  RVX_LPARA_3 = `GET_AXI_SIZE(BW_DATA);
+localparam  RVX_LPARA_1 = `NUM_BYTE(BW_DATA);
 
-localparam  RVX_LPARA_1 = `GET_AXI_SIZE(BW_WIDE_DATA);
+localparam  RVX_LPARA_2 = `GET_AXI_SIZE(BW_WIDE_DATA);
 localparam  RVX_LPARA_4 = `NUM_BYTE(BW_WIDE_DATA);
 
 input wire original_valid;
 input wire [BW_ADDR-1:0] original_addr;
 input wire [BW_DATA-1:0] original_wdata;
-input wire [RVX_LPARA_3-1:0] original_wbyteen;
+input wire [RVX_LPARA_1-1:0] original_wbyteen;
 output wire [BW_DATA-1:0] original_rdata;
 
 output wire [BW_ADDR-1:0] wide_addr;
-output wire [RVX_LPARA_1-1:0] wide_addr_offset;
+output wire [RVX_LPARA_2-1:0] wide_addr_offset;
 output wire [BW_WIDE_DATA-1:0] wide_wdata;
 output wire [RVX_LPARA_4-1:0] wide_wbyteen;
 input wire [BW_WIDE_DATA-1:0] wide_rdata;
@@ -86,7 +86,7 @@ i_rvx_instance_0
 for(i=0; i<RVX_LPARA_0; i=i+1)
 begin : i_widen
   assign wide_wdata[BW_DATA*(i+1)-1-:BW_DATA] = original_wdata;
-  assign wide_wbyteen[RVX_LPARA_3*(i+1)-1-:RVX_LPARA_3] = rvx_signal_0[i]? original_wbyteen : 0;
+  assign wide_wbyteen[RVX_LPARA_1*(i+1)-1-:RVX_LPARA_1] = rvx_signal_0[i]? original_wbyteen : 0;
 end
 
 ERVP_MUX

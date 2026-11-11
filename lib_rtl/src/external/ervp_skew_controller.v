@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-29
+// 2026-11-11
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -40,10 +40,10 @@ localparam  RVX_LPARA_0 = (2**BW_SKEW_VALUE);
 
 genvar i;
 
-wire [BW_SIGNAL-1:0] rvx_signal_1 [0:RVX_LPARA_0-1];
-wire [BW_SIGNAL*RVX_LPARA_0-1:0] rvx_signal_0;
+wire [BW_SIGNAL-1:0] rvx_signal_0 [0:RVX_LPARA_0-1];
+wire [BW_SIGNAL*RVX_LPARA_0-1:0] rvx_signal_1;
 
-assign rvx_signal_1[0] = signal;
+assign rvx_signal_0[0] = signal;
 
 generate
 for(i=1; i<RVX_LPARA_0; i=i+1)
@@ -51,8 +51,8 @@ begin : i_gen_stage
 	BUF
 	i_rvx_instance_1
 	(
-		.I(rvx_signal_1[i-1]),
-		.O(rvx_signal_1[i])
+		.I(rvx_signal_0[i-1]),
+		.O(rvx_signal_0[i])
 	);
 end
 endgenerate
@@ -60,7 +60,7 @@ endgenerate
 generate
 for(i=0; i<RVX_LPARA_0; i=i+1)
 begin : i_concat_stage
-	assign rvx_signal_0[BW_SIGNAL*(i+1)-1-:BW_SIGNAL] = rvx_signal_1[i];
+	assign rvx_signal_1[BW_SIGNAL*(i+1)-1-:BW_SIGNAL] = rvx_signal_0[i];
 end
 endgenerate
 
@@ -71,7 +71,7 @@ ERVP_MUX
 )
 i_rvx_instance_0
 (
-	.data_input_list(rvx_signal_0),
+	.data_input_list(rvx_signal_1),
 	.select(skew_value),
 	.data_output(signal_skewed)
 );

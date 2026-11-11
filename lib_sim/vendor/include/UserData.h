@@ -7,7 +7,7 @@
 //
 // ************************************ 
 
-`define N25Q128A13E
+`define MT25QL512ABA1E0
 
 `define FILENAME_mem "../flash_code/mem_Q128_bottom.vmf" // Memory File Name 
 `define FILENAME_sfdp "../flash_code/sfdp.vmf" // SFDP File Name 

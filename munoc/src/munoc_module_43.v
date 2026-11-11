@@ -11,70 +11,72 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-20
+// 2026-11-09
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
 
-`include "munoc_include_01.vh"
+`include "munoc_include_10.vh"
+
 
 
 
 module MUNOC_MODULE_43
 (
+	munoc_port_02,
 	munoc_port_09,
 
-	munoc_port_00,
-	munoc_port_11,
-	munoc_port_16,
+	munoc_port_07,
 	munoc_port_05,
-	munoc_port_10,
-	munoc_port_08,
-	munoc_port_02,
-	munoc_port_12,
-
-	munoc_port_13,
-	munoc_port_03,
 	munoc_port_04,
-	munoc_port_14,
-	munoc_port_15,
+
 	munoc_port_06,
 	munoc_port_01,
-	munoc_port_07
+
+	munoc_port_00,
+	munoc_port_03,
+	munoc_port_08
 );
 
 
 
-parameter MUNOC_GPARA_1 = 1;
+
 parameter MUNOC_GPARA_0 = 1;
+parameter MUNOC_GPARA_1 = 1;
 
-input wire munoc_port_09;
+input wire munoc_port_02, munoc_port_09;
 
-input wire [MUNOC_GPARA_0-1:0] munoc_port_00;
-input wire munoc_port_11;
-input wire munoc_port_16;
+output wire munoc_port_07;
 input wire munoc_port_05;
-input wire [MUNOC_GPARA_1-1:0] munoc_port_10;
-output wire [MUNOC_GPARA_1-1:0] munoc_port_08;
-output wire munoc_port_02;
-output wire munoc_port_12;
+input wire [MUNOC_GPARA_0-1:0] munoc_port_04;
 
-output wire [MUNOC_GPARA_0-1:0] munoc_port_13;
-output wire munoc_port_03;
-output wire munoc_port_04;
-output wire munoc_port_14;
-output wire [MUNOC_GPARA_1-1:0] munoc_port_15;
-input wire [MUNOC_GPARA_1-1:0] munoc_port_06;
-input wire munoc_port_01;
-input wire munoc_port_07;
+input wire munoc_port_06, munoc_port_01;
 
-assign munoc_port_13 = munoc_port_00;
-assign munoc_port_03 = munoc_port_11;
-assign munoc_port_04 = (~munoc_port_09) & munoc_port_16;
-assign munoc_port_14 = (~munoc_port_09) & munoc_port_05;
-assign munoc_port_15 = munoc_port_10;
-assign munoc_port_08 = munoc_port_06;
-assign munoc_port_02 = (~munoc_port_09) & munoc_port_01;
-assign munoc_port_12 = munoc_port_07;
+output wire munoc_port_00;
+input wire munoc_port_03;
+output wire [MUNOC_GPARA_0-1:0] munoc_port_08;
+
+ERVP_ASYNCH_FIFO
+#(
+	.BW_DATA(MUNOC_GPARA_0),
+	.DEPTH(MUNOC_GPARA_1)
+)
+i_munoc_instance_0
+(
+	.wclk(munoc_port_02),
+	.wrstnn(munoc_port_09),
+	.wready(munoc_port_07),
+	.wrequest(munoc_port_05),
+	.wfull(),
+	.wdata(munoc_port_04),
+	.wnum(),
+	.rclk(munoc_port_06),
+	.rrstnn(munoc_port_01),
+	.rready(munoc_port_00),
+	.rrequest(munoc_port_03),
+	.rempty(),
+	.rdata(munoc_port_08),
+	.rnum()
+);
 
 endmodule

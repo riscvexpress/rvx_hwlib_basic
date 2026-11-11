@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-29
+// 2026-11-11
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -77,47 +77,47 @@ input wire [NUM_MODULE-1:0] spslverr_list;
 genvar i,j;
 integer k;
 
-wire [BW_ADDR-1:0] rvx_signal_1 [NUM_MODULE-1:0];
-wire [NUM_MODULE-1:0] rvx_signal_0;
+wire [BW_ADDR-1:0] rvx_signal_0 [NUM_MODULE-1:0];
+wire [NUM_MODULE-1:0] rvx_signal_1;
 
 generate
 	for(i=0; i<NUM_MODULE; i=i+1)
 	begin : i_split
-		assign rvx_signal_1[i] = rpbaseaddr_list[BW_ADDR*(i+1)-1 -:BW_ADDR];
-		assign rvx_signal_0[i] = (rpaddr[SEL_UPPER_INDEX-:BW_SEL_INDEX]==rvx_signal_1[i][SEL_UPPER_INDEX-:BW_SEL_INDEX]);
+		assign rvx_signal_0[i] = rpbaseaddr_list[BW_ADDR*(i+1)-1 -:BW_ADDR];
+		assign rvx_signal_1[i] = (rpaddr[SEL_UPPER_INDEX-:BW_SEL_INDEX]==rvx_signal_0[i][SEL_UPPER_INDEX-:BW_SEL_INDEX]);
 	end
 endgenerate
 
-RVX_MODULE_103
+RVX_MODULE_060
 #(
-	.RVX_GPARA_0(NUM_MODULE),
-	.RVX_GPARA_2(BW_ADDR),
-	.RVX_GPARA_1(BW_DATA)
+	.RVX_GPARA_2(NUM_MODULE),
+	.RVX_GPARA_1(BW_ADDR),
+	.RVX_GPARA_0(BW_DATA)
 )
 i_rvx_instance_0
 (
-	.rvx_port_16(clk),
+	.rvx_port_05(clk),
 	.rvx_port_08(rstnn),
 
-	.rvx_port_06(rpsel),
-	.rvx_port_11(rpenable),
-	.rvx_port_17(rpaddr),
-	.rvx_port_18(rpwrite),
-	.rvx_port_04(rpwdata),
-	.rvx_port_00(rprdata),
-	.rvx_port_05(rpready),
-	.rvx_port_02(rpslverr),
+	.rvx_port_04(rpsel),
+	.rvx_port_16(rpenable),
+	.rvx_port_10(rpaddr),
+	.rvx_port_06(rpwrite),
+	.rvx_port_09(rpwdata),
+	.rvx_port_11(rprdata),
+	.rvx_port_02(rpready),
+	.rvx_port_15(rpslverr),
 
-	.rvx_port_07(rvx_signal_0),
+	.rvx_port_13(rvx_signal_1),
 	
-	.rvx_port_12(spsel_list),
-	.rvx_port_14(spenable_list),
-	.rvx_port_10(spaddr_list),
-	.rvx_port_15(spwrite_list),
-	.rvx_port_03(spwdata_list),
-	.rvx_port_13(sprdata_list),
-	.rvx_port_01(spready_list),
-	.rvx_port_09(spslverr_list)
+	.rvx_port_14(spsel_list),
+	.rvx_port_18(spenable_list),
+	.rvx_port_07(spaddr_list),
+	.rvx_port_17(spwrite_list),
+	.rvx_port_01(spwdata_list),
+	.rvx_port_03(sprdata_list),
+	.rvx_port_00(spready_list),
+	.rvx_port_12(spslverr_list)
 );
 
 endmodule

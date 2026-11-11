@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-29
+// 2026-11-11
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -48,34 +48,34 @@ output wire rvalid;
 input wire rready;
 
 wire rvx_signal_2;
-wire rvx_signal_3;
+wire rvx_signal_1;
 wire rvx_signal_4;
 wire rvx_signal_0;
 
 localparam  RVX_LPARA_0 = 1;
-localparam  RVX_LPARA_1 = 0;
-localparam  RVX_LPARA_2 = 1;
+localparam  RVX_LPARA_2 = 0;
+localparam  RVX_LPARA_1 = 1;
 
-reg [RVX_LPARA_0-1:0] rvx_signal_1;
+reg [RVX_LPARA_0-1:0] rvx_signal_3;
 
 always@(posedge wclk, negedge wrstnn)
 begin
   if(wrstnn==0)
-    rvx_signal_1 <= RVX_LPARA_1;
+    rvx_signal_3 <= RVX_LPARA_2;
   else
-    case(rvx_signal_1)
-      RVX_LPARA_1:
-        if(rvx_signal_3)
-          rvx_signal_1 <= RVX_LPARA_2;
+    case(rvx_signal_3)
       RVX_LPARA_2:
+        if(rvx_signal_1)
+          rvx_signal_3 <= RVX_LPARA_1;
+      RVX_LPARA_1:
         if(wfinish)
-          rvx_signal_1 <= RVX_LPARA_1;
+          rvx_signal_3 <= RVX_LPARA_2;
     endcase
 end
 
-assign rvx_signal_3 = (rvx_signal_1==RVX_LPARA_1) & wstart;
-assign wbusy = (rvx_signal_1==RVX_LPARA_2);
-assign wfinish = (rvx_signal_1==RVX_LPARA_2) & rvx_signal_2;
+assign rvx_signal_1 = (rvx_signal_3==RVX_LPARA_2) & wstart;
+assign wbusy = (rvx_signal_3==RVX_LPARA_1);
+assign wfinish = (rvx_signal_3==RVX_LPARA_1) & rvx_signal_2;
 
 ERVP_ASYNCH_REGISTER
 #(
@@ -86,7 +86,7 @@ i_rvx_instance_0
 	.wclk(wclk),
 	.wrstnn(wrstnn),
 	.wready(rvx_signal_2),
-	.wrequest(rvx_signal_3),
+	.wrequest(rvx_signal_1),
 	.wdata(1'b 0),
 	.rclk(rclk),
 	.rrstnn(rrstnn),

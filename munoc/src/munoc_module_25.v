@@ -11,129 +11,65 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-20
+// 2026-11-09
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
 
-
-`include "munoc_include_01.vh"
-`include "munoc_extended_config.vh"
-`include "munoc_network_type.vh"
-`include "munoc_network_link.vh"
-
+`include "munoc_include_10.vh"
 
 
 
 
 module MUNOC_MODULE_25
 (
-	munoc_port_0,
+	munoc_port_7,
 	munoc_port_1,
-	munoc_port_4,
-	munoc_port_3,	
-	munoc_port_2,
+
 	munoc_port_6,
-	munoc_port_5
+	munoc_port_0,
+	munoc_port_5,
+
+	munoc_port_3,
+	munoc_port_4,
+	munoc_port_2
 );
 
 
 
 
-
-parameter MUNOC_GPARA_3 = `NOT_SELECTED; 
-parameter MUNOC_GPARA_1 = -1;
-parameter MUNOC_GPARA_2 = 8;
 parameter MUNOC_GPARA_0 = 1;
+parameter MUNOC_GPARA_1 = 1;
 
-localparam  MUNOC_LPARA_0 = (MUNOC_GPARA_3==`FORWARD_NETWORK)? `BW_FNI_LINK(MUNOC_GPARA_2) : `BW_BNI_LINK(MUNOC_GPARA_2);
-localparam  MUNOC_LPARA_1 = (MUNOC_GPARA_3==`FORWARD_NETWORK)? `BW_SLAVE_NODE_ID : `BW_MASTER_NODE_ID;
+input wire munoc_port_7, munoc_port_1;
 
-input wire munoc_port_0, munoc_port_1;
-output reg munoc_port_4;
-input wire [MUNOC_LPARA_0-1:0] munoc_port_3;
-input wire munoc_port_2;
-output wire [MUNOC_LPARA_0-1:0] munoc_port_6;
-output wire [MUNOC_GPARA_0-1:0] munoc_port_5;
+output wire munoc_port_6;
+input wire munoc_port_0;
+input wire [MUNOC_GPARA_0-1:0] munoc_port_5;
 
-wire munoc_signal_6;
-wire munoc_signal_0;
-wire [MUNOC_LPARA_1-1:0] munoc_signal_7;
+output wire munoc_port_3;
+input wire munoc_port_4;
+output wire [MUNOC_GPARA_0-1:0] munoc_port_2;
 
-wire munoc_signal_4;
-
-reg munoc_signal_1;
-reg [MUNOC_LPARA_1-1:0] munoc_signal_3;
-wire [MUNOC_GPARA_0-1:0] munoc_signal_2;
-
-wire munoc_signal_5;
-
-assign munoc_signal_6 = munoc_port_3[MUNOC_LPARA_0-1-`MUNOC_GDEF_50(MUNOC_GPARA_3)];
-assign munoc_signal_0 = munoc_port_3[MUNOC_LPARA_0-1-`MUNOC_GDEF_90(MUNOC_GPARA_3)];
-assign munoc_signal_7 = munoc_port_3[MUNOC_LPARA_0-1-`MUNOC_GDEF_13(MUNOC_GPARA_3)-:MUNOC_LPARA_1];
-assign munoc_signal_4 = munoc_port_6[MUNOC_LPARA_0-1-`MUNOC_GDEF_50(MUNOC_GPARA_3)];
-
-RVX_MODULE_066
+ERVP_SMALL_FIFO
 #(
-	.RVX_GPARA_0(MUNOC_LPARA_0-1)
+	.BW_DATA(MUNOC_GPARA_0),
+	.DEPTH(MUNOC_GPARA_1)
 )
 i_munoc_instance_0
 (
-	.rvx_port_3(munoc_port_0),
-	.rvx_port_2(munoc_port_1),
-	.rvx_port_5(munoc_port_3[MUNOC_LPARA_0-2:0]),
-	.rvx_port_1(munoc_port_6[MUNOC_LPARA_0-1]),
-	.rvx_port_6(munoc_port_6[MUNOC_LPARA_0-2:0]),
-	.rvx_port_4(munoc_signal_5),
-	.rvx_port_0(munoc_port_2)
+	.clk(munoc_port_7),
+	.rstnn(munoc_port_1),
+	.enable(1'b 1),
+  .clear(1'b 0),
+	.wready(munoc_port_6),
+	.wfull(),
+	.wrequest(munoc_port_0),
+	.wdata(munoc_port_5),
+	.rready(munoc_port_3),
+	.rempty(),
+	.rrequest(munoc_port_4),
+	.rdata(munoc_port_2)
 );
-
-always@(posedge munoc_port_0, negedge munoc_port_1)
-begin
-	if(munoc_port_1==0)
-		munoc_signal_1 <= 1;
-	else if(munoc_signal_5)
-	begin
-		if(munoc_signal_0)
-			munoc_signal_1 <= 1;
-		else
-			munoc_signal_1 <= 0;
-	end
-end
-
-always@(posedge munoc_port_0, negedge munoc_port_1)
-begin
-	if(munoc_port_1==0)
-		munoc_signal_3 <= 0;
-	else if(munoc_signal_5 && munoc_signal_1)
-		munoc_signal_3 <= munoc_signal_7;
-end
-
-assign munoc_signal_5 = munoc_signal_6 & munoc_port_4;
-
-always@(*)
-begin
-	munoc_port_4 = 0;
-	if(!munoc_signal_4)
-		munoc_port_4 = 1;
-	else if(munoc_port_2)
-			munoc_port_4 = 1;
-end
-
-MUNOC_ROUTING_TABLE
-#(
-	.BW_NODE_ID(MUNOC_LPARA_1),
-	.NUM_OUTPUT(MUNOC_GPARA_0),
-	.NETWORK_TYPE(MUNOC_GPARA_3),
-	.ROUTER_ID(MUNOC_GPARA_1)
-)
-i_munoc_instance_1
-(
-	.target_node(munoc_signal_3),
-	.routing_info(munoc_signal_2)
-);
-
-assign munoc_port_5 = (munoc_signal_4)? munoc_signal_2 : 0;
 
 endmodule
-

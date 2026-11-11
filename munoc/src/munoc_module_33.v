@@ -11,30 +11,30 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-20
+// 2026-11-09
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
 
-`include "munoc_include_01.vh"
+`include "munoc_include_10.vh"
 
 
 
 
 
 module MUNOC_MODULE_33 (
-	munoc_port_10,
-	munoc_port_06,
-	munoc_port_05,
-	munoc_port_07,
-	munoc_port_02,
-	munoc_port_01,
-
-	munoc_port_04,
 	munoc_port_00,
+	munoc_port_06,
+	munoc_port_02,
+	munoc_port_05,
+	munoc_port_04,
 	munoc_port_09,
+
+	munoc_port_10,
+	munoc_port_08,
 	munoc_port_03,
-	munoc_port_08
+	munoc_port_01,
+	munoc_port_07
 );
 
 
@@ -45,25 +45,25 @@ parameter MUNOC_GPARA_1 = 1;
 parameter MUNOC_GPARA_0 = 1;
 parameter MUNOC_GPARA_2 = 1;
 
-input wire munoc_port_10;
-input wire munoc_port_06;
-output wire munoc_port_05;
-input wire munoc_port_07;
-input	wire [MUNOC_GPARA_1-1:0] munoc_port_02;
-input wire munoc_port_01;
-
-input wire munoc_port_04;
 input wire munoc_port_00;
-output wire [MUNOC_GPARA_0-1:0] munoc_port_09;
-input wire [MUNOC_GPARA_0-1:0] munoc_port_03;
-output wire [MUNOC_GPARA_0*MUNOC_GPARA_1-1:0] munoc_port_08;
+input wire munoc_port_06;
+output wire munoc_port_02;
+input wire munoc_port_05;
+input	wire [MUNOC_GPARA_1-1:0] munoc_port_04;
+input wire munoc_port_09;
+
+input wire munoc_port_10;
+input wire munoc_port_08;
+output wire [MUNOC_GPARA_0-1:0] munoc_port_03;
+input wire [MUNOC_GPARA_0-1:0] munoc_port_01;
+output wire [MUNOC_GPARA_0*MUNOC_GPARA_1-1:0] munoc_port_07;
 
 genvar i;
 integer j;
 
 wire [MUNOC_GPARA_0-1:0] munoc_signal_1;
-wire [MUNOC_GPARA_0-1:0] munoc_signal_3;
 wire [MUNOC_GPARA_0-1:0] munoc_signal_2;
+wire [MUNOC_GPARA_0-1:0] munoc_signal_3;
 
 wire munoc_signal_4;
 wire [MUNOC_GPARA_0-1:0] munoc_signal_0;
@@ -76,19 +76,19 @@ begin : i_gen_buffer
 		.BW_DATA(MUNOC_GPARA_1),
 		.DEPTH(MUNOC_GPARA_2)
 	)
-	i_munoc_instance_1
+	i_munoc_instance_0
 	(
-		.wclk(munoc_port_10),
+		.wclk(munoc_port_00),
 		.wrstnn(munoc_port_06),
 		.wready(munoc_signal_1[i]),
-		.wrequest(munoc_signal_3[i]),
-		.wdata(munoc_port_02),
+		.wrequest(munoc_signal_2[i]),
+		.wdata(munoc_port_04),
 		.wnum(),
-		.rclk(munoc_port_04),
-		.rrstnn(munoc_port_00),
-		.rready(munoc_port_09[i]),
-		.rrequest(munoc_port_03[i]),
-		.rdata(munoc_port_08[MUNOC_GPARA_1*(i+1)-1-:MUNOC_GPARA_1]),
+		.rclk(munoc_port_10),
+		.rrstnn(munoc_port_08),
+		.rready(munoc_port_03[i]),
+		.rrequest(munoc_port_01[i]),
+		.rdata(munoc_port_07[MUNOC_GPARA_1*(i+1)-1-:MUNOC_GPARA_1]),
 		.rnum(),
 		.wfull(),
 		.rempty()
@@ -102,12 +102,12 @@ ERVP_COUNTER_WITH_ONEHOT_ENCODING
 	.UP(0),
 	.CIRCULAR(1)
 )
-i_munoc_instance_0
+i_munoc_instance_1
 (
-	.clk(munoc_port_10),
+	.clk(munoc_port_00),
 	.rstnn(munoc_port_06),
 	.enable(1'b 1),
-	.init(munoc_port_01),
+	.init(munoc_port_09),
 	.count(munoc_signal_4),
 	.value(munoc_signal_0),
 	.is_first_count(),
@@ -117,12 +117,12 @@ i_munoc_instance_0
 generate
 for(i=0; i<MUNOC_GPARA_0; i=i+1)
 begin : i_gen_write_request
-	assign munoc_signal_2[i] = munoc_signal_1[i]&munoc_signal_0[i];
-	assign munoc_signal_3[i] = munoc_signal_2[i]&munoc_port_07;
+	assign munoc_signal_3[i] = munoc_signal_1[i]&munoc_signal_0[i];
+	assign munoc_signal_2[i] = munoc_signal_3[i]&munoc_port_05;
 end
 endgenerate
 
-assign munoc_port_05 = |munoc_signal_2;
-assign munoc_signal_4 = munoc_port_05 & munoc_port_07;
+assign munoc_port_02 = |munoc_signal_3;
+assign munoc_signal_4 = munoc_port_02 & munoc_port_05;
 
 endmodule

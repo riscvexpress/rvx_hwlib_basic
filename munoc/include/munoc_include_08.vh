@@ -11,41 +11,38 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-20
+// 2026-11-09
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
 
 
-`ifndef MUNOC_GDEF_73
-`define MUNOC_GDEF_73
+`ifndef MUNOC_GDEF_82
+`define MUNOC_GDEF_82
 
 `include "munoc_extended_config.vh"
-`include "ervp_axi_define.vh"
-`include "munoc_include_02.vh"
+`include "munoc_include_03.vh"
+`include "munoc_include_06.vh"
 
-`define MUNOC_GDEF_00 1
-`define MUNOC_GDEF_03 0
-`define MUNOC_GDEF_64 1
+`define MUNOC_GDEF_43(bw_addr,bw_data,bw_fwn_plit) (`MUNOC_GDEF_17(bw_addr,bw_data,bw_fwn_plit)*(bw_fwn_plit))
 
-`define MUNOC_GDEF_21 (`BW_MASTER_NODE_ID+`MUNOC_GDEF_00+`BW_LONGEST_AXI_TID+`BW_PACKET_DATATYPE)
-`ifdef __MUNOC_USE_SINGLE_DATA_WIDTH
-	`define MUNOC_GDEF_09(source_node,packet_type,tid,datatype) {source_node,packet_type,tid}
-`else
-	`define MUNOC_GDEF_09(source_node,packet_type,tid,datatype) {source_node,packet_type,tid,datatype}
-`endif
-`define MUNOC_GDEF_84 (`BW_MASTER_NODE_ID+`MUNOC_GDEF_00+`BW_LONGEST_AXI_TID+`BW_AXI_BRESP)
-`define MUNOC_GDEF_33(target_node,packet_type,tid,resp) {target_node,packet_type,tid,resp}
-`define MUNOC_GDEF_08 `MAX(`MUNOC_GDEF_21,`MUNOC_GDEF_84)
+`define MUNOC_GDEF_87 3
 
-`define MUNOC_GDEF_59(bw_data) (bw_data+`BW_AXI_RRESP+`BW_AXI_RLAST)
-`define MUNOC_GDEF_20(last,resp,data_reversed) {last,resp,data_reversed}
+`define MUNOC_GDEF_94(bw_addr,bw_fwn_plit) (`MUNOC_GDEF_65(bw_addr,bw_fwn_plit)*(bw_fwn_plit))
+`define MUNOC_GDEF_02(bw_data,bw_fwn_plit) (`MUNOC_GDEF_47(bw_data,bw_fwn_plit)*(bw_fwn_plit))
 
-`define MUNOC_GDEF_35(bw_bwn_plit) `DIVIDERU(`MUNOC_GDEF_08,bw_bwn_plit)
-`define MUNOC_GDEF_23(bw_data,bw_bwn_plit) `DIVIDERU(`MUNOC_GDEF_59(bw_data),bw_bwn_plit)
-`define MUNOC_GDEF_41(bw_data,bw_bwn_plit) ((`MUNOC_GDEF_35(bw_bwn_plit)>`MUNOC_GDEF_23(bw_data,bw_bwn_plit))? `MUNOC_GDEF_35(bw_bwn_plit):`MUNOC_GDEF_23(bw_data,bw_bwn_plit))
+`define MUNOC_GDEF_37 2
 
-`define MUNOC_GDEF_97 `MUNOC_GDEF_08
+`define MUNOC_GDEF_18 (`REQUIRED_BW_OF_SLAVE_TID+`BW_PACKET_DATATYPE)
+`define MUNOC_GDEF_52(bw_data,bw_bwn_plit) (`MUNOC_GDEF_67(bw_data,bw_bwn_plit)*(bw_bwn_plit))
+
+`define MUNOC_GDEF_84 2
+
+`define MUNOC_GDEF_71(bw_data,bw_bwn_plit) (`MUNOC_GDEF_67(bw_data,bw_bwn_plit)*(bw_bwn_plit))
+`define MUNOC_GDEF_39(bw_bwn_plit) (`MUNOC_GDEF_32(bw_bwn_plit)*(bw_bwn_plit))
+`define MUNOC_GDEF_63(bw_data,bw_bwn_plit) (`MUNOC_GDEF_30(bw_data,bw_bwn_plit)*(bw_bwn_plit))
+
+`define MUNOC_GDEF_59 2
 
 `endif
 

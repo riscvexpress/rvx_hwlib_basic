@@ -11,12 +11,12 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-20
+// 2026-11-09
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
 
-`include "munoc_include_01.vh"
+`include "munoc_include_10.vh"
 `include "ervp_axi_define.vh"
 
 
@@ -127,107 +127,51 @@ input wire spready;
 input wire spslverr;
 output wire [`BW_AXI_WSTRB(BW_NODE_DATA)-1:0] spwstrb;
 
-wire munoc_signal_24;
-wire munoc_signal_31;
-wire [`BW_ARCHANNEL(BW_AXI_TID,BW_PLATFORM_ADDR)-1:0] munoc_signal_23;
-wire munoc_signal_33;
-wire munoc_signal_12;
-wire [`BW_ARCHANNEL(BW_AXI_TID,BW_PLATFORM_ADDR)-1:0] munoc_signal_22;
-
-wire [BW_AXI_TID-1:0] munoc_signal_16;
-wire [BW_PLATFORM_ADDR-1:0] munoc_signal_09;
-wire [`BW_AXI_ALEN-1:0] munoc_signal_18;
-wire [`BW_AXI_ASIZE-1:0] munoc_signal_32;
-wire [`BW_AXI_ABURST-1:0] munoc_signal_15;
-wire munoc_signal_20;
-wire munoc_signal_01;
-
-wire munoc_signal_11;
-wire munoc_signal_29;
-wire [`BW_AWCHANNEL(BW_AXI_TID,BW_PLATFORM_ADDR)-1:0] munoc_signal_26;
-wire munoc_signal_21;
 wire munoc_signal_34;
-wire [`BW_AWCHANNEL(BW_AXI_TID,BW_PLATFORM_ADDR)-1:0] munoc_signal_14;
+wire munoc_signal_27;
+wire [`BW_ARCHANNEL(BW_AXI_TID,BW_PLATFORM_ADDR)-1:0] munoc_signal_20;
+wire munoc_signal_13;
+wire munoc_signal_28;
+wire [`BW_ARCHANNEL(BW_AXI_TID,BW_PLATFORM_ADDR)-1:0] munoc_signal_00;
 
-wire [BW_AXI_TID-1:0] munoc_signal_04;
-wire [BW_PLATFORM_ADDR-1:0] munoc_signal_06;
-wire [`BW_AXI_ALEN-1:0] munoc_signal_07;
-wire [`BW_AXI_ASIZE-1:0] munoc_signal_30;
-wire [`BW_AXI_ABURST-1:0] munoc_signal_13;
+wire [BW_AXI_TID-1:0] munoc_signal_05;
+wire [BW_PLATFORM_ADDR-1:0] munoc_signal_14;
+wire [`BW_AXI_ALEN-1:0] munoc_signal_12;
+wire [`BW_AXI_ASIZE-1:0] munoc_signal_31;
+wire [`BW_AXI_ABURST-1:0] munoc_signal_33;
+wire munoc_signal_22;
+wire munoc_signal_17;
+
+wire munoc_signal_25;
+wire munoc_signal_11;
+wire [`BW_AWCHANNEL(BW_AXI_TID,BW_PLATFORM_ADDR)-1:0] munoc_signal_21;
+wire munoc_signal_23;
+wire munoc_signal_16;
+wire [`BW_AWCHANNEL(BW_AXI_TID,BW_PLATFORM_ADDR)-1:0] munoc_signal_06;
+
+wire [BW_AXI_TID-1:0] munoc_signal_01;
+wire [BW_PLATFORM_ADDR-1:0] munoc_signal_07;
+wire [`BW_AXI_ALEN-1:0] munoc_signal_24;
+wire [`BW_AXI_ASIZE-1:0] munoc_signal_18;
+wire [`BW_AXI_ABURST-1:0] munoc_signal_35;
+wire munoc_signal_32;
+wire munoc_signal_03;
+
+wire munoc_signal_04;
+wire munoc_signal_30;
+wire [`BW_BCHANNEL(BW_NODE_DATA)-1:0] munoc_signal_29;
 wire munoc_signal_02;
 wire munoc_signal_19;
+wire [`BW_BCHANNEL(BW_NODE_DATA)-1:0] munoc_signal_09;
 
-wire munoc_signal_05;
-wire munoc_signal_17;
-wire [`BW_BCHANNEL(BW_NODE_DATA)-1:0] munoc_signal_03;
-wire munoc_signal_28;
-wire munoc_signal_08;
-wire [`BW_BCHANNEL(BW_NODE_DATA)-1:0] munoc_signal_10;
-
-wire [BW_AXI_TID-1:0] munoc_signal_27;
-wire [`BW_AXI_BRESP-1:0] munoc_signal_00;
-wire munoc_signal_35;
-wire munoc_signal_25;
+wire [BW_AXI_TID-1:0] munoc_signal_08;
+wire [`BW_AXI_BRESP-1:0] munoc_signal_10;
+wire munoc_signal_26;
+wire munoc_signal_15;
 
 ERVP_SMALL_FIFO
 #(
 	.BW_DATA(`BW_ARCHANNEL(BW_AXI_TID,BW_PLATFORM_ADDR)),
-	.DEPTH(2)
-)
-i_munoc_instance_3
-(
-	.clk(clk),
-	.rstnn(rstnn),
-	.enable(1'b 1),
-  .clear(1'b 0),
-	.wready(munoc_signal_24),
-	.wrequest(munoc_signal_31),
-	.wdata(munoc_signal_23),
-	.rready(munoc_signal_33),
-	.rrequest(munoc_signal_12),
-	.rdata(munoc_signal_22),
-	.wfull(),
-	.rempty()
-);
-
-assign rxarready = munoc_signal_24;
-assign munoc_signal_31 = rxarvalid;
-assign munoc_signal_23 = {rxarid,rxaraddr,rxarlen,rxarsize,rxarburst};
-assign munoc_signal_20 = munoc_signal_33;
-assign munoc_signal_12 = munoc_signal_01;
-assign {munoc_signal_16,munoc_signal_09,munoc_signal_18,munoc_signal_32,munoc_signal_15} = munoc_signal_22;
-
-ERVP_SMALL_FIFO
-#(
-	.BW_DATA(`BW_AWCHANNEL(BW_AXI_TID,BW_PLATFORM_ADDR)),
-	.DEPTH(2)
-)
-i_munoc_instance_1
-(
-	.clk(clk),
-	.rstnn(rstnn),
-	.enable(1'b 1),
-  .clear(1'b 0),
-	.wready(munoc_signal_11),
-	.wrequest(munoc_signal_29),
-	.wdata(munoc_signal_26),
-	.rready(munoc_signal_21),
-	.rrequest(munoc_signal_34),
-	.rdata(munoc_signal_14),
-	.wfull(),
-	.rempty()
-);
-
-assign rxawready = munoc_signal_11;
-assign munoc_signal_29 = rxawvalid;
-assign munoc_signal_26 = {rxawid,rxawaddr,rxawlen,rxawsize,rxawburst};
-assign munoc_signal_02 = munoc_signal_21;
-assign munoc_signal_34 = munoc_signal_19;
-assign {munoc_signal_04,munoc_signal_06,munoc_signal_07,munoc_signal_30,munoc_signal_13} = munoc_signal_14;
-
-ERVP_SMALL_FIFO
-#(
-	.BW_DATA(`BW_BCHANNEL(BW_NODE_DATA)),
 	.DEPTH(2)
 )
 i_munoc_instance_0
@@ -236,22 +180,78 @@ i_munoc_instance_0
 	.rstnn(rstnn),
 	.enable(1'b 1),
   .clear(1'b 0),
-	.wready(munoc_signal_05),
-	.wrequest(munoc_signal_17),
-	.wdata(munoc_signal_10),
-	.rready(munoc_signal_28),
-	.rrequest(munoc_signal_08),
-	.rdata(munoc_signal_03),
+	.wready(munoc_signal_34),
+	.wrequest(munoc_signal_27),
+	.wdata(munoc_signal_20),
+	.rready(munoc_signal_13),
+	.rrequest(munoc_signal_28),
+	.rdata(munoc_signal_00),
 	.wfull(),
 	.rempty()
 );
 
-assign munoc_signal_25 = munoc_signal_05;
-assign munoc_signal_17 = munoc_signal_35;
-assign munoc_signal_10 = {munoc_signal_27,munoc_signal_00};
-assign rxbvalid = munoc_signal_28;
-assign munoc_signal_08 = rxbready;
-assign {rxbid,rxbresp} = munoc_signal_03;
+assign rxarready = munoc_signal_34;
+assign munoc_signal_27 = rxarvalid;
+assign munoc_signal_20 = {rxarid,rxaraddr,rxarlen,rxarsize,rxarburst};
+assign munoc_signal_22 = munoc_signal_13;
+assign munoc_signal_28 = munoc_signal_17;
+assign {munoc_signal_05,munoc_signal_14,munoc_signal_12,munoc_signal_31,munoc_signal_33} = munoc_signal_00;
+
+ERVP_SMALL_FIFO
+#(
+	.BW_DATA(`BW_AWCHANNEL(BW_AXI_TID,BW_PLATFORM_ADDR)),
+	.DEPTH(2)
+)
+i_munoc_instance_3
+(
+	.clk(clk),
+	.rstnn(rstnn),
+	.enable(1'b 1),
+  .clear(1'b 0),
+	.wready(munoc_signal_25),
+	.wrequest(munoc_signal_11),
+	.wdata(munoc_signal_21),
+	.rready(munoc_signal_23),
+	.rrequest(munoc_signal_16),
+	.rdata(munoc_signal_06),
+	.wfull(),
+	.rempty()
+);
+
+assign rxawready = munoc_signal_25;
+assign munoc_signal_11 = rxawvalid;
+assign munoc_signal_21 = {rxawid,rxawaddr,rxawlen,rxawsize,rxawburst};
+assign munoc_signal_32 = munoc_signal_23;
+assign munoc_signal_16 = munoc_signal_03;
+assign {munoc_signal_01,munoc_signal_07,munoc_signal_24,munoc_signal_18,munoc_signal_35} = munoc_signal_06;
+
+ERVP_SMALL_FIFO
+#(
+	.BW_DATA(`BW_BCHANNEL(BW_NODE_DATA)),
+	.DEPTH(2)
+)
+i_munoc_instance_2
+(
+	.clk(clk),
+	.rstnn(rstnn),
+	.enable(1'b 1),
+  .clear(1'b 0),
+	.wready(munoc_signal_04),
+	.wrequest(munoc_signal_30),
+	.wdata(munoc_signal_09),
+	.rready(munoc_signal_02),
+	.rrequest(munoc_signal_19),
+	.rdata(munoc_signal_29),
+	.wfull(),
+	.rempty()
+);
+
+assign munoc_signal_15 = munoc_signal_04;
+assign munoc_signal_30 = munoc_signal_26;
+assign munoc_signal_09 = {munoc_signal_08,munoc_signal_10};
+assign rxbvalid = munoc_signal_02;
+assign munoc_signal_19 = rxbready;
+assign {rxbid,rxbresp} = munoc_signal_29;
 
 MUNOC_AXI2APB_CONVERTER_
 #(
@@ -260,18 +260,18 @@ MUNOC_AXI2APB_CONVERTER_
 	.BW_NODE_DATA(BW_NODE_DATA),
 	.CHECK_WID(CHECK_WID)
 )
-i_munoc_instance_2
+i_munoc_instance_1
 (
 	.clk(clk),
 	.rstnn(rstnn),
 
-	.rxawid(munoc_signal_04),
-	.rxawaddr(munoc_signal_06),
-	.rxawlen(munoc_signal_07),
-	.rxawsize(munoc_signal_30),
-	.rxawburst(munoc_signal_13),
-	.rxawvalid(munoc_signal_02),
-	.rxawready(munoc_signal_19),
+	.rxawid(munoc_signal_01),
+	.rxawaddr(munoc_signal_07),
+	.rxawlen(munoc_signal_24),
+	.rxawsize(munoc_signal_18),
+	.rxawburst(munoc_signal_35),
+	.rxawvalid(munoc_signal_32),
+	.rxawready(munoc_signal_03),
 
 	.rxwid(rxwid),
 	.rxwdata(rxwdata),
@@ -280,18 +280,18 @@ i_munoc_instance_2
 	.rxwvalid(rxwvalid),
 	.rxwready(rxwready),
 
-	.rxbid(munoc_signal_27),
-	.rxbresp(munoc_signal_00),
-	.rxbvalid(munoc_signal_35),
-	.rxbready(munoc_signal_25),
+	.rxbid(munoc_signal_08),
+	.rxbresp(munoc_signal_10),
+	.rxbvalid(munoc_signal_26),
+	.rxbready(munoc_signal_15),
 
-	.rxarid(munoc_signal_16),
-	.rxaraddr(munoc_signal_09),
-	.rxarlen(munoc_signal_18),
-	.rxarsize(munoc_signal_32),
-	.rxarburst(munoc_signal_15),
-	.rxarvalid(munoc_signal_20),
-	.rxarready(munoc_signal_01),
+	.rxarid(munoc_signal_05),
+	.rxaraddr(munoc_signal_14),
+	.rxarlen(munoc_signal_12),
+	.rxarsize(munoc_signal_31),
+	.rxarburst(munoc_signal_33),
+	.rxarvalid(munoc_signal_22),
+	.rxarready(munoc_signal_17),
 
 	.rxrid(rxrid),
 	.rxrdata(rxrdata),

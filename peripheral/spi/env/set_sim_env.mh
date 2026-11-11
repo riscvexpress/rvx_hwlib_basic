@@ -1,2 +1,0 @@
-LIB_DIR_LIST += ${RVX_HWLIB_BASIC_HOME}/peripheral/spi/src
-INC_DIR_LIST += ${RVX_HWLIB_BASIC_HOME}/peripheral/spi/include

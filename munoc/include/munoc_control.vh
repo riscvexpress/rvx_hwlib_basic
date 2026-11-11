@@ -11,32 +11,32 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-20
+// 2026-11-09
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
 
-`ifndef MUNOC_GDEF_96
-`define MUNOC_GDEF_96
+`ifndef MUNOC_GDEF_54
+`define MUNOC_GDEF_54
 
 `include "munoc_extended_config.vh"
 
-`define MUNOC_GDEF_51 1
-`define MUNOC_GDEF_32 0
-`define MUNOC_GDEF_65 1
+`define MUNOC_GDEF_40 1
+`define MUNOC_GDEF_66 0
+`define MUNOC_GDEF_20 1
 
-`define MUNOC_GDEF_07 8
-`define MUNOC_GDEF_40 8
+`define MUNOC_GDEF_68 8
+`define MUNOC_GDEF_11 8
 
-`define MUNOC_GDEF_87 (`MUNOC_GDEF_51+`MUNOC_GDEF_07+`MUNOC_GDEF_40)
+`define MUNOC_GDEF_36 (`MUNOC_GDEF_40+`MUNOC_GDEF_68+`MUNOC_GDEF_11)
 
-`define MUNOC_GDEF_30 1
-`define MUNOC_GDEF_06 0
-`define MUNOC_GDEF_11 1
-`define MUNOC_GDEF_62 (`MUNOC_GDEF_30 + `BW_MAX_NODE_ID)
+`define MUNOC_GDEF_89 1
+`define MUNOC_GDEF_04 0
+`define MUNOC_GDEF_57 1
+`define MUNOC_GDEF_07 (`MUNOC_GDEF_89 + `BW_MAX_NODE_ID)
 
-`define MUNOC_GDEF_52 32
-`define MUNOC_GDEF_82 (`MUNOC_GDEF_52)
+`define MUNOC_GDEF_96 32
+`define MUNOC_GDEF_95 (`MUNOC_GDEF_96)
 `define BW_SVRING_LINK 2
 
 `endif

@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-29
+// 2026-11-11
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -64,7 +64,13 @@ module ERVP_EXTERNAL_PERI_GROUP
 	wifi_shibernate,
 
 	spi_common_sclk,
-	spi_common_sdq0
+	spi_common_sdq0,
+
+	spi_flash_sclk,
+	spi_flash_scs_list,
+	spi_flash_sdq_od,
+	spi_flash_sdq_oval,
+	spi_flash_sdq_ival
 
 `ifdef INCLUDE_GPIO
   ,
@@ -127,12 +133,12 @@ parameter NUM_AIOIF = 1;
 
 localparam  RVX_LPARA_0 = 15;
 
-localparam  RVX_LPARA_3 = 4;
-localparam  RVX_LPARA_2 = 4;
+localparam  RVX_LPARA_4 = 4;
+localparam  RVX_LPARA_1 = 4;
 
-localparam  RVX_LPARA_4 = `NUM_ERVP_EXTERNAL_PERI_GROUP_SUBMODULE;
-localparam  RVX_LPARA_1 = `BW_MMAP_OFFSET_ERVP_EXTERNAL_PERI_GROUP-1;
-localparam  RVX_LPARA_5 = `BW_SEL_ERVP_EXTERNAL_PERI_GROUP_SUBMODULE;
+localparam  RVX_LPARA_5 = `NUM_ERVP_EXTERNAL_PERI_GROUP_SUBMODULE;
+localparam  RVX_LPARA_3 = `BW_MMAP_OFFSET_ERVP_EXTERNAL_PERI_GROUP-1;
+localparam  RVX_LPARA_2 = `BW_SEL_ERVP_EXTERNAL_PERI_GROUP_SUBMODULE;
 
 input wire clk;
 input wire rstnn;
@@ -179,6 +185,12 @@ output wire wifi_shibernate;
 output wire	spi_common_sclk;
 output wire spi_common_sdq0;
 
+output wire spi_flash_sclk;
+output wire spi_flash_scs_list;
+output wire [4-1:0] spi_flash_sdq_od;
+output wire [4-1:0] spi_flash_sdq_oval;
+input wire [4-1:0] spi_flash_sdq_ival;
+
 `ifdef INCLUDE_GPIO
 input wire [`BW_GPIO_VALUE*NUM_GPIO-1:0] user_pinout_list;
 output wire [`BW_GPIO_VALUE*NUM_GPIO-1:0] user_pinin_list;
@@ -221,135 +233,133 @@ input wire [NUM_GPIO-1:0] gpio_sinterrupt_list;
 
 genvar i;
 
-wire [RVX_LPARA_4*BW_ADDR-1:0] rvx_signal_23;
-wire [RVX_LPARA_4-1:0] rvx_signal_44;
-wire [RVX_LPARA_4-1:0] rvx_signal_81;
-wire [RVX_LPARA_4*BW_DATA-1:0] rvx_signal_08;
-wire [RVX_LPARA_4-1:0] rvx_signal_34;
-wire [RVX_LPARA_4*BW_DATA-1:0] rvx_signal_51;
-wire [RVX_LPARA_4*BW_DATA-1:0] rvx_signal_03;
-wire [RVX_LPARA_4-1:0] rvx_signal_75;
-wire [RVX_LPARA_4-1:0] rvx_signal_63;
+wire [RVX_LPARA_5*BW_ADDR-1:0] rvx_signal_26;
+wire [RVX_LPARA_5-1:0] rvx_signal_21;
+wire [RVX_LPARA_5-1:0] rvx_signal_30;
+wire [RVX_LPARA_5*BW_DATA-1:0] rvx_signal_36;
+wire [RVX_LPARA_5-1:0] rvx_signal_13;
+wire [RVX_LPARA_5*BW_DATA-1:0] rvx_signal_14;
+wire [RVX_LPARA_5*BW_DATA-1:0] rvx_signal_16;
+wire [RVX_LPARA_5-1:0] rvx_signal_64;
+wire [RVX_LPARA_5-1:0] rvx_signal_76;
 
-wire [BW_ADDR-1:0] rvx_signal_29 [RVX_LPARA_4-1:0];
-wire [RVX_LPARA_4-1:0] rvx_signal_01;
-wire [RVX_LPARA_4-1:0] rvx_signal_48;
-wire [BW_ADDR-1:0] rvx_signal_02 [RVX_LPARA_4-1:0];
-wire [RVX_LPARA_4-1:0] rvx_signal_86;
-wire [BW_DATA-1:0] rvx_signal_54 [RVX_LPARA_4-1:0];
-wire [BW_DATA-1:0] rvx_signal_55 [RVX_LPARA_4-1:0];
-wire [RVX_LPARA_4-1:0] rvx_signal_30;
-wire [RVX_LPARA_4-1:0] rvx_signal_17;
+wire [BW_ADDR-1:0] rvx_signal_10 [RVX_LPARA_5-1:0];
+wire [RVX_LPARA_5-1:0] rvx_signal_35;
+wire [RVX_LPARA_5-1:0] rvx_signal_08;
+wire [BW_ADDR-1:0] rvx_signal_00 [RVX_LPARA_5-1:0];
+wire [RVX_LPARA_5-1:0] rvx_signal_04;
+wire [BW_DATA-1:0] rvx_signal_34 [RVX_LPARA_5-1:0];
+wire [BW_DATA-1:0] rvx_signal_56 [RVX_LPARA_5-1:0];
+wire [RVX_LPARA_5-1:0] rvx_signal_19;
+wire [RVX_LPARA_5-1:0] rvx_signal_02;
 
-wire [16-1:0] rvx_signal_65;
-wire rvx_signal_42;
-wire [RVX_LPARA_0-1:0] rvx_signal_40;
+wire [16-1:0] rvx_signal_37;
+wire rvx_signal_63;
+wire [RVX_LPARA_0-1:0] rvx_signal_62;
 
 `ifdef INCLUDE_UART
-wire [NUM_UART-1:0] rvx_signal_77;
-wire [NUM_UART-1:0] rvx_signal_27;
+wire [NUM_UART-1:0] rvx_signal_28;
+wire [NUM_UART-1:0] rvx_signal_03;
+wire [NUM_UART-1:0] rvx_signal_40;
+wire [NUM_UART-1:0] rvx_signal_54;
+wire [NUM_UART-1:0] rvx_signal_49;
+wire [NUM_UART-1:0] rvx_signal_45;
+wire [NUM_UART-1:0] rvx_signal_58;
 wire [NUM_UART-1:0] rvx_signal_69;
-wire [NUM_UART-1:0] rvx_signal_85;
-wire [NUM_UART-1:0] rvx_signal_15;
-wire [NUM_UART-1:0] rvx_signal_87;
-wire [NUM_UART-1:0] rvx_signal_39;
-wire [NUM_UART-1:0] rvx_signal_11;
 `endif
 
 `ifdef INCLUDE_SPI
-wire rvx_signal_76;
-wire rvx_signal_36;
-
 wire rvx_signal_33;
-wire rvx_signal_09;
-wire rvx_signal_19;
-wire rvx_signal_59;
-wire rvx_signal_78;
-wire rvx_signal_07;
-wire rvx_signal_49;
-wire rvx_signal_16;
-wire rvx_signal_10;
-wire rvx_signal_32;
-wire rvx_signal_05;
-wire rvx_signal_18;
+wire [NUM_SPI-1:0] rvx_signal_75;
 
-wire [NUM_SPI-1:0] rvx_signal_70;
+wire rvx_signal_79;
+wire rvx_signal_41;
+wire rvx_signal_72;
+wire rvx_signal_51;
+wire rvx_signal_46;
+wire rvx_signal_15;
+wire rvx_signal_52;
+wire rvx_signal_29;
+wire rvx_signal_20;
+wire rvx_signal_82;
+wire rvx_signal_25;
+wire rvx_signal_57;
+
+wire [NUM_SPI-1:0] rvx_signal_05;
+wire [NUM_SPI-1:0] rvx_signal_27;
+wire [NUM_SPI-1:0] rvx_signal_17;
+wire [NUM_SPI-1:0] rvx_signal_67;
+wire [NUM_SPI-1:0] rvx_signal_01;
+wire [NUM_SPI-1:0] rvx_signal_32;
+wire [NUM_SPI-1:0] rvx_signal_65;
+wire [NUM_SPI-1:0] rvx_signal_12;
 wire [NUM_SPI-1:0] rvx_signal_84;
-wire [NUM_SPI-1:0] rvx_signal_13;
-wire [NUM_SPI-1:0] rvx_signal_45;
-wire [NUM_SPI-1:0] rvx_signal_68;
-wire [NUM_SPI-1:0] rvx_signal_22;
-wire [NUM_SPI-1:0] rvx_signal_25;
-wire [NUM_SPI-1:0] rvx_signal_26;
-wire [NUM_SPI-1:0] rvx_signal_21;
-wire [NUM_SPI-1:0] rvx_signal_43;
-wire [NUM_SPI-1:0] rvx_signal_24;
-wire [NUM_SPI-1:0] rvx_signal_14;
+wire [NUM_SPI-1:0] rvx_signal_70;
+wire [NUM_SPI-1:0] rvx_signal_48;
+wire [NUM_SPI-1:0] rvx_signal_44;
 
 `endif
 
-wire [16-1:0] rvx_signal_20;
-wire [(32)*(16)-1:0] rvx_signal_66;
-wire [16-1:0] rvx_signal_57;
-wire [(32)*(16)-1:0] rvx_signal_38;
+wire [16-1:0] rvx_signal_38;
+wire [(32)*(16)-1:0] rvx_signal_74;
+wire [16-1:0] rvx_signal_24;
+wire [(32)*(16)-1:0] rvx_signal_18;
 
-wire [1-1:0] rvx_signal_73;
-wire [1-1:0] rvx_signal_56;
-wire [1-1:0] rvx_signal_72;
-wire rvx_signal_47;
-
-wire [1-1:0] rvx_signal_35;
-wire [1-1:0] rvx_signal_04;
-wire [1-1:0] rvx_signal_37;
-wire rvx_signal_82;
-
-wire [1-1:0] rvx_signal_06;
-wire [1-1:0] rvx_signal_58;
-wire [1-1:0] rvx_signal_60;
-wire rvx_signal_41;
-
-wire [1-1:0] rvx_signal_83;
-wire [1-1:0] rvx_signal_12;
-wire [1-1:0] rvx_signal_50;
-wire rvx_signal_74;
+wire [1-1:0] rvx_signal_39;
+wire [1-1:0] rvx_signal_66;
+wire [1-1:0] rvx_signal_61;
+wire rvx_signal_80;
 
 wire [1-1:0] rvx_signal_53;
+wire [1-1:0] rvx_signal_83;
+wire [1-1:0] rvx_signal_77;
+wire rvx_signal_43;
 
-wire [1-1:0] rvx_signal_52;
+wire [1-1:0] rvx_signal_85;
+wire [1-1:0] rvx_signal_09;
+wire [1-1:0] rvx_signal_68;
+wire rvx_signal_59;
 
-wire [1-1:0] rvx_signal_67;
+wire [1-1:0] rvx_signal_11;
+wire [1-1:0] rvx_signal_50;
+wire [1-1:0] rvx_signal_23;
+wire rvx_signal_60;
 
-wire rvx_signal_79;
+wire [1-1:0] rvx_signal_78;
 
-wire [1-1:0] rvx_signal_00;
+wire [1-1:0] rvx_signal_22;
 
-wire [32-1:0] rvx_signal_62;
+wire [1-1:0] rvx_signal_71;
 
-wire [32-1:0] rvx_signal_28;
+wire rvx_signal_86;
 
-wire rvx_signal_61;
-wire [32-1:0] rvx_signal_80;
+wire [1-1:0] rvx_signal_55;
 
-wire [4-1:0] rvx_signal_64;
+wire [32-1:0] rvx_signal_42;
+
+wire rvx_signal_47;
+wire [32-1:0] rvx_signal_81;
+
+wire [4-1:0] rvx_signal_31;
 
 `ifdef INCLUDE_AIOIF
-reg [`BW_AIOIF_TYPE-1:0] rvx_signal_46[NUM_AIOIF-1:0];
+reg [`BW_AIOIF_TYPE-1:0] rvx_signal_73[NUM_AIOIF-1:0];
 `endif
 
 `ifdef INCLUDE_WIFI
-wire [`BW_ERVP_TRIGGER_COND-1:0] rvx_signal_71;
-wire rvx_signal_31;
+wire [`BW_ERVP_TRIGGER_COND-1:0] rvx_signal_06;
+wire rvx_signal_07;
 `endif
 
 ERVP_APB_BUS
 #(
-	.NUM_MODULE(RVX_LPARA_4),
+	.NUM_MODULE(RVX_LPARA_5),
 	.BW_ADDR(BW_ADDR),
 	.BW_DATA(BW_DATA),
-	.SEL_UPPER_INDEX(RVX_LPARA_1),
-	.BW_SEL_INDEX(RVX_LPARA_5)
+	.SEL_UPPER_INDEX(RVX_LPARA_3),
+	.BW_SEL_INDEX(RVX_LPARA_2)
 )
-i_rvx_instance_02
+i_rvx_instance_06
 (
 	.clk(clk),
 	.rstnn(rstnn),
@@ -362,178 +372,199 @@ i_rvx_instance_02
 	.rprdata(rprdata),
 	.rpready(rpready),
 	.rpslverr(rpslverr),
-	.rpbaseaddr_list(rvx_signal_23),
+	.rpbaseaddr_list(rvx_signal_26),
 
-	.spsel_list(rvx_signal_44),
-	.spenable_list(rvx_signal_81),
-	.spaddr_list(rvx_signal_08),
-	.spwrite_list(rvx_signal_34),
-	.spwdata_list(rvx_signal_51),
-	.sprdata_list(rvx_signal_03),
-	.spready_list(rvx_signal_75),
-	.spslverr_list(rvx_signal_63)
+	.spsel_list(rvx_signal_21),
+	.spenable_list(rvx_signal_30),
+	.spaddr_list(rvx_signal_36),
+	.spwrite_list(rvx_signal_13),
+	.spwdata_list(rvx_signal_14),
+	.sprdata_list(rvx_signal_16),
+	.spready_list(rvx_signal_64),
+	.spslverr_list(rvx_signal_76)
 );
 
 generate
-for(i=0; i<RVX_LPARA_4; i=i+1)
+for(i=0; i<RVX_LPARA_5; i=i+1)
 begin : i_split_and_merge_submodule
-  assign rvx_signal_23[BW_ADDR*(i+1)-1 -:BW_ADDR] = rvx_signal_29[i];
-  assign rvx_signal_01[i] = rvx_signal_44[i];
-  assign rvx_signal_48[i] = rvx_signal_81[i];
-  assign rvx_signal_02[i] = rvx_signal_08[BW_ADDR*(i+1)-1 -:BW_ADDR];
-  assign rvx_signal_86[i] = rvx_signal_34[i];
-  assign rvx_signal_54[i] = rvx_signal_51[BW_DATA*(i+1)-1 -:BW_DATA];
-  assign rvx_signal_03[BW_DATA*(i+1)-1 -:BW_DATA] = rvx_signal_55[i];
-  assign rvx_signal_75[i] = rvx_signal_30[i];
-  assign rvx_signal_63[i] = rvx_signal_17[i];
+  assign rvx_signal_26[BW_ADDR*(i+1)-1 -:BW_ADDR] = rvx_signal_10[i];
+  assign rvx_signal_35[i] = rvx_signal_21[i];
+  assign rvx_signal_08[i] = rvx_signal_30[i];
+  assign rvx_signal_00[i] = rvx_signal_36[BW_ADDR*(i+1)-1 -:BW_ADDR];
+  assign rvx_signal_04[i] = rvx_signal_13[i];
+  assign rvx_signal_34[i] = rvx_signal_14[BW_DATA*(i+1)-1 -:BW_DATA];
+  assign rvx_signal_16[BW_DATA*(i+1)-1 -:BW_DATA] = rvx_signal_56[i];
+  assign rvx_signal_64[i] = rvx_signal_19[i];
+  assign rvx_signal_76[i] = rvx_signal_02[i];
 end
 endgenerate
 
-assign rvx_signal_29[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_EPG_MISC] = `SUBMODULE_ADDR_ERVP_EXTERNAL_PERI_GROUP_EPG_MISC;
-assign rvx_signal_29[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_UART0] = `SUBMODULE_ADDR_ERVP_EXTERNAL_PERI_GROUP_UART0;
-assign rvx_signal_29[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_UART1] = `SUBMODULE_ADDR_ERVP_EXTERNAL_PERI_GROUP_UART1;
-assign rvx_signal_29[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_UART2] = `SUBMODULE_ADDR_ERVP_EXTERNAL_PERI_GROUP_UART2;
-assign rvx_signal_29[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_UART3] = `SUBMODULE_ADDR_ERVP_EXTERNAL_PERI_GROUP_UART3;
-assign rvx_signal_29[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_I2C0] = `SUBMODULE_ADDR_ERVP_EXTERNAL_PERI_GROUP_I2C0;
-assign rvx_signal_29[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_I2C1] = `SUBMODULE_ADDR_ERVP_EXTERNAL_PERI_GROUP_I2C1;
-assign rvx_signal_29[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_I2C2] = `SUBMODULE_ADDR_ERVP_EXTERNAL_PERI_GROUP_I2C2;
-assign rvx_signal_29[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_I2C3] = `SUBMODULE_ADDR_ERVP_EXTERNAL_PERI_GROUP_I2C3;
-assign rvx_signal_29[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPI] = `SUBMODULE_ADDR_ERVP_EXTERNAL_PERI_GROUP_SPI;
-assign rvx_signal_29[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_GPIO] = `SUBMODULE_ADDR_ERVP_EXTERNAL_PERI_GROUP_GPIO;
-assign rvx_signal_29[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPIO] = `SUBMODULE_ADDR_ERVP_EXTERNAL_PERI_GROUP_SPIO;
+assign rvx_signal_10[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_EPG_MISC] = `SUBMODULE_ADDR_ERVP_EXTERNAL_PERI_GROUP_EPG_MISC;
+assign rvx_signal_10[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_UART0] = `SUBMODULE_ADDR_ERVP_EXTERNAL_PERI_GROUP_UART0;
+assign rvx_signal_10[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_UART1] = `SUBMODULE_ADDR_ERVP_EXTERNAL_PERI_GROUP_UART1;
+assign rvx_signal_10[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_UART2] = `SUBMODULE_ADDR_ERVP_EXTERNAL_PERI_GROUP_UART2;
+assign rvx_signal_10[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_UART3] = `SUBMODULE_ADDR_ERVP_EXTERNAL_PERI_GROUP_UART3;
+assign rvx_signal_10[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_I2C0] = `SUBMODULE_ADDR_ERVP_EXTERNAL_PERI_GROUP_I2C0;
+assign rvx_signal_10[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_I2C1] = `SUBMODULE_ADDR_ERVP_EXTERNAL_PERI_GROUP_I2C1;
+assign rvx_signal_10[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_I2C2] = `SUBMODULE_ADDR_ERVP_EXTERNAL_PERI_GROUP_I2C2;
+assign rvx_signal_10[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_I2C3] = `SUBMODULE_ADDR_ERVP_EXTERNAL_PERI_GROUP_I2C3;
+assign rvx_signal_10[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPI] = `SUBMODULE_ADDR_ERVP_EXTERNAL_PERI_GROUP_SPI;
+assign rvx_signal_10[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_GPIO] = `SUBMODULE_ADDR_ERVP_EXTERNAL_PERI_GROUP_GPIO;
+assign rvx_signal_10[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPIO] = `SUBMODULE_ADDR_ERVP_EXTERNAL_PERI_GROUP_SPIO;
 
-RVX_MODULE_112
+RVX_MODULE_014
 #(
 	.RVX_GPARA_2(BW_ADDR),
-	.RVX_GPARA_0(BW_DATA)
+	.RVX_GPARA_1(BW_DATA)
 )
-i_rvx_instance_06
+i_rvx_instance_07
 (
-	.rvx_port_10(clk),
-	.rvx_port_06(rstnn),
+	.rvx_port_01(clk),
+	.rvx_port_07(rstnn),
 
-	.rvx_port_02(rvx_signal_01[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_EPG_MISC]),
-	.rvx_port_00(rvx_signal_48[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_EPG_MISC]),
-	.rvx_port_11(rvx_signal_02[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_EPG_MISC]),
-	.rvx_port_09(rvx_signal_86[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_EPG_MISC]),
-	.rvx_port_07(rvx_signal_54[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_EPG_MISC]),
-	.rvx_port_12(rvx_signal_55[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_EPG_MISC]),
-	.rvx_port_01(rvx_signal_30[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_EPG_MISC]),
-	.rvx_port_05(rvx_signal_17[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_EPG_MISC]),
+	.rvx_port_04(rvx_signal_35[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_EPG_MISC]),
+	.rvx_port_11(rvx_signal_08[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_EPG_MISC]),
+	.rvx_port_00(rvx_signal_00[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_EPG_MISC]),
+	.rvx_port_06(rvx_signal_04[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_EPG_MISC]),
+	.rvx_port_03(rvx_signal_34[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_EPG_MISC]),
+	.rvx_port_10(rvx_signal_56[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_EPG_MISC]),
+	.rvx_port_08(rvx_signal_19[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_EPG_MISC]),
+	.rvx_port_12(rvx_signal_02[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_EPG_MISC]),
 
-	.rvx_port_04(1'b 0),
-	.rvx_port_08(rvx_signal_65),
-	.rvx_port_03()
+	.rvx_port_02(1'b 0),
+	.rvx_port_09(rvx_signal_37),
+	.rvx_port_05()
 );
 
-assign {rvx_signal_40,rvx_signal_42} = rvx_signal_65;
+assign {rvx_signal_62,rvx_signal_63} = rvx_signal_37;
 
-RVX_MODULE_109
+RVX_MODULE_074
 #(
 	.RVX_GPARA_0(RVX_LPARA_0)
 )
-i_rvx_instance_09
+i_rvx_instance_00
 (
-	.rvx_port_3(clk),
+	.rvx_port_4(clk),
 	.rvx_port_1(rstnn),
-	.rvx_port_4(rvx_signal_42),
-	.rvx_port_0(tick_1us),
-	.rvx_port_5(rvx_signal_40),
-	.rvx_port_2(tick_gpio)
+	.rvx_port_5(rvx_signal_63),
+	.rvx_port_2(tick_1us),
+	.rvx_port_3(rvx_signal_62),
+	.rvx_port_0(tick_gpio)
 );
 
 `ifdef INCLUDE_UART
 generate
 for(i=0; i<NUM_UART; i=i+1)
 begin : i_gen_valid_uart
-  RVX_MODULE_051
-  i_rvx_instance_01
+  RVX_MODULE_085
+  i_rvx_instance_02
   (
-    .rvx_port_05(~rstnn),
-    .rvx_port_15(clk),
-    .rvx_port_00(rvx_signal_02[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_UART0+i]),
-    .rvx_port_19(rvx_signal_01[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_UART0+i]),
-    .rvx_port_12(rvx_signal_48[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_UART0+i]),
-    .rvx_port_11(rvx_signal_86[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_UART0+i]),
-    .rvx_port_17(rvx_signal_55[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_UART0+i]),
-    .rvx_port_03(rvx_signal_54[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_UART0+i]),
-    .rvx_port_02(rvx_signal_30[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_UART0+i]),
-    .rvx_port_13(rvx_signal_17[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_UART0+i]),
-    .rvx_port_04(rvx_signal_77[i]),
-    .rvx_port_07(uart_srx_list[i]),
-    .rvx_port_16(uart_stx_list[i]),
-    .rvx_port_08(rvx_signal_27[i]),
-    .rvx_port_10(rvx_signal_69[i]),
-    .rvx_port_18(rvx_signal_85[i]),
-    .rvx_port_09(rvx_signal_15[i]),
-    .rvx_port_01(rvx_signal_87[i]),
-    .rvx_port_14(rvx_signal_39[i]),
-    .rvx_port_06(rvx_signal_11[i])
+    .rvx_port_15(~rstnn),
+    .rvx_port_11(clk),
+    .rvx_port_14(rvx_signal_00[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_UART0+i]),
+    .rvx_port_16(rvx_signal_35[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_UART0+i]),
+    .rvx_port_17(rvx_signal_08[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_UART0+i]),
+    .rvx_port_12(rvx_signal_04[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_UART0+i]),
+    .rvx_port_09(rvx_signal_56[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_UART0+i]),
+    .rvx_port_04(rvx_signal_34[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_UART0+i]),
+    .rvx_port_07(rvx_signal_19[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_UART0+i]),
+    .rvx_port_01(rvx_signal_02[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_UART0+i]),
+    .rvx_port_05(rvx_signal_28[i]),
+    .rvx_port_08(uart_srx_list[i]),
+    .rvx_port_18(uart_stx_list[i]),
+    .rvx_port_19(rvx_signal_03[i]),
+    .rvx_port_02(rvx_signal_40[i]),
+    .rvx_port_13(rvx_signal_54[i]),
+    .rvx_port_06(rvx_signal_49[i]),
+    .rvx_port_00(rvx_signal_45[i]),
+    .rvx_port_03(rvx_signal_58[i]),
+    .rvx_port_10(rvx_signal_69[i])
   );
 end
 endgenerate
 
-assign uart_interrupts[NUM_UART-1:0] = rvx_signal_77[NUM_UART-1:0];
+assign uart_interrupts[NUM_UART-1:0] = rvx_signal_28[NUM_UART-1:0];
 assign uart_interrupts[32-1:NUM_UART] = 0;
 
 `endif
 
 generate
-for(i=NUM_UART; i<RVX_LPARA_3; i=i+1)
+for(i=NUM_UART; i<RVX_LPARA_4; i=i+1)
 begin : i_gen_invalid_uart
-  assign rvx_signal_30[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_UART0+i] = 0;
-  assign rvx_signal_55[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_UART0+i] = 0;
-  assign rvx_signal_17[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_UART0+i] = 1;
+  assign rvx_signal_19[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_UART0+i] = 0;
+  assign rvx_signal_56[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_UART0+i] = 0;
+  assign rvx_signal_02[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_UART0+i] = 1;
 end
 endgenerate
 
-assign rvx_signal_69 = 0;
-assign rvx_signal_15 = 0;
-assign rvx_signal_87 = 0;
-assign rvx_signal_39 = 0;
+assign rvx_signal_40 = 0;
+assign rvx_signal_49 = 0;
+assign rvx_signal_45 = 0;
+assign rvx_signal_58 = 0;
 
 `ifdef INCLUDE_SPI
 
-FRVP_SPI
-i_rvx_instance_05
+TRVP_SPI
+#(
+	.NUM_DEVICE(NUM_SPI)
+)
+i_rvx_instance_04
 (
 	.clk(clk),
 	.rstnn(rstnn),
-	.rpaddr(rvx_signal_02[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPI]),
-	.rpsel(rvx_signal_01[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPI]),
-	.rpenable(rvx_signal_48[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPI]),
-	.rpwrite(rvx_signal_86[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPI]),
-	.rprdata(rvx_signal_55[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPI]),
-	.rpwdata(rvx_signal_54[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPI]),
-	.rpready(rvx_signal_30[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPI]),
-	.rpslverr(rvx_signal_17[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPI]),
+	.rpaddr(rvx_signal_00[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPI]),
+	.rpsel(rvx_signal_35[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPI]),
+	.rpenable(rvx_signal_08[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPI]),
+	.rpwrite(rvx_signal_04[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPI]),
+	.rprdata(rvx_signal_56[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPI]),
+	.rpwdata(rvx_signal_34[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPI]),
+	.rpready(rvx_signal_19[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPI]),
+	.rpslverr(rvx_signal_02[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPI]),
 	.interrupt(spi_interrupt),
-	.spi_clk(rvx_signal_76),
-	.spi_cs(rvx_signal_36),
-	.spi_dq0_in(rvx_signal_33),
-	.spi_dq0_out(rvx_signal_09),
-	.spi_dq0_oe(rvx_signal_19),
-	.spi_dq1_in(rvx_signal_59),
-	.spi_dq1_out(rvx_signal_78),
-	.spi_dq1_oe(rvx_signal_07),
-	.spi_dq2_in(rvx_signal_49),
-	.spi_dq2_out(rvx_signal_16),
-	.spi_dq2_oe(rvx_signal_10),
-	.spi_dq3_in(rvx_signal_32),
-	.spi_dq3_out(rvx_signal_05),
-	.spi_dq3_oe(rvx_signal_18)
+	.spi_clk(rvx_signal_33),
+	.spi_cs_list(rvx_signal_75),
+	.spi_dq0_in(rvx_signal_79),
+	.spi_dq0_out(rvx_signal_41),
+	.spi_dq0_oe(rvx_signal_72),
+	.spi_dq1_in(rvx_signal_51),
+	.spi_dq1_out(rvx_signal_46),
+	.spi_dq1_oe(rvx_signal_15),
+	.spi_dq2_in(rvx_signal_52),
+	.spi_dq2_out(rvx_signal_29),
+	.spi_dq2_oe(rvx_signal_20),
+	.spi_dq3_in(rvx_signal_82),
+	.spi_dq3_out(rvx_signal_25),
+	.spi_dq3_oe(rvx_signal_57)
 );
 
-assign rvx_signal_33 = 0;
-assign rvx_signal_49 = 0;
-assign rvx_signal_32 = 0;
+`ifdef INCLUDE_SPI_FLASH
+assign rvx_signal_79 = spi_flash_sdq_ival[0];
+assign rvx_signal_52 = spi_flash_sdq_ival[2];
+assign rvx_signal_82 = spi_flash_sdq_ival[3];
+assign spi_flash_sclk = rvx_signal_33;
+assign spi_flash_scs_list = rvx_signal_75[`SPI_INDEX_FOR_SPI_FLASH];
+assign spi_flash_sdq_od = ~{rvx_signal_57,rvx_signal_20,rvx_signal_15,rvx_signal_72};
+assign spi_flash_sdq_oval = {rvx_signal_25,rvx_signal_29,rvx_signal_46,rvx_signal_41};
+`else
+assign rvx_signal_79 = 0;
+assign rvx_signal_52 = 0;
+assign rvx_signal_82 = 0;
+assign spi_flash_sclk = 0;
+assign spi_flash_scs_list = 1;
+assign spi_flash_sdq_od = 4'h F;
+assign spi_flash_sdq_oval = 0;
+`endif
 
 `else
 
-assign rvx_signal_30[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPI] = 0;
-assign rvx_signal_55[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPI] = 0;
-assign rvx_signal_17[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPI] = 1;
+assign rvx_signal_19[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPI] = 0;
+assign rvx_signal_56[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPI] = 0;
+assign rvx_signal_02[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPI] = 1;
 assign spi_interrupt = 0;
+assign spi_flash_sclk = 0;
+assign spi_flash_scs_list = 1;
+assign spi_flash_sdq_od = 4'h F;
+assign spi_flash_sdq_oval = 0;
 
 `endif
 
@@ -541,26 +572,26 @@ assign spi_interrupt = 0;
 generate
 for(i=0; i<NUM_I2C; i=i+1)
 begin : i_gen_valid_i2c
-  RVX_MODULE_046
-  i_rvx_instance_03
+  RVX_MODULE_111
+  i_rvx_instance_09
   (
-    .rvx_port_02(clk),
-    .rvx_port_01(rstnn),
-    .rvx_port_05(rvx_signal_02[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_I2C0+i]),
-    .rvx_port_13(rvx_signal_01[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_I2C0+i]),
-    .rvx_port_10(rvx_signal_48[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_I2C0+i]),
-    .rvx_port_12(rvx_signal_86[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_I2C0+i]),
-    .rvx_port_15(rvx_signal_55[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_I2C0+i]),
-    .rvx_port_16(rvx_signal_54[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_I2C0+i]),
-    .rvx_port_14(rvx_signal_30[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_I2C0+i]),
-    .rvx_port_04(rvx_signal_17[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_I2C0+i]),
+    .rvx_port_12(clk),
+    .rvx_port_10(rstnn),
+    .rvx_port_05(rvx_signal_00[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_I2C0+i]),
+    .rvx_port_01(rvx_signal_35[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_I2C0+i]),
+    .rvx_port_02(rvx_signal_08[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_I2C0+i]),
+    .rvx_port_00(rvx_signal_04[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_I2C0+i]),
+    .rvx_port_03(rvx_signal_56[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_I2C0+i]),
+    .rvx_port_09(rvx_signal_34[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_I2C0+i]),
+    .rvx_port_14(rvx_signal_19[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_I2C0+i]),
+    .rvx_port_04(rvx_signal_02[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_I2C0+i]),
     .rvx_port_08(i2c_interrupts[i]),
-    .rvx_port_09(i2c_sclk_ival_list[i]),
-    .rvx_port_07(i2c_sclk_oval_list[i]),
-    .rvx_port_03(i2c_sclk_od_list[i]),
-    .rvx_port_11(i2c_sdata_ival_list[i]),
-    .rvx_port_00(i2c_sdata_oval_list[i]),
-    .rvx_port_06(i2c_sdata_od_list[i])
+    .rvx_port_13(i2c_sclk_ival_list[i]),
+    .rvx_port_16(i2c_sclk_oval_list[i]),
+    .rvx_port_11(i2c_sclk_od_list[i]),
+    .rvx_port_06(i2c_sdata_ival_list[i]),
+    .rvx_port_07(i2c_sdata_oval_list[i]),
+    .rvx_port_15(i2c_sdata_od_list[i])
   );
 end
 endgenerate
@@ -568,20 +599,20 @@ endgenerate
 assign i2c_interrupts[32-1:NUM_I2C] = 0;
 
 generate
-for(i=NUM_I2C; i<RVX_LPARA_2; i=i+1)
+for(i=NUM_I2C; i<RVX_LPARA_1; i=i+1)
 begin : i_gen_invalid_i2c
-  assign rvx_signal_30[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_I2C0+i] = 0;
-  assign rvx_signal_55[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_I2C0+i] = 0;
-  assign rvx_signal_17[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_I2C0+i] = 1;
+  assign rvx_signal_19[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_I2C0+i] = 0;
+  assign rvx_signal_56[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_I2C0+i] = 0;
+  assign rvx_signal_02[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_I2C0+i] = 1;
 end
 endgenerate
 `else
 generate
-for(i=0; i<RVX_LPARA_2; i=i+1)
+for(i=0; i<RVX_LPARA_1; i=i+1)
 begin : i_gen_invalid_i2c
-  assign rvx_signal_30[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_I2C0+i] = 0;
-  assign rvx_signal_55[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_I2C0+i] = 0;
-  assign rvx_signal_17[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_I2C0+i] = 1;
+  assign rvx_signal_19[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_I2C0+i] = 0;
+  assign rvx_signal_56[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_I2C0+i] = 0;
+  assign rvx_signal_02[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_I2C0+i] = 1;
 end
 endgenerate
 assign i2c_interrupts = 0;
@@ -589,36 +620,36 @@ assign i2c_interrupts = 0;
 
 `ifdef INCLUDE_GPIO
 
-RVX_MODULE_075
+RVX_MODULE_051
 #(
 	.RVX_GPARA_2(BW_ADDR),
-	.RVX_GPARA_0(BW_DATA)
+	.RVX_GPARA_1(BW_DATA)
 )
-i_rvx_instance_04
+i_rvx_instance_08
 (
-	.rvx_port_09(clk),
-	.rvx_port_00(rstnn),
+	.rvx_port_08(clk),
+	.rvx_port_13(rstnn),
 
-	.rvx_port_12(rvx_signal_01[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_GPIO]),
-	.rvx_port_03(rvx_signal_48[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_GPIO]),
-	.rvx_port_07(rvx_signal_02[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_GPIO]),
-	.rvx_port_08(rvx_signal_86[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_GPIO]),
-	.rvx_port_05(rvx_signal_54[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_GPIO]),
-	.rvx_port_04(rvx_signal_55[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_GPIO]),
-	.rvx_port_13(rvx_signal_30[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_GPIO]),
-	.rvx_port_01(rvx_signal_17[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_GPIO]),
+	.rvx_port_02(rvx_signal_35[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_GPIO]),
+	.rvx_port_06(rvx_signal_08[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_GPIO]),
+	.rvx_port_09(rvx_signal_00[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_GPIO]),
+	.rvx_port_05(rvx_signal_04[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_GPIO]),
+	.rvx_port_07(rvx_signal_34[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_GPIO]),
+	.rvx_port_03(rvx_signal_56[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_GPIO]),
+	.rvx_port_11(rvx_signal_19[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_GPIO]),
+	.rvx_port_12(rvx_signal_02[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_GPIO]),
 
-	.rvx_port_11(tick_gpio),
-	.rvx_port_10(rvx_signal_20),
-	.rvx_port_02(rvx_signal_66),
-	.rvx_port_14(rvx_signal_57),
-	.rvx_port_06(rvx_signal_38)
+	.rvx_port_01(tick_gpio),
+	.rvx_port_00(rvx_signal_38),
+	.rvx_port_10(rvx_signal_74),
+	.rvx_port_14(rvx_signal_24),
+	.rvx_port_04(rvx_signal_18)
 );
 
-assign gpio_swenable_list = rvx_signal_57;
-assign gpio_swdata_list = rvx_signal_38;
-assign gpio_srenable_list = rvx_signal_20;
-assign rvx_signal_66 = gpio_srdata_list;
+assign gpio_swenable_list = rvx_signal_24;
+assign gpio_swdata_list = rvx_signal_18;
+assign gpio_srenable_list = rvx_signal_38;
+assign rvx_signal_74 = gpio_srdata_list;
 
 assign gpio_suser_pinout_list = user_pinout_list;
 assign user_pinin_list = gpio_suser_pinin_list;
@@ -627,58 +658,57 @@ assign gpio_interrupts[NUM_GPIO-1:0] = gpio_sinterrupt_list;
 assign gpio_interrupts[32-1:NUM_GPIO] = 0;
 
 `else
-assign rvx_signal_30[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_GPIO] = 0;
-assign rvx_signal_55[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_GPIO] = 0;
-assign rvx_signal_17[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_GPIO] = 1;
+assign rvx_signal_19[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_GPIO] = 0;
+assign rvx_signal_56[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_GPIO] = 0;
+assign rvx_signal_02[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_GPIO] = 1;
 assign gpio_interrupts = 0;
 `endif
 
-RVX_MODULE_071
+RVX_MODULE_079
 #(
 	.RVX_GPARA_2(BW_ADDR),
-	.RVX_GPARA_0(BW_DATA)
+	.RVX_GPARA_1(BW_DATA)
 )
-i_rvx_instance_08
+i_rvx_instance_03
 (
-	.rvx_port_00(clk),
-	.rvx_port_33(rstnn),
+	.rvx_port_06(clk),
+	.rvx_port_12(rstnn),
 
-	.rvx_port_31(rvx_signal_01[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPIO]),
-	.rvx_port_05(rvx_signal_48[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPIO]),
-	.rvx_port_07(rvx_signal_02[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPIO]),
-	.rvx_port_09(rvx_signal_86[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPIO]),
-	.rvx_port_08(rvx_signal_54[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPIO]),
-	.rvx_port_23(rvx_signal_55[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPIO]),
-	.rvx_port_34(rvx_signal_30[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPIO]),
-	.rvx_port_19(rvx_signal_17[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPIO]),
+	.rvx_port_16(rvx_signal_35[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPIO]),
+	.rvx_port_09(rvx_signal_08[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPIO]),
+	.rvx_port_34(rvx_signal_00[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPIO]),
+	.rvx_port_27(rvx_signal_04[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPIO]),
+	.rvx_port_00(rvx_signal_34[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPIO]),
+	.rvx_port_17(rvx_signal_56[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPIO]),
+	.rvx_port_02(rvx_signal_19[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPIO]),
+	.rvx_port_19(rvx_signal_02[`SUBMODULE_INDEX_ERVP_EXTERNAL_PERI_GROUP_SPIO]),
 
-	.rvx_port_16(tick_gpio),
-	.rvx_port_27(rvx_signal_73),
-	.rvx_port_20(rvx_signal_56),
-	.rvx_port_18(rvx_signal_72),
-	.rvx_port_11(rvx_signal_47),
-	.rvx_port_14(rvx_signal_35),
-	.rvx_port_13(rvx_signal_04),
-	.rvx_port_30(rvx_signal_37),
-	.rvx_port_04(rvx_signal_82),
-	.rvx_port_01(rvx_signal_06),
-	.rvx_port_17(rvx_signal_58),
-	.rvx_port_36(rvx_signal_60),
-	.rvx_port_28(rvx_signal_41),
-	.rvx_port_32(rvx_signal_83),
-	.rvx_port_29(rvx_signal_12),
-	.rvx_port_26(rvx_signal_50),
-	.rvx_port_10(rvx_signal_74),
-	.rvx_port_35(rvx_signal_53),
-	.rvx_port_15(rvx_signal_52),
-	.rvx_port_03(rvx_signal_67),
-	.rvx_port_21(rvx_signal_79),
-	.rvx_port_22(rvx_signal_00),
-	.rvx_port_24(rvx_signal_62),
-	.rvx_port_12(rvx_signal_28),
-	.rvx_port_06(rvx_signal_61),
-  .rvx_port_02(rvx_signal_80),
-	.rvx_port_25(rvx_signal_64)
+	.rvx_port_21(tick_gpio),
+	.rvx_port_29(rvx_signal_39),
+	.rvx_port_22(rvx_signal_66),
+	.rvx_port_20(rvx_signal_61),
+	.rvx_port_05(rvx_signal_80),
+	.rvx_port_15(rvx_signal_53),
+	.rvx_port_28(rvx_signal_83),
+	.rvx_port_26(rvx_signal_77),
+	.rvx_port_07(rvx_signal_43),
+	.rvx_port_03(rvx_signal_85),
+	.rvx_port_11(rvx_signal_09),
+	.rvx_port_32(rvx_signal_68),
+	.rvx_port_24(rvx_signal_59),
+	.rvx_port_04(rvx_signal_11),
+	.rvx_port_13(rvx_signal_50),
+	.rvx_port_23(rvx_signal_23),
+	.rvx_port_08(rvx_signal_60),
+	.rvx_port_18(rvx_signal_78),
+	.rvx_port_14(rvx_signal_22),
+	.rvx_port_31(rvx_signal_71),
+	.rvx_port_25(rvx_signal_86),
+	.rvx_port_10(rvx_signal_55),
+	.rvx_port_30(rvx_signal_42),
+	.rvx_port_01(rvx_signal_47),
+	.rvx_port_33(rvx_signal_81),
+	.rvx_port_35(rvx_signal_31)
 );
 
 `ifdef INCLUDE_AIOIF
@@ -689,11 +719,11 @@ begin : i_gen_aioif_config
   always@(posedge clk, negedge rstnn)
   begin
     if(rstnn==0)
-      rvx_signal_46[i] <= 0;
-    else if(rvx_signal_61 && rvx_signal_80[16+i])
-      rvx_signal_46[i] <= rvx_signal_80;
+      rvx_signal_73[i] <= 0;
+    else if(rvx_signal_47 && rvx_signal_81[16+i])
+      rvx_signal_73[i] <= rvx_signal_81;
   end
-  assign aioif_type_list[`BW_AIOIF_TYPE*(i+1)-1-:`BW_AIOIF_TYPE] = rvx_signal_46[i];
+  assign aioif_type_list[`BW_AIOIF_TYPE*(i+1)-1-:`BW_AIOIF_TYPE] = rvx_signal_73[i];
 end
 endgenerate
 
@@ -701,8 +731,8 @@ endgenerate
 
 `ifdef INCLUDE_SPI
 
-assign spi_common_sclk = rvx_signal_64[`SPIO_SERIAL_COMM_CONTROL_INDEX_SPI_CLK_USER_OE]? rvx_signal_64[`SPIO_SERIAL_COMM_CONTROL_INDEX_SPI_CLK_USER_VALUE] : rvx_signal_76;
-assign spi_common_sdq0 = rvx_signal_64[`SPIO_SERIAL_COMM_CONTROL_INDEX_SPI_DQ0_USER_OE]? rvx_signal_64[`SPIO_SERIAL_COMM_CONTROL_INDEX_SPI_DQ0_USER_VALUE] : rvx_signal_09;
+assign spi_common_sclk = rvx_signal_31[`SPIO_SERIAL_COMM_CONTROL_INDEX_SPI_CLK_USER_OE]? rvx_signal_31[`SPIO_SERIAL_COMM_CONTROL_INDEX_SPI_CLK_USER_VALUE] : rvx_signal_33;
+assign spi_common_sdq0 = rvx_signal_31[`SPIO_SERIAL_COMM_CONTROL_INDEX_SPI_DQ0_USER_OE]? rvx_signal_31[`SPIO_SERIAL_COMM_CONTROL_INDEX_SPI_DQ0_USER_VALUE] : rvx_signal_41;
 
 generate
 for(i=0; i<NUM_SPI; i=i+1)
@@ -714,7 +744,7 @@ endgenerate
 generate
 for(i=0; i<NUM_SPI; i=i+1)
 begin : i_gen_scs
-  assign spi_scs_list[i] = rvx_signal_28[i]? (rvx_signal_62[i]? rvx_signal_36 : ~rvx_signal_36) : rvx_signal_62[i];
+  assign spi_scs_list[i] = rvx_signal_42[i]? ~rvx_signal_75[i] : rvx_signal_75[i];
 end
 endgenerate
 
@@ -725,16 +755,27 @@ begin : i_gen_sdq0
 end
 endgenerate
 
+generate
+for(i=0; i<NUM_SPI; i=i+1)
+begin : i_gen_sdq1_in
+`ifdef INCLUDE_SPI_FLASH
+  assign rvx_signal_67[i] = (i==`SPI_INDEX_FOR_SPI_FLASH)? spi_flash_sdq_ival[1] : spi_sdq1_list[i];
+`else
+  assign rvx_signal_67[i] = spi_sdq1_list[i];
+`endif
+end
+endgenerate
+
 ERVP_MUX_WITH_ONEHOT_ENCODED_SELECT
 #(
 	.BW_DATA(1),
 	.NUM_DATA(NUM_SPI)
 )
-i_rvx_instance_07
+i_rvx_instance_05
 (
-	.data_input_list(spi_sdq1_list),
-	.select(rvx_signal_28[NUM_SPI-1:0]),
-	.data_output(rvx_signal_59)
+	.data_input_list(rvx_signal_67),
+	.select(~rvx_signal_75),
+	.data_output(rvx_signal_51)
 );
 
 `else
@@ -746,67 +787,67 @@ assign spi_common_sdq0 = 0;
 
 `ifdef INCLUDE_OLED
 
-assign oled_sdcsel_oe = rvx_signal_73;
-assign oled_sdcsel_oval = rvx_signal_56;
-assign rvx_signal_72 = oled_sdcsel_ival;
+assign oled_sdcsel_oe = rvx_signal_39;
+assign oled_sdcsel_oval = rvx_signal_66;
+assign rvx_signal_61 = oled_sdcsel_ival;
 
-assign oled_srstnn_oe = rvx_signal_35;
-assign oled_srstnn_oval = rvx_signal_04;
-assign rvx_signal_37 = oled_srstnn_ival;
+assign oled_srstnn_oe = rvx_signal_53;
+assign oled_srstnn_oval = rvx_signal_83;
+assign rvx_signal_77 = oled_srstnn_ival;
 
-assign oled_svbat_oe = rvx_signal_06;
-assign oled_svbat_oval = rvx_signal_58;
-assign rvx_signal_60 = oled_svbat_ival;
+assign oled_svbat_oe = rvx_signal_85;
+assign oled_svbat_oval = rvx_signal_09;
+assign rvx_signal_68 = oled_svbat_ival;
 
-assign oled_svdd_oe = rvx_signal_83;
-assign oled_svdd_oval = rvx_signal_12;
-assign rvx_signal_50 = oled_svdd_ival;
+assign oled_svdd_oe = rvx_signal_11;
+assign oled_svdd_oval = rvx_signal_50;
+assign rvx_signal_23 = oled_svdd_ival;
 
 `else
 
 assign oled_sdcsel_oe = 0;
 assign oled_sdcsel_oval = 0;
-assign rvx_signal_72 = 0;
+assign rvx_signal_61 = 0;
 
 assign oled_srstnn_oe = 0;
 assign oled_srstnn_oval = 0;
-assign rvx_signal_37 = 0;
+assign rvx_signal_77 = 0;
 
 assign oled_svbat_oe = 0;
 assign oled_svbat_oval = 0;
-assign rvx_signal_60 = 0;
+assign rvx_signal_68 = 0;
 
 assign oled_svdd_oe = 0;
 assign oled_svdd_oval = 0;
-assign rvx_signal_50 = 0;
+assign rvx_signal_23 = 0;
 
 `endif
 
 `ifdef INCLUDE_WIFI
 
-assign wifi_srstnn = rvx_signal_53;
-assign wifi_swp = rvx_signal_52;
-assign wifi_shibernate = rvx_signal_67;
+assign wifi_srstnn = rvx_signal_78;
+assign wifi_swp = rvx_signal_22;
+assign wifi_shibernate = rvx_signal_71;
 
-RVX_MODULE_049
+RVX_MODULE_010
 #(
   .RVX_GPARA_0(1)
 )
-i_rvx_instance_00
+i_rvx_instance_01
 (
-	.rvx_port_6(clk),
-	.rvx_port_5(rstnn),
-	.rvx_port_0(1'b 1),
-	.rvx_port_2(rvx_signal_79),
+	.rvx_port_5(clk),
+	.rvx_port_0(rstnn),
+	.rvx_port_8(1'b 1),
+	.rvx_port_2(rvx_signal_86),
   .rvx_port_7(1'b 0),
-	.rvx_port_4(rvx_signal_71),
+	.rvx_port_3(rvx_signal_06),
 	.rvx_port_1(wifi_sitr),
-  .rvx_port_3(1'b 0),
-	.rvx_port_8(rvx_signal_31)
+  .rvx_port_4(1'b 0),
+	.rvx_port_6(rvx_signal_07)
 );
 
-assign rvx_signal_71 = `ERVP_TRIGGER_COND_LOW;
-assign wifi_interrupt = rvx_signal_31 & (~rvx_signal_00);
+assign rvx_signal_06 = `ERVP_TRIGGER_COND_LOW;
+assign wifi_interrupt = rvx_signal_07 & (~rvx_signal_55);
 `else
 
 assign wifi_srstnn = 0;

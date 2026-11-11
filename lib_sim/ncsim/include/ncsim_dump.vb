@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-29
+// 2026-11-11
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -36,23 +36,23 @@ begin
   dump_enable = 1;
   wait(dump_start==1);
   
-  read_memory_using_jtag(`EXTERNAL_PERI_GROUP_BASEADDR+`MMAP_OFFSET_EPG_MISC_EXTREG00, dump_buffer);
+  read_memory_using_jtag(`EXTERNAL_PERI_GROUP_BASEADDR+`MMAP_OFFSET_EPG_MISC_EXTREG05, dump_buffer);
   dump_type = dump_buffer;
   if(dump_type==0)
     ;
-  else if(dump_type==1)
+  else if(dump_type==32'h10)
   begin
-    read_memory_using_jtag(`EXTERNAL_PERI_GROUP_BASEADDR+`MMAP_OFFSET_EPG_MISC_EXTREG01, dump_buffer);
+    read_memory_using_jtag(`EXTERNAL_PERI_GROUP_BASEADDR+`MMAP_OFFSET_EPG_MISC_EXTREG06, dump_buffer);
     dump_addr = dump_buffer;
-    read_memory_using_jtag(`EXTERNAL_PERI_GROUP_BASEADDR+`MMAP_OFFSET_EPG_MISC_EXTREG02, dump_buffer);
+    read_memory_using_jtag(`EXTERNAL_PERI_GROUP_BASEADDR+`MMAP_OFFSET_EPG_MISC_EXTREG07, dump_buffer);
     dump_size = dump_buffer;
     $display("\n[DUMP] %d, 0x%x, %d", dump_type, dump_addr, dump_size);
     
-    fp = $fopen("./dump/dump_type.txt", "w");
+    fp = $fopen("./dump/fakefile/dump_type.txt", "w");
     $fwrite(fp, "%d", dump_type);
     $fclose(fp);
     
-    fp = $fopen("./dump/dump_data.bin", "w");
+    fp = $fopen("./dump/fakefile/dump_data.bin", "w");
     dump_addr_current = dump_addr;
     for(dump_i = 0; dump_i < dump_size; dump_i=dump_i+4)
     begin
@@ -62,7 +62,7 @@ begin
     end
     $fclose(fp);
   end
-  else if(dump_type==2)
+  else if(dump_type==32'h11)
   begin
     $display("\n[DUMP] deprecated type: %d", dump_type);
   end

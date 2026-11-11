@@ -1,0 +1,3 @@
+https://github.com/vproc/vicuna.git debfb03
+vproc_div.sv vproc_div_shift_clz.sv cv32e40x_div.sv: https://github.com/vproc/vicuna2_core.git e69ed5c
+cv32e40x_pkg.sv cv32e40x_ff_one.sv: https://github.com/openhwgroup/cv32e40x.git d952cd6

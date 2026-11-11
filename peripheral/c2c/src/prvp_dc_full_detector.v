@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-29
+// 2026-11-11
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -31,17 +31,17 @@ module prvp_dc_full_detector(clk, rstn, read_pointer, write_pointer, valid, full
     input                        valid;
     output                       full;
 
-    wire                         rvx_signal_0;
+    wire                         rvx_signal_3;
     wire                         rvx_signal_5;
     wire                         rvx_signal_4;
-    wire                         rvx_signal_2;
     wire                         rvx_signal_1;
-    reg                          rvx_signal_3;
+    wire                         rvx_signal_2;
+    reg                          rvx_signal_0;
 
-    assign rvx_signal_0 = |(read_pointer & {write_pointer[BUFFER_DEPTH - 2 : 0], write_pointer[BUFFER_DEPTH - 1]});
+    assign rvx_signal_3 = |(read_pointer & {write_pointer[BUFFER_DEPTH - 2 : 0], write_pointer[BUFFER_DEPTH - 1]});
     assign rvx_signal_5 = |(read_pointer & {write_pointer[BUFFER_DEPTH - 3 : 0], write_pointer[BUFFER_DEPTH - 1 : BUFFER_DEPTH - 2]});
     assign rvx_signal_4 = |(read_pointer & {write_pointer[BUFFER_DEPTH - 4 : 0], write_pointer[BUFFER_DEPTH - 1 : BUFFER_DEPTH - 3]});
-    assign rvx_signal_2 = (rvx_signal_0 | rvx_signal_5 | rvx_signal_4);
+    assign rvx_signal_1 = (rvx_signal_3 | rvx_signal_5 | rvx_signal_4);
 
     prvp_dc_synchronizer
     #(
@@ -52,18 +52,18 @@ module prvp_dc_full_detector(clk, rstn, read_pointer, write_pointer, valid, full
     (
       .clk   ( clk     ),
       .rstn  ( rstn    ),
-      .d_in  ( rvx_signal_2 ),
-      .d_out ( rvx_signal_1 )
+      .d_in  ( rvx_signal_1 ),
+      .d_out ( rvx_signal_2 )
     );
 
     always @(posedge clk  or negedge rstn)
     begin: full_evaluator
         if (rstn == 1'b0)
-            rvx_signal_3 <= 1'b0;
+            rvx_signal_0 <= 1'b0;
         else
-            rvx_signal_3 <= rvx_signal_1 | valid;
+            rvx_signal_0 <= rvx_signal_2 | valid;
     end
 
-    assign full = rvx_signal_3 & rvx_signal_1;
+    assign full = rvx_signal_0 & rvx_signal_2;
 
 endmodule

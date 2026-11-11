@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-29
+// 2026-11-11
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -20,23 +20,61 @@
 
 
 
+
+
 module RVX_MODULE_039
 (
+	rvx_port_1,
+	rvx_port_3,
 	rvx_port_0,
-	value
+	rvx_port_2
 );
 
 
 
+
+
+parameter RVX_GPARA_3 = 1;
+parameter RVX_GPARA_2 = 0;
 parameter RVX_GPARA_1 = 1;
-parameter RVX_GPARA_2 = 1;
-parameter RVX_GPARA_0 = -1;
+parameter RVX_GPARA_0 = 1;
 
-input wire [RVX_GPARA_1-1:0] rvx_port_0;
-output reg [RVX_GPARA_2-1:0] value;
+`include "ervp_log_util.vf"
+`include "ervp_bitwidth_util.vf"
 
-`ifdef RVX_GPARA_0 (-1)
-	`include "abgrvtnoc_lut_addr2target_node_sample.vh"
-`endif
+localparam  RVX_LPARA_0 = REQUIRED_BITWIDTH_INDEX(RVX_GPARA_3);
+
+input wire [RVX_GPARA_1-1:0] rvx_port_1;
+output wire [RVX_GPARA_3*RVX_GPARA_1-1:0] rvx_port_3;
+input wire [RVX_GPARA_3*RVX_GPARA_0-1:0] rvx_port_0;
+output wire [RVX_GPARA_0-1:0] rvx_port_2;
+
+genvar i;
+
+wire [RVX_LPARA_0-1:0] select = (RVX_GPARA_2 < RVX_GPARA_3)? RVX_GPARA_2 : 0;
+
+ERVP_DEMUX
+#(
+	.BW_DATA(RVX_GPARA_1),
+	.NUM_DATA(RVX_GPARA_3)
+)
+i_rvx_instance_1
+(
+	.data_input(rvx_port_1),
+	.select(select),
+	.data_output_list(rvx_port_3)
+);
+
+ERVP_MUX
+#(
+	.BW_DATA(RVX_GPARA_0),
+	.NUM_DATA(RVX_GPARA_3)
+)
+i_rvx_instance_0
+(
+	.data_input_list(rvx_port_0),
+	.select(select),
+	.data_output(rvx_port_2)
+);
 
 endmodule

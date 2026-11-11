@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-29
+// 2026-11-11
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -31,30 +31,30 @@ parameter BW_MULTIPLICAND = 32;
 parameter BW_MULTIPLIER = 32;
 parameter USE_LIBRARY = 1;
 
-localparam  RVX_LPARA_0 = BW_MULTIPLICAND+BW_MULTIPLIER;
+localparam  RVX_LPARA_1 = BW_MULTIPLICAND+BW_MULTIPLIER;
 
 input wire [BW_MULTIPLICAND-1:0] multiplicand;
 input wire [BW_MULTIPLIER-1:0] multiplier;
-output reg [RVX_LPARA_0-1:0] product;
+output reg [RVX_LPARA_1-1:0] product;
 
 genvar i;
 integer j;
 
-localparam  RVX_LPARA_1 = BW_MULTIPLIER;
+localparam  RVX_LPARA_0 = BW_MULTIPLIER;
 
-wire [RVX_LPARA_0-1:0] rvx_signal_2;
-wire [RVX_LPARA_0-1:0] rvx_signal_1;
-wire [RVX_LPARA_0-1:0] rvx_signal_0 [RVX_LPARA_1-1:0];
+wire [RVX_LPARA_1-1:0] rvx_signal_2;
+wire [RVX_LPARA_1-1:0] rvx_signal_0;
+wire [RVX_LPARA_1-1:0] rvx_signal_1 [RVX_LPARA_0-1:0];
 
 assign rvx_signal_2 = $signed(multiplicand);
-assign rvx_signal_1 = (~rvx_signal_2) + 1;
+assign rvx_signal_0 = (~rvx_signal_2) + 1;
 
-for(i=0; i<RVX_LPARA_1-1; i=i+1)
+for(i=0; i<RVX_LPARA_0-1; i=i+1)
 begin : i_gen_partial_product
-  assign rvx_signal_0[i] = multiplier[i]? (rvx_signal_2<<i) : 0;
+  assign rvx_signal_1[i] = multiplier[i]? (rvx_signal_2<<i) : 0;
 end
 
-assign rvx_signal_0[RVX_LPARA_1-1] = multiplier[RVX_LPARA_1-1]? (rvx_signal_1<<(RVX_LPARA_1-1)) : 0;
+assign rvx_signal_1[RVX_LPARA_0-1] = multiplier[RVX_LPARA_0-1]? (rvx_signal_0<<(RVX_LPARA_0-1)) : 0;
 
 always@(*)
 begin
@@ -62,8 +62,8 @@ begin
   if(USE_LIBRARY==1)
     product = $signed(multiplicand) * $signed(multiplier);
   else
-    for(j=0; j<RVX_LPARA_1; j=j+1)
-      product = product + rvx_signal_0[j];
+    for(j=0; j<RVX_LPARA_0; j=j+1)
+      product = product + rvx_signal_1[j];
 end
 
 endmodule

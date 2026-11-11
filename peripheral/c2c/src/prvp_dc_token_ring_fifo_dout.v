@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-29
+// 2026-11-11
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -36,20 +36,20 @@ module prvp_dc_token_ring_fifo_dout(clk, rstn, data_async, write_token, read_poi
     input  [BUFFER_DEPTH - 1 : 0] write_token;
     output [BUFFER_DEPTH - 1 : 0] read_pointer;
 
-    wire                        rvx_signal_2;
     wire                        rvx_signal_3;
+    wire                        rvx_signal_1;
     
-    wire [BUFFER_DEPTH - 1 : 0] rvx_signal_1;
+    wire [BUFFER_DEPTH - 1 : 0] rvx_signal_0;
 
+    wire [BUFFER_DEPTH - 1 : 0]  rvx_signal_2;
     wire [BUFFER_DEPTH - 1 : 0]  rvx_signal_4;
-    wire [BUFFER_DEPTH - 1 : 0]  rvx_signal_0;
 
     assign data = data_async;
 
-    assign rvx_signal_3 = ~ready;
+    assign rvx_signal_1 = ~ready;
 
     
-    assign rvx_signal_2 = (valid & ~rvx_signal_3);
+    assign rvx_signal_3 = (valid & ~rvx_signal_1);
 
     
     prvp_dc_token_ring
@@ -57,17 +57,17 @@ module prvp_dc_token_ring_fifo_dout(clk, rstn, data_async, write_token, read_poi
       .BUFFER_DEPTH ( BUFFER_DEPTH ),
       .RESET_VALUE  ( 'h3          )
     )
-    i_rvx_instance_1
+    i_rvx_instance_0
     (
       .clk    ( clk         ),
       .rstn   ( rstn        ),
-      .enable ( rvx_signal_2 ),
-      .state  ( rvx_signal_1  )
+      .enable ( rvx_signal_3 ),
+      .state  ( rvx_signal_0  )
     );
 
     
-    assign read_pointer  = {rvx_signal_1[BUFFER_DEPTH - 3 : 0], rvx_signal_1[BUFFER_DEPTH - 1 : BUFFER_DEPTH - 2]} &
-                           {rvx_signal_1[BUFFER_DEPTH - 4 : 0], rvx_signal_1[BUFFER_DEPTH - 1 : BUFFER_DEPTH - 3]};
+    assign read_pointer  = {rvx_signal_0[BUFFER_DEPTH - 3 : 0], rvx_signal_0[BUFFER_DEPTH - 1 : BUFFER_DEPTH - 2]} &
+                           {rvx_signal_0[BUFFER_DEPTH - 4 : 0], rvx_signal_0[BUFFER_DEPTH - 1 : BUFFER_DEPTH - 3]};
 
     
     prvp_dc_synchronizer
@@ -75,15 +75,15 @@ module prvp_dc_token_ring_fifo_dout(clk, rstn, data_async, write_token, read_poi
       .WIDTH       ( BUFFER_DEPTH ),
       .RESET_VALUE ( 'hc          )
     )
-    i_rvx_instance_0
+    i_rvx_instance_1
     (
       .clk   ( clk            ),
       .rstn  ( rstn           ),
       .d_in  ( write_token    ),
-      .d_out ( rvx_signal_4 )
+      .d_out ( rvx_signal_2 )
     );
 
-    assign rvx_signal_0 = ~rvx_signal_4 & {rvx_signal_4[0], rvx_signal_4[BUFFER_DEPTH - 1 : 1]} & {read_pointer[1 : 0], read_pointer[BUFFER_DEPTH - 1 : 2]};
-    assign valid = ~(|rvx_signal_0);
+    assign rvx_signal_4 = ~rvx_signal_2 & {rvx_signal_2[0], rvx_signal_2[BUFFER_DEPTH - 1 : 1]} & {read_pointer[1 : 0], read_pointer[BUFFER_DEPTH - 1 : 2]};
+    assign valid = ~(|rvx_signal_4);
 
 endmodule

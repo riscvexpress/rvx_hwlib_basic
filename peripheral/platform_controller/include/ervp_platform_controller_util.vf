@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-29
+// 2026-11-11
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -51,6 +51,16 @@ task set_app_addr;
 begin
 	write_system_using_jtag(`MMAP_OFFSET_PLATFORM_REGISTER_APP_ADDR,`APP_ADDR);
 	$display("[JTAG:INFO] set app addr");
+end
+endtask
+
+task set_flash_fs_info;
+begin
+`ifdef FLASH_FS_BASEADDR
+	write_system_using_jtag(`MMAP_OFFSET_PLATFORM_REGISTER_FLASH_FS_BASEADDR,`FLASH_FS_BASEADDR);
+	write_system_using_jtag(`MMAP_OFFSET_PLATFORM_REGISTER_FLASH_FS_SIZE,`FLASH_FS_SIZE);
+	$display("[JTAG:INFO] set flash fs info");
+`endif
 end
 endtask
 

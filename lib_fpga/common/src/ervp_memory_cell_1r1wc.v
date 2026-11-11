@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-29
+// 2026-11-11
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -66,32 +66,32 @@ output wire [WIDTH-1:0] rdata_synch;
 genvar i;
 integer j;
 
-wire [RVX_LPARA_1-1:0] rvx_signal_5, rvx_signal_4, rvx_signal_1;
-wire [WIDTH-1:0] rvx_signal_6;
-reg [WIDTH-1:0] rvx_signal_8;
+wire [RVX_LPARA_1-1:0] rvx_signal_2, rvx_signal_7, rvx_signal_6;
+wire [WIDTH-1:0] rvx_signal_8;
+reg [WIDTH-1:0] rvx_signal_4;
 
+reg [WIDTH-1:0] rvx_signal_5;
 reg [WIDTH-1:0] rvx_signal_0;
-reg [WIDTH-1:0] rvx_signal_7;
 
-wire [WIDTH-1:0] rvx_signal_2;
+wire [WIDTH-1:0] rvx_signal_1;
 wire [WIDTH-1:0] rvx_signal_3;
 
-assign rvx_signal_5 = 0;
-assign rvx_signal_4 = $unsigned(windex);
-assign rvx_signal_1 = $unsigned(rindex);
+assign rvx_signal_2 = 0;
+assign rvx_signal_7 = $unsigned(windex);
+assign rvx_signal_6 = $unsigned(rindex);
 
 always@(*)
 begin
-	rvx_signal_8 = 0;
+	rvx_signal_4 = 0;
 	if(wenable)
 	begin
 		if(USE_SUBWORD_ENABLE)
 		begin
 			for(j=0; j<WIDTH; j=j+1)
-				rvx_signal_8[j] = wpermit[j/BW_SUBWORD];
+				rvx_signal_4[j] = wpermit[j/BW_SUBWORD];
 		end
 		else
-			rvx_signal_8 = `ALL_ONE;
+			rvx_signal_4 = `ALL_ONE;
 	end
 end
 
@@ -99,8 +99,8 @@ always@(posedge clk)
 begin
 	if(renable)
 	begin
-		if(wenable && (rvx_signal_1==rvx_signal_4))
-			rvx_signal_7 <= wdata;
+		if(wenable && (rvx_signal_6==rvx_signal_7))
+			rvx_signal_0 <= wdata;
 	end
 end
 
@@ -111,10 +111,10 @@ generate
 		begin
 			if(renable)
 			begin
-				if(rvx_signal_8[i] && (rvx_signal_1==rvx_signal_4))
-					rvx_signal_0[i] <= 1;
+				if(rvx_signal_4[i] && (rvx_signal_6==rvx_signal_7))
+					rvx_signal_5[i] <= 1;
 				else
-					rvx_signal_0[i] <= 0;
+					rvx_signal_5[i] <= 0;
 			end
 		end
 	end
@@ -123,12 +123,12 @@ endgenerate
 generate
 	for(i=0; i<WIDTH; i=i+1)
 	begin : i_select_rdata
-		assign rdata_synch[i] = rvx_signal_0[i]? rvx_signal_7[i] : rvx_signal_6[i];
+		assign rdata_synch[i] = rvx_signal_5[i]? rvx_signal_0[i] : rvx_signal_8[i];
 	end
 endgenerate
 
-assign rvx_signal_2 = 0;
-assign rvx_signal_3 = ~rvx_signal_2;
+assign rvx_signal_1 = 0;
+assign rvx_signal_3 = ~rvx_signal_1;
 
 ERVP_MEMORY_CELL_1R1W
 #(
@@ -145,17 +145,17 @@ i_rvx_instance_0
 	.clk(clk),
 	.rstnn(rstnn),
 
-	.index(rvx_signal_5),
+	.index(rvx_signal_2),
 	
-	.windex(rvx_signal_4),
+	.windex(rvx_signal_7),
 	.wenable(wenable),
 	.wpermit(wpermit),
 	.wdata(wdata),
 
-	.rindex(rvx_signal_1),
+	.rindex(rvx_signal_6),
 	.rdata_asynch(rdata_asynch),
 	.renable(renable),
-	.rdata_synch(rvx_signal_6)
+	.rdata_synch(rvx_signal_8)
 );
 
 endmodule

@@ -11,18 +11,25 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-29
+// 2026-11-11
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
 
 
-`ifndef RVX_GDEF_029
-`define RVX_GDEF_029
+`ifndef RVX_GDEF_380
+`define RVX_GDEF_380
 
-`define RVX_GDEF_436 3
-`define RVX_GDEF_535 7
-`define RVX_GDEF_510 11 
+`define RVX_GDEF_260 3
+`define RVX_GDEF_248 3
+
+`define RVX_GDEF_494 0
+`define RVX_GDEF_457 4
+
+`define RVX_GDEF_321 1
+`define RVX_GDEF_233 0
+`define RVX_GDEF_596 1
+
+`define RVX_GDEF_393(SOURCE,SIZE) (`RVX_GDEF_321+`RVX_GDEF_260+SOURCE+SIZE)
 
 `endif
-

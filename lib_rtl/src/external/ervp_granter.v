@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-29
+// 2026-11-11
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -55,71 +55,71 @@ input wire granted_ready;
 output wire granted_valid;
 output wire granted_last;
 
-reg [NUM_CANDIDATE-1:0] rvx_signal_8, rvx_signal_0;
-wire [NUM_CANDIDATE-1:0] rvx_signal_1;
-wire [NUM_CANDIDATE-1:0] rvx_signal_3, rvx_signal_5;
+reg [NUM_CANDIDATE-1:0] rvx_signal_6, rvx_signal_2;
+wire [NUM_CANDIDATE-1:0] rvx_signal_3;
+wire [NUM_CANDIDATE-1:0] rvx_signal_1, rvx_signal_4;
 
-wire rvx_signal_2;
+wire rvx_signal_8;
+wire rvx_signal_5;
 wire rvx_signal_7;
-wire rvx_signal_6;
-reg rvx_signal_4;
+reg rvx_signal_0;
 
 always @(posedge clk or negedge rstnn)
 begin
 	if(rstnn==0)
-    rvx_signal_8 <= 1;
+    rvx_signal_6 <= 1;
   else if(clear)
-    rvx_signal_8 <= 1;
-  else if(enable && rvx_signal_4)
-    rvx_signal_8 <= rvx_signal_0;
+    rvx_signal_6 <= 1;
+  else if(enable && rvx_signal_0)
+    rvx_signal_6 <= rvx_signal_2;
 end
 
 always@(*)
 begin
-  rvx_signal_0 = rvx_signal_3;
-  if(rvx_signal_3==0)
-    rvx_signal_0 = rvx_signal_5;
+  rvx_signal_2 = rvx_signal_1;
+  if(rvx_signal_1==0)
+    rvx_signal_2 = rvx_signal_4;
 end
 
 always@(*)
 begin
-  rvx_signal_4 = 0;
+  rvx_signal_0 = 0;
   if(granted_valid)
-    rvx_signal_4 = rvx_signal_7 & rvx_signal_6;
+    rvx_signal_0 = rvx_signal_5 & rvx_signal_7;
   else
-    rvx_signal_4 = rvx_signal_6;
+    rvx_signal_0 = rvx_signal_7;
 end
 
-RVX_MODULE_040
+RVX_MODULE_083
 #(
   .RVX_GPARA_0(NUM_CANDIDATE),
   .RVX_GPARA_1(1)
 )
 i_rvx_instance_1
 (
-  .rvx_port_0(candidate_valid_list),
-  .rvx_port_1(rvx_signal_3)
+  .rvx_port_1(candidate_valid_list),
+  .rvx_port_0(rvx_signal_1)
 );
 
-RVX_MODULE_040
+RVX_MODULE_083
 #(
   .RVX_GPARA_0(NUM_CANDIDATE),
   .RVX_GPARA_1(1)
 )
 i_rvx_instance_0
 (
-  .rvx_port_0(candidate_hint_list),
-  .rvx_port_1(rvx_signal_5)
+  .rvx_port_1(candidate_hint_list),
+  .rvx_port_0(rvx_signal_4)
 );
 
 assign granted_last = ((grant_list & candidate_last_list)!=0);
-assign rvx_signal_2 = granted_valid & granted_ready;
-assign rvx_signal_7 = rvx_signal_2 & granted_last;
+assign rvx_signal_8 = granted_valid & granted_ready;
+assign rvx_signal_5 = rvx_signal_8 & granted_last;
 
-assign rvx_signal_1 = (candidate_valid_list | candidate_hint_list) & (~rvx_signal_8);
-assign rvx_signal_6 = (rvx_signal_1!=0);
+assign rvx_signal_3 = (candidate_valid_list | candidate_hint_list) & (~rvx_signal_6);
+assign rvx_signal_7 = (rvx_signal_3!=0);
 
-assign grant_list = rvx_signal_8;
+assign grant_list = rvx_signal_6;
 assign granted_valid = ((candidate_valid_list & grant_list)!=0);
 
 assign candidate_ready_list = granted_ready? grant_list : 0;

@@ -11,20 +11,20 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-20
+// 2026-11-09
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
 
 
-`include "munoc_include_01.vh"
+`include "munoc_include_10.vh"
 `include "munoc_extended_config.vh"
 `include "ervp_axi_define.vh"
 `include "munoc_network_link.vh"
 `include "munoc_control.vh"
-`include "munoc_include_03.vh"
+`include "munoc_include_08.vh"
 `include "munoc_tid_control_type.vh"
-`include "munoc_include_05.vh"
+`include "munoc_include_09.vh"
 
 
 
@@ -117,10 +117,10 @@ parameter NUM_AXIB_BUFFER = 2;
 
 `include "ervp_log_util.vf"
 
-localparam  MUNOC_LPARA_2 = "AXI";
+localparam  MUNOC_LPARA_0 = "AXI";
 
 localparam  MUNOC_LPARA_1 = `MAX(`MAX(`QUANTIZERU(NUM_AXIR_BUFFER,8),NUM_AXIB_BUFFER),2);
-localparam  MUNOC_LPARA_0 = NUM_AXIR_BUFFER;
+localparam  MUNOC_LPARA_2 = NUM_AXIR_BUFFER;
 
 input wire clk_master, rstnn_master;
 input wire clk_network, rstnn_network;
@@ -183,659 +183,659 @@ output wire svri_rack;
 output wire [`BW_SVRING_LINK-1:0] svri_slink;
 input wire svri_sack;
 
-wire [BW_AXI_MASTER_TID-1:0] munoc_signal_087;
-wire [BW_PLATFORM_ADDR-1:0] munoc_signal_004;
-wire [`BW_AXI_ALEN-1:0] munoc_signal_078;
-wire [`BW_AXI_ASIZE-1:0] munoc_signal_093;
-wire [`BW_AXI_ABURST-1:0] munoc_signal_047;
-wire munoc_signal_114;
-wire munoc_signal_003;
-wire [BW_AXI_MASTER_TID-1:0] munoc_signal_009;
-wire [BW_NODE_DATA-1:0] munoc_signal_106;
-wire [`BW_AXI_WSTRB(BW_NODE_DATA)-1:0] munoc_signal_083;
-wire munoc_signal_040;
-wire munoc_signal_035;
-wire munoc_signal_001;
-wire [BW_AXI_MASTER_TID-1:0] munoc_signal_077;
-wire [`BW_AXI_BRESP-1:0] munoc_signal_066;
-wire munoc_signal_051;
-wire munoc_signal_085;
-wire [BW_AXI_MASTER_TID-1:0] munoc_signal_053;
-wire [BW_PLATFORM_ADDR-1:0] munoc_signal_090;
-wire [`BW_AXI_ALEN-1:0] munoc_signal_050;
-wire [`BW_AXI_ASIZE-1:0] munoc_signal_081;
-wire [`BW_AXI_ABURST-1:0] munoc_signal_099;
-wire munoc_signal_028;
-wire munoc_signal_052;
-wire [BW_AXI_MASTER_TID-1:0] munoc_signal_107;
-wire [BW_NODE_DATA-1:0] munoc_signal_008;
-wire [`BW_AXI_RRESP-1:0] munoc_signal_011;
-wire munoc_signal_038;
+wire [BW_AXI_MASTER_TID-1:0] munoc_signal_049;
+wire [BW_PLATFORM_ADDR-1:0] munoc_signal_075;
+wire [`BW_AXI_ALEN-1:0] munoc_signal_113;
+wire [`BW_AXI_ASIZE-1:0] munoc_signal_097;
+wire [`BW_AXI_ABURST-1:0] munoc_signal_108;
+wire munoc_signal_027;
+wire munoc_signal_069;
+wire [BW_AXI_MASTER_TID-1:0] munoc_signal_092;
+wire [BW_NODE_DATA-1:0] munoc_signal_082;
+wire [`BW_AXI_WSTRB(BW_NODE_DATA)-1:0] munoc_signal_020;
+wire munoc_signal_030;
 wire munoc_signal_023;
-wire munoc_signal_014;
+wire munoc_signal_031;
+wire [BW_AXI_MASTER_TID-1:0] munoc_signal_046;
+wire [`BW_AXI_BRESP-1:0] munoc_signal_034;
+wire munoc_signal_007;
+wire munoc_signal_066;
+wire [BW_AXI_MASTER_TID-1:0] munoc_signal_103;
+wire [BW_PLATFORM_ADDR-1:0] munoc_signal_067;
+wire [`BW_AXI_ALEN-1:0] munoc_signal_099;
+wire [`BW_AXI_ASIZE-1:0] munoc_signal_015;
+wire [`BW_AXI_ABURST-1:0] munoc_signal_047;
+wire munoc_signal_029;
+wire munoc_signal_017;
+wire [BW_AXI_MASTER_TID-1:0] munoc_signal_002;
+wire [BW_NODE_DATA-1:0] munoc_signal_116;
+wire [`BW_AXI_RRESP-1:0] munoc_signal_086;
+wire munoc_signal_111;
+wire munoc_signal_037;
+wire munoc_signal_061;
 
-wire [BW_PLATFORM_ADDR-1:0] munoc_signal_102;
-wire munoc_signal_026;
-wire munoc_signal_108;
-wire munoc_signal_100;
-wire [BW_NODE_DATA-1:0] munoc_signal_018;
-wire [BW_NODE_DATA-1:0] munoc_signal_091;
-wire munoc_signal_057;
-wire munoc_signal_065;
+wire [BW_PLATFORM_ADDR-1:0] munoc_signal_013;
+wire munoc_signal_018;
+wire munoc_signal_074;
+wire munoc_signal_044;
+wire [BW_NODE_DATA-1:0] munoc_signal_077;
+wire [BW_NODE_DATA-1:0] munoc_signal_033;
+wire munoc_signal_107;
+wire munoc_signal_115;
+
+wire [BW_AXI_MASTER_TID-1:0] munoc_signal_096;
+wire [BW_PLATFORM_ADDR-1:0] munoc_signal_093;
+wire [`BW_AXI_ALEN-1:0] munoc_signal_014;
+wire [`BW_AXI_ASIZE-1:0] munoc_signal_076;
+wire [`BW_AXI_ABURST-1:0] munoc_signal_081;
+wire munoc_signal_040;
+wire munoc_signal_012;
+
+wire [BW_NODE_DATA-1:0] munoc_signal_080;
+wire [`BW_AXI_WSTRB(BW_NODE_DATA)-1:0] munoc_signal_024;
+wire munoc_signal_104;
+wire munoc_signal_078;
+wire munoc_signal_088;
+
+wire [BW_AXI_MASTER_TID-1:0] munoc_signal_071;
+wire [`BW_AXI_BRESP-1:0] munoc_signal_050;
+wire munoc_signal_042;
+wire munoc_signal_056;
 
 wire [BW_AXI_MASTER_TID-1:0] munoc_signal_059;
-wire [BW_PLATFORM_ADDR-1:0] munoc_signal_062;
-wire [`BW_AXI_ALEN-1:0] munoc_signal_054;
-wire [`BW_AXI_ASIZE-1:0] munoc_signal_024;
-wire [`BW_AXI_ABURST-1:0] munoc_signal_010;
-wire munoc_signal_031;
-wire munoc_signal_110;
-
-wire [BW_NODE_DATA-1:0] munoc_signal_044;
-wire [`BW_AXI_WSTRB(BW_NODE_DATA)-1:0] munoc_signal_097;
-wire munoc_signal_084;
-wire munoc_signal_095;
-wire munoc_signal_074;
-
-wire [BW_AXI_MASTER_TID-1:0] munoc_signal_039;
-wire [`BW_AXI_BRESP-1:0] munoc_signal_098;
-wire munoc_signal_036;
+wire [BW_PLATFORM_ADDR-1:0] munoc_signal_041;
+wire [`BW_AXI_ALEN-1:0] munoc_signal_114;
+wire [`BW_AXI_ASIZE-1:0] munoc_signal_083;
+wire [`BW_AXI_ABURST-1:0] munoc_signal_100;
+wire munoc_signal_085;
 wire munoc_signal_055;
 
-wire [BW_AXI_MASTER_TID-1:0] munoc_signal_076;
-wire [BW_PLATFORM_ADDR-1:0] munoc_signal_029;
-wire [`BW_AXI_ALEN-1:0] munoc_signal_027;
-wire [`BW_AXI_ASIZE-1:0] munoc_signal_043;
-wire [`BW_AXI_ABURST-1:0] munoc_signal_006;
-wire munoc_signal_069;
-wire munoc_signal_105;
-
-wire [BW_AXI_MASTER_TID-1:0] munoc_signal_115;
-wire [BW_NODE_DATA-1:0] munoc_signal_073;
-wire [`BW_AXI_RRESP-1:0] munoc_signal_096;
-wire munoc_signal_064;
-wire munoc_signal_103;
-wire munoc_signal_013;
-
-wire munoc_signal_092;
-wire munoc_signal_037;
-wire [`BW_ARCHANNEL(BW_AXI_MASTER_TID,BW_PLATFORM_ADDR)-1:0] munoc_signal_058;
-wire munoc_signal_012;
-wire munoc_signal_048;
-wire [`BW_ARCHANNEL(BW_AXI_MASTER_TID,BW_PLATFORM_ADDR)-1:0] munoc_signal_094;
-
-wire munoc_signal_045;
-wire munoc_signal_032;
-wire [`BW_AWCHANNEL(BW_AXI_MASTER_TID,BW_PLATFORM_ADDR)-1:0] munoc_signal_112;
-wire munoc_signal_088;
-wire munoc_signal_042;
-wire [`BW_AWCHANNEL(BW_AXI_MASTER_TID,BW_PLATFORM_ADDR)-1:0] munoc_signal_030;
-
-wire munoc_signal_068;
-wire munoc_signal_020;
-wire [`BW_WCHANNEL(0,BW_NODE_DATA)-1:0] munoc_signal_080;
-wire munoc_signal_086;
-wire munoc_signal_067;
-wire [`BW_WCHANNEL(0,BW_NODE_DATA)-1:0] munoc_signal_101;
-
-wire [BW_AXI_MASTER_TID-1:0] munoc_signal_082;
-wire [`BW_SLAVE_NODE_ID-1:0] munoc_signal_022;
-wire munoc_signal_056;
-wire munoc_signal_060;
-wire [BW_AXI_MASTER_TID-1:0] munoc_signal_041;
-wire munoc_signal_072;
-
-wire [BW_AXI_MASTER_TID-1:0] munoc_signal_015;
-wire [`BW_SLAVE_NODE_ID-1:0] munoc_signal_005;
-wire munoc_signal_104;
-wire munoc_signal_070;
-wire [BW_AXI_MASTER_TID-1:0] munoc_signal_033;
-wire munoc_signal_007;
-
-wire munoc_signal_061;
-wire munoc_signal_017;
-wire munoc_signal_111;
-
-wire [`BW_MASTER_NODE_ID-1:0] munoc_signal_019;
-wire [BW_AXI_MASTER_TID-1:0] munoc_signal_113;
-wire [`BW_AXI_BRESP-1:0] munoc_signal_075;
-
+wire [BW_AXI_MASTER_TID-1:0] munoc_signal_026;
+wire [BW_NODE_DATA-1:0] munoc_signal_053;
+wire [`BW_AXI_RRESP-1:0] munoc_signal_068;
 wire munoc_signal_025;
-wire [`BW_AXI_RRESP-1:0] munoc_signal_021;
-wire [BW_NODE_DATA-1:0] munoc_signal_089;
+wire munoc_signal_070;
+wire munoc_signal_106;
 
-wire munoc_signal_109;
-wire munoc_signal_034;
-
-wire [`MUNOC_GDEF_86-1:0] munoc_signal_116;
-wire [`MUNOC_GDEF_94-1:0] munoc_signal_071;
-wire munoc_signal_002;
-wire [`MUNOC_GDEF_42-1:0] munoc_signal_049;
-wire [`MUNOC_GDEF_42-1:0] munoc_signal_000;
-wire [`MUNOC_GDEF_66-1:0] munoc_signal_046;
-wire [`MUNOC_GDEF_46-1:0] munoc_signal_016;
-wire munoc_signal_063;
+wire munoc_signal_073;
+wire munoc_signal_043;
+wire [`BW_ARCHANNEL(BW_AXI_MASTER_TID,BW_PLATFORM_ADDR)-1:0] munoc_signal_110;
+wire munoc_signal_005;
 wire munoc_signal_079;
+wire [`BW_ARCHANNEL(BW_AXI_MASTER_TID,BW_PLATFORM_ADDR)-1:0] munoc_signal_011;
 
-MUNOC_MODULE_08
+wire munoc_signal_032;
+wire munoc_signal_090;
+wire [`BW_AWCHANNEL(BW_AXI_MASTER_TID,BW_PLATFORM_ADDR)-1:0] munoc_signal_051;
+wire munoc_signal_022;
+wire munoc_signal_016;
+wire [`BW_AWCHANNEL(BW_AXI_MASTER_TID,BW_PLATFORM_ADDR)-1:0] munoc_signal_102;
+
+wire munoc_signal_101;
+wire munoc_signal_057;
+wire [`BW_WCHANNEL(0,BW_NODE_DATA)-1:0] munoc_signal_109;
+wire munoc_signal_095;
+wire munoc_signal_052;
+wire [`BW_WCHANNEL(0,BW_NODE_DATA)-1:0] munoc_signal_064;
+
+wire [BW_AXI_MASTER_TID-1:0] munoc_signal_021;
+wire [`BW_SLAVE_NODE_ID-1:0] munoc_signal_035;
+wire munoc_signal_001;
+wire munoc_signal_062;
+wire [BW_AXI_MASTER_TID-1:0] munoc_signal_028;
+wire munoc_signal_019;
+
+wire [BW_AXI_MASTER_TID-1:0] munoc_signal_105;
+wire [`BW_SLAVE_NODE_ID-1:0] munoc_signal_087;
+wire munoc_signal_010;
+wire munoc_signal_054;
+wire [BW_AXI_MASTER_TID-1:0] munoc_signal_008;
+wire munoc_signal_060;
+
+wire munoc_signal_038;
+wire munoc_signal_036;
+wire munoc_signal_009;
+
+wire [`BW_MASTER_NODE_ID-1:0] munoc_signal_065;
+wire [BW_AXI_MASTER_TID-1:0] munoc_signal_006;
+wire [`BW_AXI_BRESP-1:0] munoc_signal_084;
+
+wire munoc_signal_072;
+wire [`BW_AXI_RRESP-1:0] munoc_signal_063;
+wire [BW_NODE_DATA-1:0] munoc_signal_045;
+
+wire munoc_signal_058;
+wire munoc_signal_000;
+
+wire [`MUNOC_GDEF_87-1:0] munoc_signal_098;
+wire [`MUNOC_GDEF_59-1:0] munoc_signal_112;
+wire munoc_signal_003;
+wire [`MUNOC_GDEF_64-1:0] munoc_signal_094;
+wire [`MUNOC_GDEF_64-1:0] munoc_signal_039;
+wire [`MUNOC_GDEF_00-1:0] munoc_signal_048;
+wire [`MUNOC_GDEF_51-1:0] munoc_signal_091;
+wire munoc_signal_089;
+wire munoc_signal_004;
+
+MUNOC_MODULE_19
 #(
-	.MUNOC_GPARA_2(BW_AXI_MASTER_TID),
+	.MUNOC_GPARA_1(BW_AXI_MASTER_TID),
 	.MUNOC_GPARA_0(BW_NODE_DATA),
-	.MUNOC_GPARA_1(BW_PLATFORM_ADDR)
+	.MUNOC_GPARA_2(BW_PLATFORM_ADDR)
 )
-i_munoc_instance_06
+i_munoc_instance_01
 (
-	.munoc_port_19(comm_disable),
+	.munoc_port_04(comm_disable),
 
-	.munoc_port_27(rxawid),
-	.munoc_port_59(rxawaddr),
-	.munoc_port_30(rxawlen),
-	.munoc_port_36(rxawsize),
-	.munoc_port_02(rxawburst),
-	.munoc_port_07(rxawvalid),
-	.munoc_port_45(rxawready),
+	.munoc_port_20(rxawid),
+	.munoc_port_48(rxawaddr),
+	.munoc_port_27(rxawlen),
+	.munoc_port_26(rxawsize),
+	.munoc_port_28(rxawburst),
+	.munoc_port_59(rxawvalid),
+	.munoc_port_05(rxawready),
 
-	.munoc_port_35(rxwid),
-	.munoc_port_48(rxwdata),
-	.munoc_port_04(rxwstrb),
-	.munoc_port_26(rxwlast),
-	.munoc_port_53(rxwvalid),
-	.munoc_port_50(rxwready), 
+	.munoc_port_11(rxwid),
+	.munoc_port_56(rxwdata),
+	.munoc_port_12(rxwstrb),
+	.munoc_port_08(rxwlast),
+	.munoc_port_44(rxwvalid),
+	.munoc_port_43(rxwready), 
 
-	.munoc_port_41(rxbid),
-	.munoc_port_33(rxbresp),
-	.munoc_port_10(rxbvalid),
-	.munoc_port_01(rxbready),
+	.munoc_port_17(rxbid),
+	.munoc_port_31(rxbresp),
+	.munoc_port_40(rxbvalid),
+	.munoc_port_39(rxbready),
 
-	.munoc_port_47(rxarid),
-	.munoc_port_14(rxaraddr),
-	.munoc_port_40(rxarlen),
-	.munoc_port_37(rxarsize),
-	.munoc_port_15(rxarburst),
-	.munoc_port_44(rxarvalid),
-	.munoc_port_12(rxarready),
+	.munoc_port_54(rxarid),
+	.munoc_port_47(rxaraddr),
+	.munoc_port_42(rxarlen),
+	.munoc_port_53(rxarsize),
+	.munoc_port_02(rxarburst),
+	.munoc_port_14(rxarvalid),
+	.munoc_port_34(rxarready),
 
-	.munoc_port_20(rxrid),
-	.munoc_port_32(rxrdata),
-	.munoc_port_13(rxrresp),
-	.munoc_port_42(rxrlast),
-	.munoc_port_18(rxrvalid),
-	.munoc_port_16(rxrready),
+	.munoc_port_23(rxrid),
+	.munoc_port_36(rxrdata),
+	.munoc_port_25(rxrresp),
+	.munoc_port_33(rxrlast),
+	.munoc_port_32(rxrvalid),
+	.munoc_port_49(rxrready),
 
-	.munoc_port_00(munoc_signal_087),
-	.munoc_port_22(munoc_signal_004),
-	.munoc_port_56(munoc_signal_078),
-	.munoc_port_21(munoc_signal_093),
-	.munoc_port_06(munoc_signal_047),
-	.munoc_port_38(munoc_signal_114),
-	.munoc_port_54(munoc_signal_003),
+	.munoc_port_21(munoc_signal_049),
+	.munoc_port_22(munoc_signal_075),
+	.munoc_port_37(munoc_signal_113),
+	.munoc_port_19(munoc_signal_097),
+	.munoc_port_18(munoc_signal_108),
+	.munoc_port_09(munoc_signal_027),
+	.munoc_port_06(munoc_signal_069),
 
-	.munoc_port_39(munoc_signal_009),
-	.munoc_port_34(munoc_signal_106),
-	.munoc_port_57(munoc_signal_083),
-	.munoc_port_55(munoc_signal_040),
-	.munoc_port_46(munoc_signal_035),
-	.munoc_port_09(munoc_signal_001), 
+	.munoc_port_07(munoc_signal_092),
+	.munoc_port_45(munoc_signal_082),
+	.munoc_port_58(munoc_signal_020),
+	.munoc_port_03(munoc_signal_030),
+	.munoc_port_35(munoc_signal_023),
+	.munoc_port_30(munoc_signal_031), 
 
-	.munoc_port_23(munoc_signal_077),
-	.munoc_port_43(munoc_signal_066),
-	.munoc_port_49(munoc_signal_051),
-	.munoc_port_25(munoc_signal_085),
+	.munoc_port_46(munoc_signal_046),
+	.munoc_port_10(munoc_signal_034),
+	.munoc_port_51(munoc_signal_007),
+	.munoc_port_50(munoc_signal_066),
 
-	.munoc_port_60(munoc_signal_053),
-	.munoc_port_29(munoc_signal_090),
-	.munoc_port_03(munoc_signal_050),
-	.munoc_port_08(munoc_signal_081),
-	.munoc_port_52(munoc_signal_099),
-	.munoc_port_17(munoc_signal_028),
-	.munoc_port_31(munoc_signal_052),
+	.munoc_port_57(munoc_signal_103),
+	.munoc_port_16(munoc_signal_067),
+	.munoc_port_41(munoc_signal_099),
+	.munoc_port_24(munoc_signal_015),
+	.munoc_port_60(munoc_signal_047),
+	.munoc_port_29(munoc_signal_029),
+	.munoc_port_38(munoc_signal_017),
 
-	.munoc_port_51(munoc_signal_107),
-	.munoc_port_58(munoc_signal_008),
-	.munoc_port_24(munoc_signal_011),
-	.munoc_port_28(munoc_signal_038),
-	.munoc_port_11(munoc_signal_023),
-	.munoc_port_05(munoc_signal_014)
+	.munoc_port_15(munoc_signal_002),
+	.munoc_port_52(munoc_signal_116),
+	.munoc_port_55(munoc_signal_086),
+	.munoc_port_13(munoc_signal_111),
+	.munoc_port_01(munoc_signal_037),
+	.munoc_port_00(munoc_signal_061)
 );
 
-MUNOC_MODULE_43
+MUNOC_MODULE_18
 #(
 	.MUNOC_GPARA_1(BW_NODE_DATA),
 	.MUNOC_GPARA_0(BW_PLATFORM_ADDR)
 )
-i_munoc_instance_03
+i_munoc_instance_04
 (
-	.munoc_port_09(comm_disable),
+	.munoc_port_05(comm_disable),
 
-	.munoc_port_00(munoc_signal_102),
-	.munoc_port_11(munoc_signal_026),
-	.munoc_port_16(munoc_signal_108),
-	.munoc_port_05(munoc_signal_100),
-	.munoc_port_10(munoc_signal_018),
-	.munoc_port_08(munoc_signal_091),
-	.munoc_port_02(munoc_signal_057),
-	.munoc_port_12(munoc_signal_065),
+	.munoc_port_02(munoc_signal_013),
+	.munoc_port_13(munoc_signal_018),
+	.munoc_port_03(munoc_signal_074),
+	.munoc_port_00(munoc_signal_044),
+	.munoc_port_09(munoc_signal_077),
+	.munoc_port_07(munoc_signal_033),
+	.munoc_port_14(munoc_signal_107),
+	.munoc_port_08(munoc_signal_115),
 
-	.munoc_port_13(local_spaddr),
-	.munoc_port_03(local_spwrite),
+	.munoc_port_06(local_spaddr),
+	.munoc_port_15(local_spwrite),
 	.munoc_port_04(local_spsel),
-	.munoc_port_14(local_spenable),
-	.munoc_port_15(local_spwdata),
-	.munoc_port_06(local_sprdata),
-	.munoc_port_01(local_spready),
-	.munoc_port_07(local_spslverr)
+	.munoc_port_16(local_spenable),
+	.munoc_port_12(local_spwdata),
+	.munoc_port_01(local_sprdata),
+	.munoc_port_10(local_spready),
+	.munoc_port_11(local_spslverr)
 );
 
-MUNOC_MODULE_36
+MUNOC_MODULE_10
 #(
 	.MUNOC_GPARA_4(BW_PLATFORM_ADDR),
-	.MUNOC_GPARA_3(BW_NODE_DATA),
-	.MUNOC_GPARA_5(BW_AXI_MASTER_TID),
-	.MUNOC_GPARA_2(LOCAL_ENABLE),
-	.MUNOC_GPARA_6(LOCAL_UPPER_ADDR),
-	.MUNOC_GPARA_1(CHECK_WID)
-)
-i_munoc_instance_00
-(
-	.munoc_port_45(clk_master),
-	.munoc_port_64(rstnn_master),
-
-	.munoc_port_44(munoc_signal_087),
-	.munoc_port_29(munoc_signal_004),
-	.munoc_port_06(munoc_signal_078),
-	.munoc_port_32(munoc_signal_093),
-	.munoc_port_24(munoc_signal_047),
-	.munoc_port_49(munoc_signal_114),
-	.munoc_port_25(munoc_signal_003),
-
-	.munoc_port_12(munoc_signal_009),
-	.munoc_port_14(munoc_signal_106),
-	.munoc_port_28(munoc_signal_083),
-	.munoc_port_56(munoc_signal_040),
-	.munoc_port_04(munoc_signal_035),
-	.munoc_port_19(munoc_signal_001), 
-
-	.munoc_port_41(munoc_signal_077),
-	.munoc_port_20(munoc_signal_066),
-	.munoc_port_31(munoc_signal_051),
-	.munoc_port_54(munoc_signal_085),
-
-	.munoc_port_08(munoc_signal_053),
-	.munoc_port_18(munoc_signal_090),
-	.munoc_port_42(munoc_signal_050),
-	.munoc_port_03(munoc_signal_081),
-	.munoc_port_70(munoc_signal_099),
-	.munoc_port_43(munoc_signal_028),
-	.munoc_port_67(munoc_signal_052),
-
-	.munoc_port_38(munoc_signal_107),
-	.munoc_port_30(munoc_signal_008),
-	.munoc_port_00(munoc_signal_011),
-	.munoc_port_23(munoc_signal_038),
-	.munoc_port_60(munoc_signal_023),
-	.munoc_port_48(munoc_signal_014),
-
-	.munoc_port_61(munoc_signal_102),
-	.munoc_port_11(munoc_signal_026),
-	.munoc_port_02(munoc_signal_108),
-	.munoc_port_59(munoc_signal_100),
-	.munoc_port_16(munoc_signal_018),
-	.munoc_port_47(munoc_signal_091),
-	.munoc_port_13(munoc_signal_057),
-	.munoc_port_50(munoc_signal_065),
-	.munoc_port_63(local_allows_holds),
-
-	.munoc_port_10(munoc_signal_059),
-	.munoc_port_01(munoc_signal_062),
-	.munoc_port_37(munoc_signal_054),
-	.munoc_port_46(munoc_signal_024),
-	.munoc_port_39(munoc_signal_010),
-	.munoc_port_53(munoc_signal_031),
-	.munoc_port_15(munoc_signal_110),
-
-	.munoc_port_07(),
-	.munoc_port_33(munoc_signal_044),
-	.munoc_port_68(munoc_signal_097),
-	.munoc_port_36(munoc_signal_084),
-	.munoc_port_66(munoc_signal_095),
-	.munoc_port_34(munoc_signal_074), 
-
-	.munoc_port_21(munoc_signal_039),
-	.munoc_port_65(munoc_signal_098),
-	.munoc_port_27(munoc_signal_036),
-	.munoc_port_52(munoc_signal_055),
-
-	.munoc_port_62(munoc_signal_076),
-	.munoc_port_55(munoc_signal_029),
-	.munoc_port_35(munoc_signal_027),
-	.munoc_port_40(munoc_signal_043),
-	.munoc_port_69(munoc_signal_006),
-	.munoc_port_05(munoc_signal_069),
-	.munoc_port_57(munoc_signal_105),
-
-	.munoc_port_17(munoc_signal_115),
-	.munoc_port_09(munoc_signal_073),
-	.munoc_port_22(munoc_signal_096),
-	.munoc_port_58(munoc_signal_064),
-	.munoc_port_51(munoc_signal_103),
-	.munoc_port_26(munoc_signal_013)
-);
-
-MUNOC_MODULE_09
-#(
-	.MUNOC_GPARA_1(`BW_ARCHANNEL(BW_AXI_MASTER_TID,BW_PLATFORM_ADDR)),
-	.MUNOC_GPARA_0(NUM_AXIAR_BUFFER)
-)
-i_munoc_instance_11
-(
-	.munoc_port_07(clk_master),
-	.munoc_port_04(rstnn_master),
-	.munoc_port_03(munoc_signal_092),
-	.munoc_port_05(munoc_signal_037),
-	.munoc_port_00(munoc_signal_058),
-
-	.munoc_port_06(clk_network),
-	.munoc_port_09(rstnn_network),
-	.munoc_port_01(munoc_signal_012),
-	.munoc_port_08(munoc_signal_048),
-	.munoc_port_02(munoc_signal_094)
-);
-
-assign munoc_signal_105 = munoc_signal_092;
-assign munoc_signal_037 = munoc_signal_069;
-assign munoc_signal_058 = {munoc_signal_076,munoc_signal_029,munoc_signal_027,munoc_signal_043,munoc_signal_006};
-
-MUNOC_MODULE_09
-#(
-	.MUNOC_GPARA_1(`BW_AWCHANNEL(BW_AXI_MASTER_TID,BW_PLATFORM_ADDR)),
-	.MUNOC_GPARA_0(NUM_AXIAW_BUFFER)
-)
-i_munoc_instance_02
-(
-	.munoc_port_07(clk_master),
-	.munoc_port_04(rstnn_master),
-	.munoc_port_03(munoc_signal_045),
-	.munoc_port_05(munoc_signal_032),
-	.munoc_port_00(munoc_signal_112),
-
-	.munoc_port_06(clk_network),
-	.munoc_port_09(rstnn_network),
-	.munoc_port_01(munoc_signal_088),
-	.munoc_port_08(munoc_signal_042),
-	.munoc_port_02(munoc_signal_030)
-);
-
-assign munoc_signal_110 = munoc_signal_045;
-assign munoc_signal_032 = munoc_signal_031;
-assign munoc_signal_112 = {munoc_signal_059,munoc_signal_062,munoc_signal_054,munoc_signal_024,munoc_signal_010};
-
-MUNOC_MODULE_09
-#(
-	.MUNOC_GPARA_1(`BW_WCHANNEL(0,BW_NODE_DATA)),
-	.MUNOC_GPARA_0(NUM_AXIW_BUFFER)
-)
-i_munoc_instance_09
-(
-	.munoc_port_07(clk_master),
-	.munoc_port_04(rstnn_master),
-	.munoc_port_03(munoc_signal_068),
-	.munoc_port_05(munoc_signal_020),
-	.munoc_port_00(munoc_signal_101),
-
-	.munoc_port_06(clk_network),
-	.munoc_port_09(rstnn_network),
-	.munoc_port_01(munoc_signal_086),
-	.munoc_port_08(munoc_signal_067),
-	.munoc_port_02(munoc_signal_080)
-);
-
-assign munoc_signal_074 = munoc_signal_068;
-assign munoc_signal_020 = munoc_signal_095;
-assign munoc_signal_101 = {munoc_signal_044,munoc_signal_097,munoc_signal_084};
-
-MUNOC_MODULE_15
-#(
-	.MUNOC_GPARA_2(NODE_ID),
-	.MUNOC_GPARA_1(BW_FNI_PHIT),
-	.MUNOC_GPARA_4(BW_PLATFORM_ADDR),
-	.MUNOC_GPARA_3(BW_NODE_DATA),
-	.MUNOC_GPARA_0(BW_AXI_MASTER_TID)
-)
-i_munoc_instance_01
-(
-	.munoc_port_18(clk_network),
-	.munoc_port_03(rstnn_network),
-	.munoc_port_08(munoc_signal_012),
-	.munoc_port_11(munoc_signal_048),
-	.munoc_port_16(munoc_signal_094),
-	.munoc_port_01(munoc_signal_088),
-	.munoc_port_12(munoc_signal_042),
-	.munoc_port_20(munoc_signal_030),
-	.munoc_port_06(munoc_signal_086),
-	.munoc_port_10(munoc_signal_067),
-	.munoc_port_22(munoc_signal_080),
-	.munoc_port_04(sfni_link),
-	.munoc_port_07(sfni_ready),
-	.munoc_port_02(munoc_signal_079),
-	.munoc_port_00(munoc_signal_082),
-	.munoc_port_14(munoc_signal_022),
-	.munoc_port_13(munoc_signal_056),
-	.munoc_port_19(munoc_signal_060),
-	.munoc_port_09(munoc_signal_015),
-	.munoc_port_15(munoc_signal_005),
-	.munoc_port_05(munoc_signal_104),
-	.munoc_port_17(munoc_signal_070),
-	.munoc_port_21(munoc_signal_116)
-);
-
-MUNOC_MODULE_12
-#(
-	.MUNOC_GPARA_2(BW_AXI_MASTER_TID),
-	.MUNOC_GPARA_1(`BW_SLAVE_NODE_ID),
-	.MUNOC_GPARA_0(TID_CONTROL_TYPE)
-)
-i_munoc_instance_07
-(
-	.munoc_port_07(clk_network),
-	.munoc_port_06(rstnn_network),
-	.munoc_port_04(munoc_signal_082),
-	.munoc_port_00(munoc_signal_022),
-	.munoc_port_02(munoc_signal_056),
-	.munoc_port_01(munoc_signal_060),
-	.munoc_port_05(clk_master),
-	.munoc_port_03(rstnn_master),
-	.munoc_port_08(munoc_signal_041),
-	.munoc_port_09(munoc_signal_072)
-);
-
-MUNOC_MODULE_12
-#(
-	.MUNOC_GPARA_2(BW_AXI_MASTER_TID),
-	.MUNOC_GPARA_1(`BW_SLAVE_NODE_ID),
-	.MUNOC_GPARA_0(TID_CONTROL_TYPE)
+	.MUNOC_GPARA_5(BW_NODE_DATA),
+	.MUNOC_GPARA_1(BW_AXI_MASTER_TID),
+	.MUNOC_GPARA_0(LOCAL_ENABLE),
+	.MUNOC_GPARA_2(LOCAL_UPPER_ADDR),
+	.MUNOC_GPARA_3(CHECK_WID)
 )
 i_munoc_instance_10
 (
-	.munoc_port_07(clk_network),
-	.munoc_port_06(rstnn_network),
-	.munoc_port_04(munoc_signal_015),
+	.munoc_port_35(clk_master),
+	.munoc_port_61(rstnn_master),
+
+	.munoc_port_69(munoc_signal_049),
+	.munoc_port_03(munoc_signal_075),
+	.munoc_port_17(munoc_signal_113),
+	.munoc_port_22(munoc_signal_097),
+	.munoc_port_43(munoc_signal_108),
+	.munoc_port_25(munoc_signal_027),
+	.munoc_port_06(munoc_signal_069),
+
+	.munoc_port_47(munoc_signal_092),
+	.munoc_port_57(munoc_signal_082),
+	.munoc_port_63(munoc_signal_020),
+	.munoc_port_28(munoc_signal_030),
+	.munoc_port_01(munoc_signal_023),
+	.munoc_port_37(munoc_signal_031), 
+
+	.munoc_port_11(munoc_signal_046),
+	.munoc_port_33(munoc_signal_034),
+	.munoc_port_70(munoc_signal_007),
+	.munoc_port_66(munoc_signal_066),
+
+	.munoc_port_53(munoc_signal_103),
+	.munoc_port_54(munoc_signal_067),
+	.munoc_port_38(munoc_signal_099),
+	.munoc_port_46(munoc_signal_015),
+	.munoc_port_68(munoc_signal_047),
+	.munoc_port_41(munoc_signal_029),
+	.munoc_port_29(munoc_signal_017),
+
+	.munoc_port_56(munoc_signal_002),
+	.munoc_port_27(munoc_signal_116),
+	.munoc_port_08(munoc_signal_086),
+	.munoc_port_05(munoc_signal_111),
+	.munoc_port_12(munoc_signal_037),
+	.munoc_port_36(munoc_signal_061),
+
+	.munoc_port_60(munoc_signal_013),
+	.munoc_port_55(munoc_signal_018),
+	.munoc_port_13(munoc_signal_074),
+	.munoc_port_50(munoc_signal_044),
+	.munoc_port_14(munoc_signal_077),
+	.munoc_port_39(munoc_signal_033),
+	.munoc_port_40(munoc_signal_107),
+	.munoc_port_26(munoc_signal_115),
+	.munoc_port_34(local_allows_holds),
+
+	.munoc_port_49(munoc_signal_096),
+	.munoc_port_51(munoc_signal_093),
+	.munoc_port_32(munoc_signal_014),
+	.munoc_port_42(munoc_signal_076),
+	.munoc_port_23(munoc_signal_081),
+	.munoc_port_58(munoc_signal_040),
+	.munoc_port_64(munoc_signal_012),
+
+	.munoc_port_24(),
+	.munoc_port_62(munoc_signal_080),
+	.munoc_port_48(munoc_signal_024),
+	.munoc_port_07(munoc_signal_104),
+	.munoc_port_10(munoc_signal_078),
+	.munoc_port_09(munoc_signal_088), 
+
+	.munoc_port_67(munoc_signal_071),
+	.munoc_port_31(munoc_signal_050),
+	.munoc_port_19(munoc_signal_042),
+	.munoc_port_30(munoc_signal_056),
+
+	.munoc_port_18(munoc_signal_059),
+	.munoc_port_52(munoc_signal_041),
+	.munoc_port_02(munoc_signal_114),
+	.munoc_port_20(munoc_signal_083),
+	.munoc_port_44(munoc_signal_100),
+	.munoc_port_16(munoc_signal_085),
+	.munoc_port_59(munoc_signal_055),
+
+	.munoc_port_15(munoc_signal_026),
+	.munoc_port_65(munoc_signal_053),
+	.munoc_port_21(munoc_signal_068),
+	.munoc_port_45(munoc_signal_025),
+	.munoc_port_00(munoc_signal_070),
+	.munoc_port_04(munoc_signal_106)
+);
+
+MUNOC_MODULE_43
+#(
+	.MUNOC_GPARA_0(`BW_ARCHANNEL(BW_AXI_MASTER_TID,BW_PLATFORM_ADDR)),
+	.MUNOC_GPARA_1(NUM_AXIAR_BUFFER)
+)
+i_munoc_instance_03
+(
+	.munoc_port_02(clk_master),
+	.munoc_port_09(rstnn_master),
+	.munoc_port_07(munoc_signal_073),
+	.munoc_port_05(munoc_signal_043),
+	.munoc_port_04(munoc_signal_110),
+
+	.munoc_port_06(clk_network),
+	.munoc_port_01(rstnn_network),
 	.munoc_port_00(munoc_signal_005),
-	.munoc_port_02(munoc_signal_104),
-	.munoc_port_01(munoc_signal_070),
-	.munoc_port_05(clk_master),
-	.munoc_port_03(rstnn_master),
-	.munoc_port_08(munoc_signal_033),
-	.munoc_port_09(munoc_signal_007)
+	.munoc_port_03(munoc_signal_079),
+	.munoc_port_08(munoc_signal_011)
 );
 
-MUNOC_MODULE_45
+assign munoc_signal_055 = munoc_signal_073;
+assign munoc_signal_043 = munoc_signal_085;
+assign munoc_signal_110 = {munoc_signal_059,munoc_signal_041,munoc_signal_114,munoc_signal_083,munoc_signal_100};
+
+MUNOC_MODULE_43
 #(
-	 .MUNOC_GPARA_4(BW_BNI_PHIT),
-	 .MUNOC_GPARA_3(BW_PLATFORM_ADDR),
-	 .MUNOC_GPARA_2(BW_NODE_DATA),
-	 .MUNOC_GPARA_1(BW_AXI_MASTER_TID),
-	 .MUNOC_GPARA_5(MUNOC_LPARA_1),
-	 .MUNOC_GPARA_0(MUNOC_LPARA_0)
+	.MUNOC_GPARA_0(`BW_AWCHANNEL(BW_AXI_MASTER_TID,BW_PLATFORM_ADDR)),
+	.MUNOC_GPARA_1(NUM_AXIAW_BUFFER)
 )
-i_munoc_instance_04
+i_munoc_instance_00
 (
-	.munoc_port_07(clk_master),
-	.munoc_port_17(rstnn_master),
+	.munoc_port_02(clk_master),
+	.munoc_port_09(rstnn_master),
+	.munoc_port_07(munoc_signal_032),
+	.munoc_port_05(munoc_signal_090),
+	.munoc_port_04(munoc_signal_051),
 
-	.munoc_port_02(clk_network),
-	.munoc_port_09(rstnn_network),
-
-	.munoc_port_05(sbni_link),
-	.munoc_port_10(sbni_ready),
-	.munoc_port_12(munoc_signal_079),
-
-	.munoc_port_04(munoc_signal_061),
-	.munoc_port_00(munoc_signal_017),
-	.munoc_port_16(munoc_signal_111),
-
-	.munoc_port_03(munoc_signal_019),
-	.munoc_port_11(munoc_signal_113),
-	.munoc_port_06(munoc_signal_075),
-
-	.munoc_port_13(munoc_signal_025),
-	.munoc_port_15(munoc_signal_021),
-	.munoc_port_14(munoc_signal_089),
-
-	.munoc_port_01(munoc_signal_109),
-	.munoc_port_08(munoc_signal_034)
+	.munoc_port_06(clk_network),
+	.munoc_port_01(rstnn_network),
+	.munoc_port_00(munoc_signal_022),
+	.munoc_port_03(munoc_signal_016),
+	.munoc_port_08(munoc_signal_102)
 );
 
-MUNOC_MODULE_19
+assign munoc_signal_012 = munoc_signal_032;
+assign munoc_signal_090 = munoc_signal_040;
+assign munoc_signal_051 = {munoc_signal_096,munoc_signal_093,munoc_signal_014,munoc_signal_076,munoc_signal_081};
+
+MUNOC_MODULE_43
 #(
-	.MUNOC_GPARA_0(NODE_ID),
-	.MUNOC_GPARA_4(BW_BNI_PHIT),
-	.MUNOC_GPARA_3(BW_PLATFORM_ADDR),
-	.MUNOC_GPARA_2(BW_NODE_DATA),
-	.MUNOC_GPARA_1(BW_AXI_MASTER_TID)
-)
-i_munoc_instance_12
-(
-	.munoc_port_25(clk_master),
-	.munoc_port_23(rstnn_master),
-
-	.munoc_port_08(munoc_signal_061),
-	.munoc_port_06(munoc_signal_017),
-	.munoc_port_13(munoc_signal_111),
-	.munoc_port_11(munoc_signal_019),
-	.munoc_port_01(munoc_signal_113),
-	.munoc_port_26(munoc_signal_075),
-	.munoc_port_12(munoc_signal_025),
-	.munoc_port_15(munoc_signal_021),
-	.munoc_port_14(munoc_signal_089),
-	.munoc_port_00(munoc_signal_109),
-	.munoc_port_20(munoc_signal_034),
-
-	.munoc_port_09(munoc_signal_041),
-	.munoc_port_17(munoc_signal_072),
-	.munoc_port_22(munoc_signal_033),
-	.munoc_port_28(munoc_signal_007),
-
-	.munoc_port_16(munoc_signal_039),
-	.munoc_port_04(munoc_signal_098),
-	.munoc_port_18(munoc_signal_036),
-	.munoc_port_10(munoc_signal_055),
-	.munoc_port_21(munoc_signal_115),
-	.munoc_port_03(munoc_signal_073),
-	.munoc_port_05(munoc_signal_096),
-	.munoc_port_02(munoc_signal_064),
-	.munoc_port_27(munoc_signal_103),
-	.munoc_port_07(munoc_signal_013),
-
-	.munoc_port_19(munoc_signal_071),
-	.munoc_port_24(munoc_signal_002)
-);
-
-`ifdef __MUNOC_INCLUDE_CONTROLLER
-
-MUNOC_MODULE_39
-#(
-	.MUNOC_GPARA_1(BW_PLATFORM_ADDR),
-	.MUNOC_GPARA_4(BW_NODE_DATA),
-	.MUNOC_GPARA_3(BW_AXI_MASTER_TID),
-	.MUNOC_GPARA_8(CHECK_WID),
-	.MUNOC_GPARA_5(1)
+	.MUNOC_GPARA_0(`BW_WCHANNEL(0,BW_NODE_DATA)),
+	.MUNOC_GPARA_1(NUM_AXIW_BUFFER)
 )
 i_munoc_instance_08
 (
 	.munoc_port_02(clk_master),
-	.munoc_port_29(rstnn_master),
-	.munoc_port_34(munoc_signal_063),
+	.munoc_port_09(rstnn_master),
+	.munoc_port_07(munoc_signal_101),
+	.munoc_port_05(munoc_signal_057),
+	.munoc_port_04(munoc_signal_064),
 
-	.munoc_port_32(munoc_signal_059),
-	.munoc_port_31(munoc_signal_062),
-	.munoc_port_35(munoc_signal_054),
-	.munoc_port_10(munoc_signal_024),
-	.munoc_port_21(munoc_signal_010),
-	.munoc_port_06(munoc_signal_031),
-	.munoc_port_18(munoc_signal_110),
+	.munoc_port_06(clk_network),
+	.munoc_port_01(rstnn_network),
+	.munoc_port_00(munoc_signal_095),
+	.munoc_port_03(munoc_signal_052),
+	.munoc_port_08(munoc_signal_109)
+);
 
-	.munoc_port_13(noc_xwid),
-	.munoc_port_36(munoc_signal_044),
-	.munoc_port_08(munoc_signal_097),
-	.munoc_port_12(munoc_signal_084),
-	.munoc_port_17(munoc_signal_095),
-	.munoc_port_26(munoc_signal_074), 
+assign munoc_signal_088 = munoc_signal_101;
+assign munoc_signal_057 = munoc_signal_078;
+assign munoc_signal_064 = {munoc_signal_080,munoc_signal_024,munoc_signal_104};
 
-	.munoc_port_01(munoc_signal_039),
-	.munoc_port_14(munoc_signal_098),
-	.munoc_port_24(munoc_signal_036),
-	.munoc_port_30(munoc_signal_055),
+MUNOC_MODULE_26
+#(
+	.MUNOC_GPARA_2(NODE_ID),
+	.MUNOC_GPARA_1(BW_FNI_PHIT),
+	.MUNOC_GPARA_4(BW_PLATFORM_ADDR),
+	.MUNOC_GPARA_0(BW_NODE_DATA),
+	.MUNOC_GPARA_3(BW_AXI_MASTER_TID)
+)
+i_munoc_instance_07
+(
+	.munoc_port_04(clk_network),
+	.munoc_port_14(rstnn_network),
+	.munoc_port_22(munoc_signal_005),
+	.munoc_port_11(munoc_signal_079),
+	.munoc_port_12(munoc_signal_011),
+	.munoc_port_09(munoc_signal_022),
+	.munoc_port_17(munoc_signal_016),
+	.munoc_port_07(munoc_signal_102),
+	.munoc_port_19(munoc_signal_095),
+	.munoc_port_02(munoc_signal_052),
+	.munoc_port_15(munoc_signal_109),
+	.munoc_port_01(sfni_link),
+	.munoc_port_08(sfni_ready),
+	.munoc_port_06(munoc_signal_004),
+	.munoc_port_00(munoc_signal_021),
+	.munoc_port_21(munoc_signal_035),
+	.munoc_port_16(munoc_signal_001),
+	.munoc_port_18(munoc_signal_062),
+	.munoc_port_13(munoc_signal_105),
+	.munoc_port_10(munoc_signal_087),
+	.munoc_port_05(munoc_signal_010),
+	.munoc_port_03(munoc_signal_054),
+	.munoc_port_20(munoc_signal_098)
+);
 
-	.munoc_port_00(munoc_signal_076),
-	.munoc_port_27(munoc_signal_029),
-	.munoc_port_33(munoc_signal_027),
-	.munoc_port_09(munoc_signal_043),
-	.munoc_port_11(munoc_signal_006),
-	.munoc_port_04(munoc_signal_069),
-	.munoc_port_15(munoc_signal_105),
+MUNOC_MODULE_45
+#(
+	.MUNOC_GPARA_2(BW_AXI_MASTER_TID),
+	.MUNOC_GPARA_1(`BW_SLAVE_NODE_ID),
+	.MUNOC_GPARA_0(TID_CONTROL_TYPE)
+)
+i_munoc_instance_11
+(
+	.munoc_port_07(clk_network),
+	.munoc_port_06(rstnn_network),
+	.munoc_port_05(munoc_signal_021),
+	.munoc_port_01(munoc_signal_035),
+	.munoc_port_03(munoc_signal_001),
+	.munoc_port_00(munoc_signal_062),
+	.munoc_port_08(clk_master),
+	.munoc_port_02(rstnn_master),
+	.munoc_port_09(munoc_signal_028),
+	.munoc_port_04(munoc_signal_019)
+);
 
-	.munoc_port_23(munoc_signal_115),
-	.munoc_port_25(munoc_signal_073),
-	.munoc_port_03(munoc_signal_096),
-	.munoc_port_28(munoc_signal_064),
-	.munoc_port_07(munoc_signal_103),
-	.munoc_port_05(munoc_signal_013),
-
-	.munoc_port_22(munoc_signal_049),
-	.munoc_port_16(munoc_signal_000),
-	.munoc_port_20(munoc_signal_046),
-	.munoc_port_19(munoc_signal_016)
+MUNOC_MODULE_45
+#(
+	.MUNOC_GPARA_2(BW_AXI_MASTER_TID),
+	.MUNOC_GPARA_1(`BW_SLAVE_NODE_ID),
+	.MUNOC_GPARA_0(TID_CONTROL_TYPE)
+)
+i_munoc_instance_05
+(
+	.munoc_port_07(clk_network),
+	.munoc_port_06(rstnn_network),
+	.munoc_port_05(munoc_signal_105),
+	.munoc_port_01(munoc_signal_087),
+	.munoc_port_03(munoc_signal_010),
+	.munoc_port_00(munoc_signal_054),
+	.munoc_port_08(clk_master),
+	.munoc_port_02(rstnn_master),
+	.munoc_port_09(munoc_signal_008),
+	.munoc_port_04(munoc_signal_060)
 );
 
 MUNOC_MODULE_37
 #(
-	.MUNOC_GPARA_1(NAME),
-	.MUNOC_GPARA_2(NODE_ID),
-	.MUNOC_GPARA_0(MUNOC_LPARA_2)
+	 .MUNOC_GPARA_1(BW_BNI_PHIT),
+	 .MUNOC_GPARA_5(BW_PLATFORM_ADDR),
+	 .MUNOC_GPARA_2(BW_NODE_DATA),
+	 .MUNOC_GPARA_0(BW_AXI_MASTER_TID),
+	 .MUNOC_GPARA_3(MUNOC_LPARA_1),
+	 .MUNOC_GPARA_4(MUNOC_LPARA_2)
 )
-i_munoc_instance_05
+i_munoc_instance_12
 (
+	.munoc_port_02(clk_master),
+	.munoc_port_00(rstnn_master),
+
 	.munoc_port_08(clk_network),
-	.munoc_port_01(rstnn_network),
-	.munoc_port_02(munoc_signal_116),
-	.munoc_port_11(munoc_signal_071),
-	.munoc_port_04(munoc_signal_002),
-	.munoc_port_12(munoc_signal_049),
-	.munoc_port_10(munoc_signal_000),
-	.munoc_port_06(munoc_signal_046),
-	.munoc_port_09(munoc_signal_016),
-	.munoc_port_03(munoc_signal_063),
-	.munoc_port_07(munoc_signal_079),
-	.munoc_port_00(svri_rlink),
-	.munoc_port_13(svri_rack),
-	.munoc_port_14(svri_slink),
-	.munoc_port_05(svri_sack)
+	.munoc_port_16(rstnn_network),
+
+	.munoc_port_15(sbni_link),
+	.munoc_port_10(sbni_ready),
+	.munoc_port_17(munoc_signal_004),
+
+	.munoc_port_01(munoc_signal_038),
+	.munoc_port_13(munoc_signal_036),
+	.munoc_port_05(munoc_signal_009),
+
+	.munoc_port_11(munoc_signal_065),
+	.munoc_port_07(munoc_signal_006),
+	.munoc_port_09(munoc_signal_084),
+
+	.munoc_port_12(munoc_signal_072),
+	.munoc_port_06(munoc_signal_063),
+	.munoc_port_04(munoc_signal_045),
+
+	.munoc_port_03(munoc_signal_058),
+	.munoc_port_14(munoc_signal_000)
+);
+
+MUNOC_MODULE_36
+#(
+	.MUNOC_GPARA_3(NODE_ID),
+	.MUNOC_GPARA_0(BW_BNI_PHIT),
+	.MUNOC_GPARA_1(BW_PLATFORM_ADDR),
+	.MUNOC_GPARA_2(BW_NODE_DATA),
+	.MUNOC_GPARA_4(BW_AXI_MASTER_TID)
+)
+i_munoc_instance_02
+(
+	.munoc_port_21(clk_master),
+	.munoc_port_14(rstnn_master),
+
+	.munoc_port_03(munoc_signal_038),
+	.munoc_port_27(munoc_signal_036),
+	.munoc_port_18(munoc_signal_009),
+	.munoc_port_24(munoc_signal_065),
+	.munoc_port_05(munoc_signal_006),
+	.munoc_port_23(munoc_signal_084),
+	.munoc_port_00(munoc_signal_072),
+	.munoc_port_20(munoc_signal_063),
+	.munoc_port_22(munoc_signal_045),
+	.munoc_port_28(munoc_signal_058),
+	.munoc_port_17(munoc_signal_000),
+
+	.munoc_port_08(munoc_signal_028),
+	.munoc_port_13(munoc_signal_019),
+	.munoc_port_01(munoc_signal_008),
+	.munoc_port_19(munoc_signal_060),
+
+	.munoc_port_16(munoc_signal_071),
+	.munoc_port_25(munoc_signal_050),
+	.munoc_port_06(munoc_signal_042),
+	.munoc_port_09(munoc_signal_056),
+	.munoc_port_12(munoc_signal_026),
+	.munoc_port_04(munoc_signal_053),
+	.munoc_port_10(munoc_signal_068),
+	.munoc_port_11(munoc_signal_025),
+	.munoc_port_02(munoc_signal_070),
+	.munoc_port_15(munoc_signal_106),
+
+	.munoc_port_26(munoc_signal_112),
+	.munoc_port_07(munoc_signal_003)
+);
+
+`ifdef __MUNOC_INCLUDE_CONTROLLER
+
+MUNOC_MODULE_40
+#(
+	.MUNOC_GPARA_8(BW_PLATFORM_ADDR),
+	.MUNOC_GPARA_5(BW_NODE_DATA),
+	.MUNOC_GPARA_3(BW_AXI_MASTER_TID),
+	.MUNOC_GPARA_0(CHECK_WID),
+	.MUNOC_GPARA_1(1)
+)
+i_munoc_instance_06
+(
+	.munoc_port_35(clk_master),
+	.munoc_port_12(rstnn_master),
+	.munoc_port_11(munoc_signal_089),
+
+	.munoc_port_24(munoc_signal_096),
+	.munoc_port_25(munoc_signal_093),
+	.munoc_port_28(munoc_signal_014),
+	.munoc_port_05(munoc_signal_076),
+	.munoc_port_00(munoc_signal_081),
+	.munoc_port_09(munoc_signal_040),
+	.munoc_port_32(munoc_signal_012),
+
+	.munoc_port_03(noc_xwid),
+	.munoc_port_26(munoc_signal_080),
+	.munoc_port_14(munoc_signal_024),
+	.munoc_port_23(munoc_signal_104),
+	.munoc_port_21(munoc_signal_078),
+	.munoc_port_04(munoc_signal_088), 
+
+	.munoc_port_19(munoc_signal_071),
+	.munoc_port_08(munoc_signal_050),
+	.munoc_port_20(munoc_signal_042),
+	.munoc_port_01(munoc_signal_056),
+
+	.munoc_port_02(munoc_signal_059),
+	.munoc_port_15(munoc_signal_041),
+	.munoc_port_10(munoc_signal_114),
+	.munoc_port_22(munoc_signal_083),
+	.munoc_port_13(munoc_signal_100),
+	.munoc_port_33(munoc_signal_085),
+	.munoc_port_06(munoc_signal_055),
+
+	.munoc_port_16(munoc_signal_026),
+	.munoc_port_31(munoc_signal_053),
+	.munoc_port_30(munoc_signal_068),
+	.munoc_port_34(munoc_signal_025),
+	.munoc_port_18(munoc_signal_070),
+	.munoc_port_17(munoc_signal_106),
+
+	.munoc_port_27(munoc_signal_094),
+	.munoc_port_29(munoc_signal_039),
+	.munoc_port_07(munoc_signal_048),
+	.munoc_port_36(munoc_signal_091)
+);
+
+MUNOC_MODULE_34
+#(
+	.MUNOC_GPARA_2(NAME),
+	.MUNOC_GPARA_0(NODE_ID),
+	.MUNOC_GPARA_1(MUNOC_LPARA_0)
+)
+i_munoc_instance_09
+(
+	.munoc_port_14(clk_network),
+	.munoc_port_13(rstnn_network),
+	.munoc_port_03(munoc_signal_098),
+	.munoc_port_01(munoc_signal_112),
+	.munoc_port_06(munoc_signal_003),
+	.munoc_port_08(munoc_signal_094),
+	.munoc_port_05(munoc_signal_039),
+	.munoc_port_07(munoc_signal_048),
+	.munoc_port_02(munoc_signal_091),
+	.munoc_port_12(munoc_signal_089),
+	.munoc_port_09(munoc_signal_004),
+	.munoc_port_04(svri_rlink),
+	.munoc_port_10(svri_rack),
+	.munoc_port_11(svri_slink),
+	.munoc_port_00(svri_sack)
 );
 
 `else
 
-assign munoc_signal_063 = 0;
-assign munoc_signal_079 = 0;
+assign munoc_signal_089 = 0;
+assign munoc_signal_004 = 0;
 assign svri_rack = 0;
 assign svri_slink = 0;
 

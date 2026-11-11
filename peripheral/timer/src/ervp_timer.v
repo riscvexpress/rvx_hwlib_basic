@@ -11,13 +11,13 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-29
+// 2026-11-11
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
 
 `include "ervp_global.vh"
-`include "rvx_include_00.vh"
+`include "rvx_include_13.vh"
 `include "ervp_endian.vh"
 
 
@@ -67,97 +67,97 @@ input wire tick_1us;
 output reg delay_notice;
 output wire timer_interrupt;
 
-reg rvx_signal_20; 
+reg rvx_signal_11; 
 
+wire rvx_signal_05;
+wire [5-1:0] rvx_signal_20;
 wire rvx_signal_16;
-wire [5-1:0] rvx_signal_15;
-wire rvx_signal_18;
-wire [5-1:0] rvx_signal_02;
+wire [5-1:0] rvx_signal_18;
 
-wire rvx_signal_13;
+wire rvx_signal_04;
 
-wire [32-1:0] rvx_signal_14;
+wire [32-1:0] rvx_signal_10;
 
 wire [32-1:0] rvx_signal_19;
 
-wire [32-1:0] rvx_signal_11;
+wire [32-1:0] rvx_signal_09;
 
-wire rvx_signal_10;
-reg rvx_signal_09;
-reg rvx_signal_01;
-reg rvx_signal_04;
+wire rvx_signal_13;
+reg rvx_signal_02;
+reg rvx_signal_08;
+reg rvx_signal_15;
 
-wire [RVX_LPARA_0-1:0] rvx_signal_12;
-reg [RVX_LPARA_0-1:0] rvx_signal_00, rvx_signal_03;
+wire [RVX_LPARA_0-1:0] rvx_signal_06;
+reg [RVX_LPARA_0-1:0] rvx_signal_17, rvx_signal_01;
 
-reg rvx_signal_07;
-wire rvx_signal_08;
-wire rvx_signal_05;
+reg rvx_signal_12;
+wire rvx_signal_00;
+wire rvx_signal_07;
 
-reg rvx_signal_17;
-wire rvx_signal_06;
+reg rvx_signal_03;
+wire rvx_signal_14;
 
-RVX_MODULE_135
+RVX_MODULE_100
 #(
 	.RVX_GPARA_2(BW_ADDR),
-	.RVX_GPARA_0(BW_DATA),
-	.RVX_GPARA_1(ENDIAN_TYPE)
+	.RVX_GPARA_1(BW_DATA),
+	.RVX_GPARA_0(ENDIAN_TYPE)
 )
 i_rvx_instance_1
 (
-	.rvx_port_13(clk),
-	.rvx_port_07(rstnn),
+	.rvx_port_00(clk),
+	.rvx_port_15(rstnn),
 
-	.rvx_port_08(rpsel),
-	.rvx_port_06(rpenable),
-	.rvx_port_18(rpaddr),
-	.rvx_port_12(rpwrite),
-	.rvx_port_10(rpwdata),
-	.rvx_port_04(rprdata),
-	.rvx_port_03(rpready),
-	.rvx_port_11(rpslverr),
+	.rvx_port_18(rpsel),
+	.rvx_port_17(rpenable),
+	.rvx_port_14(rpaddr),
+	.rvx_port_04(rpwrite),
+	.rvx_port_13(rpwdata),
+	.rvx_port_01(rprdata),
+	.rvx_port_11(rpready),
+	.rvx_port_08(rpslverr),
 
-	.rvx_port_14(1'b 0),
-	.rvx_port_00(rvx_signal_16),
-	.rvx_port_01(rvx_signal_15),
-	.rvx_port_15(rvx_signal_18),
-	.rvx_port_02(rvx_signal_02),
-	.rvx_port_05(rvx_signal_13),
-	.rvx_port_17(rvx_signal_14),
-	.rvx_port_16(rvx_signal_19),
-	.rvx_port_09(rvx_signal_11)
+	.rvx_port_16(1'b 0),
+	.rvx_port_07(rvx_signal_05),
+	.rvx_port_12(rvx_signal_20),
+	.rvx_port_03(rvx_signal_16),
+	.rvx_port_06(rvx_signal_18),
+	.rvx_port_09(rvx_signal_04),
+	.rvx_port_05(rvx_signal_10),
+	.rvx_port_02(rvx_signal_19),
+	.rvx_port_10(rvx_signal_09)
 );
 
-assign rvx_signal_15 = {rvx_signal_04,rvx_signal_09};
+assign rvx_signal_20 = {rvx_signal_15,rvx_signal_02};
 
-assign rvx_signal_10 = rvx_signal_09 | rvx_signal_04;
+assign rvx_signal_13 = rvx_signal_02 | rvx_signal_15;
 
 always@(posedge clk, negedge rstnn)
 begin
 	if(rstnn==0)
-		rvx_signal_09 <= 0;
-	else if(rvx_signal_18 && rvx_signal_02[0])
-		rvx_signal_09 <= rvx_signal_02[1];
-	else if(rvx_signal_08 && (rvx_signal_01==0))
-		rvx_signal_09 <= 0;
+		rvx_signal_02 <= 0;
+	else if(rvx_signal_16 && rvx_signal_18[0])
+		rvx_signal_02 <= rvx_signal_18[1];
+	else if(rvx_signal_00 && (rvx_signal_08==0))
+		rvx_signal_02 <= 0;
 end
 
 always@(posedge clk, negedge rstnn)
 begin
 	if(rstnn==0)
-		rvx_signal_01 <= 0;
-	else if(rvx_signal_18 && rvx_signal_02[0])
-		rvx_signal_01 <= rvx_signal_02[2];
+		rvx_signal_08 <= 0;
+	else if(rvx_signal_16 && rvx_signal_18[0])
+		rvx_signal_08 <= rvx_signal_18[2];
 end
 
 always@(posedge clk, negedge rstnn)
 begin
 	if(rstnn==0)
-		rvx_signal_04 <= 0;
-	else if(rvx_signal_18 && rvx_signal_02[3])
-		rvx_signal_04 <= rvx_signal_02[4];
-	else if(rvx_signal_06)
-		rvx_signal_04 <= 0;
+		rvx_signal_15 <= 0;
+	else if(rvx_signal_16 && rvx_signal_18[3])
+		rvx_signal_15 <= rvx_signal_18[4];
+	else if(rvx_signal_14)
+		rvx_signal_15 <= 0;
 end
 
 ERVP_COUNTER
@@ -169,10 +169,10 @@ i_rvx_instance_0
 (
 	.clk(clk),
 	.rstnn(rstnn),
-	.enable(rvx_signal_10),
+	.enable(rvx_signal_13),
 	.init(1'b 0),
 	.count(tick_1us),
-	.value(rvx_signal_12),
+	.value(rvx_signal_06),
 	.is_first_count(),
 	.is_last_count()
 );
@@ -180,61 +180,61 @@ i_rvx_instance_0
 always@(posedge clk, negedge rstnn)
 begin
 	if(rstnn==0)
-		rvx_signal_00 <= 0;
+		rvx_signal_17 <= 0;
+	else if(rvx_signal_12)
+		rvx_signal_17 <= rvx_signal_06 + rvx_signal_10;
+end
+
+always@(*)
+begin
+	rvx_signal_12 = 0;
+	if(rvx_signal_16 && rvx_signal_18[0])
+		rvx_signal_12 = 1;
+	else if(rvx_signal_00)
+		rvx_signal_12 = 1;
+end
+
+assign rvx_signal_00 = rvx_signal_02 & (rvx_signal_06==rvx_signal_17);
+assign rvx_signal_07 = rvx_signal_02 & rvx_signal_00;
+
+always@(posedge clk, negedge rstnn)
+begin
+	if(rstnn==0)
+		rvx_signal_11 <= 0;
+	else if(rvx_signal_04)
+		rvx_signal_11 <= 0;
 	else if(rvx_signal_07)
-		rvx_signal_00 <= rvx_signal_12 + rvx_signal_14;
+		rvx_signal_11 <= 1;
 end
 
-always@(*)
-begin
-	rvx_signal_07 = 0;
-	if(rvx_signal_18 && rvx_signal_02[0])
-		rvx_signal_07 = 1;
-	else if(rvx_signal_08)
-		rvx_signal_07 = 1;
-end
-
-assign rvx_signal_08 = rvx_signal_09 & (rvx_signal_12==rvx_signal_00);
-assign rvx_signal_05 = rvx_signal_09 & rvx_signal_08;
+assign timer_interrupt = rvx_signal_11;
 
 always@(posedge clk, negedge rstnn)
 begin
 	if(rstnn==0)
-		rvx_signal_20 <= 0;
-	else if(rvx_signal_13)
-		rvx_signal_20 <= 0;
-	else if(rvx_signal_05)
-		rvx_signal_20 <= 1;
-end
-
-assign timer_interrupt = rvx_signal_20;
-
-always@(posedge clk, negedge rstnn)
-begin
-	if(rstnn==0)
-		rvx_signal_03 <= 0;
-	else if(rvx_signal_17)
-		rvx_signal_03 <= rvx_signal_12 + rvx_signal_19;
+		rvx_signal_01 <= 0;
+	else if(rvx_signal_03)
+		rvx_signal_01 <= rvx_signal_06 + rvx_signal_19;
 end
 
 always@(*)
 begin
-	rvx_signal_17 = 0;
-	if(rvx_signal_18 && rvx_signal_02[3])
-		rvx_signal_17 = 1;
+	rvx_signal_03 = 0;
+	if(rvx_signal_16 && rvx_signal_18[3])
+		rvx_signal_03 = 1;
 end
 
-assign rvx_signal_06 = rvx_signal_04 & (rvx_signal_12==rvx_signal_03);
+assign rvx_signal_14 = rvx_signal_15 & (rvx_signal_06==rvx_signal_01);
 
 always@(posedge clk, negedge rstnn)
 begin
 	if(rstnn==0)
 		delay_notice <= 0;
-	else if(rvx_signal_18)
+	else if(rvx_signal_16)
 		delay_notice <= 0;
 	else if(delay_notice)
 		delay_notice <= 0;
-	else if(rvx_signal_06)
+	else if(rvx_signal_14)
 		delay_notice <= 1;
 end
 

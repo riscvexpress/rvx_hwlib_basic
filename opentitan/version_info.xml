@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<version_info>
+  <opentitan.url>https://github.com/lowRISC/opentitan.git</opentitan.url>
+  <opentitan.tag>Earlgrey-PROD-M6</opentitan.tag>
+  <opentitan.commit>a78922f14a8c</opentitan.commit>
+  <opentitan.date>2024-10-17</opentitan.date>
+</version_info>

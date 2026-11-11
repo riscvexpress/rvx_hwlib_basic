@@ -18,8 +18,8 @@
 
 `include "ervp_global.vh"
 `include "ervp_axi_define.vh"
-`include "rvx_include_22.vh"
 `include "rvx_include_05.vh"
+`include "rvx_include_09.vh"
 
 module RVC_ROCKET_OPT
 (
@@ -173,8 +173,8 @@ wire [2:0] auto_tl_other_masters_out_e_bits_sink;
 
 wire tla_ready;
 wire tla_valid;
-wire [`RVX_GDEF_419-1:0] tla_opcode;
-wire [`RVX_GDEF_222-1:0] tla_param;
+wire [`RVX_GDEF_260-1:0] tla_opcode;
+wire [`RVX_GDEF_248-1:0] tla_param;
 wire [BW_TL_SIZE-1:0] tla_size;
 wire [BW_TL_SOURCE-1:0] tla_source;
 wire [BW_TL_ADDR-1:0] tla_address;
@@ -184,8 +184,8 @@ wire tla_corrupt;
 
 wire tlb_ready;
 wire tlb_valid;
-wire [`RVX_GDEF_419-1:0] tlb_opcode;
-wire [`RVX_GDEF_222-1:0] tlb_param;
+wire [`RVX_GDEF_260-1:0] tlb_opcode;
+wire [`RVX_GDEF_248-1:0] tlb_param;
 wire [BW_TL_SIZE-1:0] tlb_size;
 wire [BW_TL_SOURCE-1:0] tlb_source;
 wire [BW_TL_ADDR-1:0] tlb_address;
@@ -194,8 +194,8 @@ wire [BW_TL_DATA-1:0] tlb_data;
 
 wire tlc_ready;
 wire tlc_valid;
-wire [`RVX_GDEF_419-1:0] tlc_opcode;
-wire [`RVX_GDEF_222-1:0] tlc_param;
+wire [`RVX_GDEF_260-1:0] tlc_opcode;
+wire [`RVX_GDEF_248-1:0] tlc_param;
 wire [BW_TL_SIZE-1:0] tlc_size;
 wire [BW_TL_SOURCE-1:0] tlc_source;
 wire [BW_TL_ADDR-1:0] tlc_address;
@@ -205,8 +205,8 @@ wire tlc_corrupt;
 
 wire tld_ready;
 wire tld_valid;
-wire [`RVX_GDEF_419-1:0] tld_opcode;
-wire [`RVX_GDEF_222-1:0] tld_param;
+wire [`RVX_GDEF_260-1:0] tld_opcode;
+wire [`RVX_GDEF_248-1:0] tld_param;
 wire [BW_TL_SIZE-1:0] tld_size;
 wire [BW_TL_SOURCE-1:0] tld_source;
 wire [BW_TL_SINK-1:0] tld_sink;
@@ -277,9 +277,9 @@ i_rocket
 assign clock = clk;
 assign reset = ~rstnn;
 
-assign auto_int_local_in_2_0 = interrupts_extended[`RVX_GDEF_510];
-assign auto_int_local_in_1_0 = interrupts_extended[`RVX_GDEF_436];
-assign auto_int_local_in_1_1 = interrupts_extended[`RVX_GDEF_535];
+assign auto_int_local_in_2_0 = interrupts_extended[`RVX_GDEF_289];
+assign auto_int_local_in_1_0 = interrupts_extended[`RVX_GDEF_141];
+assign auto_int_local_in_1_1 = interrupts_extended[`RVX_GDEF_543];
 assign auto_int_local_in_0_0 = 0;
 
 assign auto_hartid_in = 0;
@@ -334,100 +334,100 @@ assign auto_tl_other_masters_out_e_ready = tle_ready;
 assign tle_valid = auto_tl_other_masters_out_e_valid;
 assign tle_sink = auto_tl_other_masters_out_e_bits_sink;
 
-RVX_MODULE_081
+RVX_MODULE_041
 #(
-	.RVX_GPARA_0(BW_TL_DATA),
-	.RVX_GPARA_3(BW_TL_ADDR),
-	.RVX_GPARA_4(BW_TL_SOURCE),
-	.RVX_GPARA_1(BW_TL_SIZE),
-	.RVX_GPARA_5(BW_TL_SINK),
+	.RVX_GPARA_5(BW_TL_DATA),
+	.RVX_GPARA_0(BW_TL_ADDR),
+	.RVX_GPARA_3(BW_TL_SOURCE),
+	.RVX_GPARA_4(BW_TL_SIZE),
+	.RVX_GPARA_1(BW_TL_SINK),
 	.RVX_GPARA_2(4)
 )
 i_tl2axi
 (
-	.rvx_port_57(clk),
-	.rvx_port_55(rstnn),
+	.rvx_port_34(clk),
+	.rvx_port_38(rstnn),
 
-	.rvx_port_54(tla_ready),
-	.rvx_port_36(tla_valid),
-	.rvx_port_67(tla_opcode),
-	.rvx_port_70(tla_param),
-	.rvx_port_68(tla_size),
-	.rvx_port_13(tla_source),
-	.rvx_port_05(tla_address),
-	.rvx_port_18(tla_mask),
-	.rvx_port_07(tla_data),
-	.rvx_port_02(tla_corrupt),
+	.rvx_port_10(tla_ready),
+	.rvx_port_37(tla_valid),
+	.rvx_port_24(tla_opcode),
+	.rvx_port_33(tla_param),
+	.rvx_port_14(tla_size),
+	.rvx_port_01(tla_source),
+	.rvx_port_40(tla_address),
+	.rvx_port_21(tla_mask),
+	.rvx_port_25(tla_data),
+	.rvx_port_39(tla_corrupt),
 
-	.rvx_port_25(tlb_ready),
-	.rvx_port_56(tlb_valid),
-	.rvx_port_65(tlb_opcode),
-	.rvx_port_00(tlb_param),
-	.rvx_port_16(tlb_size),
-	.rvx_port_03(tlb_source),
-	.rvx_port_28(tlb_address),
-	.rvx_port_44(tlb_mask),
-	.rvx_port_30(tlb_data),
+	.rvx_port_59(tlb_ready),
+	.rvx_port_46(tlb_valid),
+	.rvx_port_69(tlb_opcode),
+	.rvx_port_20(tlb_param),
+	.rvx_port_07(tlb_size),
+	.rvx_port_28(tlb_source),
+	.rvx_port_56(tlb_address),
+	.rvx_port_19(tlb_mask),
+	.rvx_port_12(tlb_data),
 
-	.rvx_port_41(tlc_ready),
-	.rvx_port_38(tlc_valid),
-	.rvx_port_11(tlc_opcode),
-	.rvx_port_72(tlc_param),
-	.rvx_port_22(tlc_size),
-	.rvx_port_01(tlc_source),
-	.rvx_port_23(tlc_address),
-	.rvx_port_66(tlc_data),
-	.rvx_port_45(tlc_mask),
-	.rvx_port_20(tlc_corrupt),
+	.rvx_port_04(tlc_ready),
+	.rvx_port_67(tlc_valid),
+	.rvx_port_23(tlc_opcode),
+	.rvx_port_70(tlc_param),
+	.rvx_port_63(tlc_size),
+	.rvx_port_00(tlc_source),
+	.rvx_port_44(tlc_address),
+	.rvx_port_30(tlc_data),
+	.rvx_port_48(tlc_mask),
+	.rvx_port_16(tlc_corrupt),
 
-	.rvx_port_46(tld_ready),
-	.rvx_port_53(tld_valid),
-	.rvx_port_31(tld_opcode),
-	.rvx_port_47(tld_param),
-	.rvx_port_50(tld_size),
-	.rvx_port_14(tld_source),
-	.rvx_port_63(tld_sink),
-	.rvx_port_62(tld_denied),
-	.rvx_port_49(tld_data),
-	.rvx_port_69(tld_corrupt),
+	.rvx_port_11(tld_ready),
+	.rvx_port_65(tld_valid),
+	.rvx_port_68(tld_opcode),
+	.rvx_port_53(tld_param),
+	.rvx_port_05(tld_size),
+	.rvx_port_09(tld_source),
+	.rvx_port_06(tld_sink),
+	.rvx_port_22(tld_denied),
+	.rvx_port_54(tld_data),
+	.rvx_port_49(tld_corrupt),
 
-	.rvx_port_64(tle_ready),
-	.rvx_port_27(tle_valid),
-	.rvx_port_06(tle_sink),
+	.rvx_port_13(tle_ready),
+	.rvx_port_61(tle_valid),
+	.rvx_port_64(tle_sink),
 
-	.rvx_port_17(sxawid),
-	.rvx_port_59(sxawaddr),
-	.rvx_port_26(sxawlen),
-	.rvx_port_04(sxawsize),
-	.rvx_port_24(sxawburst),
-	.rvx_port_48(sxawvalid),
-	.rvx_port_39(sxawready),
+	.rvx_port_08(sxawid),
+	.rvx_port_29(sxawaddr),
+	.rvx_port_32(sxawlen),
+	.rvx_port_55(sxawsize),
+	.rvx_port_02(sxawburst),
+	.rvx_port_47(sxawvalid),
+	.rvx_port_03(sxawready),
 
-	.rvx_port_35(sxwdata),
-	.rvx_port_34(sxwstrb),
-	.rvx_port_52(sxwlast),
-	.rvx_port_51(sxwvalid),
-	.rvx_port_21(sxwready), 
+	.rvx_port_66(sxwdata),
+	.rvx_port_17(sxwstrb),
+	.rvx_port_43(sxwlast),
+	.rvx_port_52(sxwvalid),
+	.rvx_port_27(sxwready), 
 
-	.rvx_port_37(sxbid),
-	.rvx_port_19(sxbresp),
-	.rvx_port_61(sxbvalid),
-	.rvx_port_15(sxbready),
+	.rvx_port_51(sxbid),
+	.rvx_port_60(sxbresp),
+	.rvx_port_41(sxbvalid),
+	.rvx_port_35(sxbready),
 
-	.rvx_port_58(sxarid),
-	.rvx_port_43(sxaraddr),
-	.rvx_port_33(sxarlen),
-	.rvx_port_60(sxarsize),
-	.rvx_port_40(sxarburst),
-	.rvx_port_09(sxarvalid),
+	.rvx_port_57(sxarid),
+	.rvx_port_31(sxaraddr),
+	.rvx_port_62(sxarlen),
+	.rvx_port_72(sxarsize),
+	.rvx_port_26(sxarburst),
+	.rvx_port_15(sxarvalid),
 	.rvx_port_71(sxarready),
 
-	.rvx_port_12(sxrid),
-	.rvx_port_42(sxrdata),
-	.rvx_port_10(sxrresp),
-	.rvx_port_08(sxrlast),
-	.rvx_port_29(sxrvalid),
-	.rvx_port_32(sxrready)
+	.rvx_port_18(sxrid),
+	.rvx_port_45(sxrdata),
+	.rvx_port_42(sxrresp),
+	.rvx_port_36(sxrlast),
+	.rvx_port_50(sxrvalid),
+	.rvx_port_58(sxrready)
 );
 
 /////////////////////////////////////////////////

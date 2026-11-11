@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-10-29
+// 2026-11-11
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -39,19 +39,19 @@ parameter BW_VALUE = 1;
 `include "ervp_log_util.vf"
 `include "ervp_bitwidth_util.vf"
 
-localparam  RVX_LPARA_1 = TICK_HZ/(1000/PERIOD_MS);
-localparam  RVX_LPARA_0 = REQUIRED_BITWIDTH_UNSIGNED(RVX_LPARA_1);
+localparam  RVX_LPARA_0 = TICK_HZ/(1000/PERIOD_MS);
+localparam  RVX_LPARA_1 = REQUIRED_BITWIDTH_UNSIGNED(RVX_LPARA_0);
 
 input wire clk, rstnn;
 input wire tick_1us;
 input wire switch_input;
 output wire [BW_VALUE-1:0] value;
 
-wire rvx_signal_1;
-reg rvx_signal_0;
 wire rvx_signal_2;
+reg rvx_signal_0;
+wire rvx_signal_1;
 
-assign rvx_signal_2 = (ACTIVE_HIGH==0)? (~switch_input) : switch_input;
+assign rvx_signal_1 = (ACTIVE_HIGH==0)? (~switch_input) : switch_input;
 
 always@(posedge clk, negedge rstnn)
 begin
@@ -61,12 +61,12 @@ begin
 	begin
 		if(rvx_signal_0==0)
 		begin
-			if(rvx_signal_2)
+			if(rvx_signal_1)
 				rvx_signal_0 <= 1;
 		end
 		else
 		begin
-			if(tick_1us && rvx_signal_1)
+			if(tick_1us && rvx_signal_2)
 				rvx_signal_0 <= 0;
 		end
 	end
@@ -74,11 +74,11 @@ end
 
 ERVP_COUNTER
 #(
-	.BW_COUNTER(RVX_LPARA_0),
-	.LAST_NUMBER(RVX_LPARA_1-1),
+	.BW_COUNTER(RVX_LPARA_1),
+	.LAST_NUMBER(RVX_LPARA_0-1),
 	.CIRCULAR(1)
 )
-i_rvx_instance_0
+i_rvx_instance_1
 (
 	.clk(clk),
 	.rstnn(rstnn),
@@ -87,7 +87,7 @@ i_rvx_instance_0
 	.count(tick_1us),
 	.value(),
 	.is_first_count(),
-	.is_last_count(rvx_signal_1)
+	.is_last_count(rvx_signal_2)
 );
 
 ERVP_COUNTER
@@ -95,13 +95,13 @@ ERVP_COUNTER
 	.BW_COUNTER(BW_VALUE),
 	.CIRCULAR(1)
 )
-i_rvx_instance_1
+i_rvx_instance_0
 (
 	.clk(clk),
 	.rstnn(rstnn),
 	.enable(~rvx_signal_0),
 	.init(1'b 0),
-	.count(rvx_signal_2),
+	.count(rvx_signal_1),
 	.value(value),
 	.is_first_count(),
 	.is_last_count()

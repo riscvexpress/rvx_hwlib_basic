@@ -16,7 +16,7 @@
 ## ****************************************************************************
 
 source ${RVX_HWLIB_BASIC_HOME}/peripheral/uart/env/add_syn_source.tcl
-source ${RVX_HWLIB_BASIC_HOME}/peripheral/spi/env/add_syn_source.tcl
+source ${RVX_HWLIB_BASIC_HOME}/opentitan/env/add_syn_source.tcl
 source ${RVX_HWLIB_BASIC_HOME}/peripheral/i2c/env/add_syn_source.tcl
 source ${RVX_HWLIB_BASIC_HOME}/peripheral/gpio/env/add_syn_source.tcl
 
