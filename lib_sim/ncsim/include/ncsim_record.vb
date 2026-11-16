@@ -48,7 +48,7 @@ begin
       $dumpfile("wave.fst");
       $dumpvars;
     `endif
-		$display("[NCSIM:INFO] record start %d", $time);
+		$display("<NCSIM:INFO> record start %d", $time);
 		record_enable = 1;
 	`endif
 	#1
@@ -62,7 +62,7 @@ begin
     `ifdef USE_VERILATOR
       $dumpoff;
     `endif
-		$display("[NCSIM:INFO] record end %d", $time);
+		$display("<NCSIM:INFO> record end %d", $time);
 		record_enable = 0;
 	`endif
 	`endif

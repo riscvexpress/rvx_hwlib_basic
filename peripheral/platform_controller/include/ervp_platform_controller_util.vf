@@ -21,14 +21,14 @@
 task release_all_reset;
 begin
 	write_system_using_jtag(`MMAP_OFFSET_RESET_CMD,`RESET_CMD_AUTO_INCR);
-	$display("[JTAG:INFO] release all reset");
+	$display("<JTAG:INFO> release all reset");
 end
 endtask
 
 task reset_platform;
 begin
 	write_system_using_jtag(`MMAP_OFFSET_RESET_CMD,`RESET_CMD_INIT);
-	$display("[JTAG:INFO] reset platform");
+	$display("<JTAG:INFO> reset platform");
 end
 endtask
 
@@ -36,21 +36,21 @@ task set_all_ready;
 begin
 	print_system_using_jtag(`MMAP_OFFSET_PLATFORM_REGISTER_BOOT_STATUS);
 	write_system_using_jtag(`MMAP_OFFSET_PLATFORM_REGISTER_BOOT_STATUS,1);
-	$display("[JTAG:INFO] set ready-to-run");
+	$display("<JTAG:INFO> set ready-to-run");
 end
 endtask
 
 task set_sim_env;
 begin
 	write_system_using_jtag(`MMAP_OFFSET_PLATFORM_REGISTER_SIM_ENV,1);
-	$display("[JTAG:INFO] set sim env");
+	$display("<JTAG:INFO> set sim env");
 end
 endtask
 
 task set_app_addr;
 begin
 	write_system_using_jtag(`MMAP_OFFSET_PLATFORM_REGISTER_APP_ADDR,`APP_ADDR);
-	$display("[JTAG:INFO] set app addr");
+	$display("<JTAG:INFO> set app addr");
 end
 endtask
 
@@ -59,7 +59,7 @@ begin
 `ifdef FLASH_FS_BASEADDR
 	write_system_using_jtag(`MMAP_OFFSET_PLATFORM_REGISTER_FLASH_FS_BASEADDR,`FLASH_FS_BASEADDR);
 	write_system_using_jtag(`MMAP_OFFSET_PLATFORM_REGISTER_FLASH_FS_SIZE,`FLASH_FS_SIZE);
-	$display("[JTAG:INFO] set flash fs info");
+	$display("<JTAG:INFO> set flash fs info");
 `endif
 end
 endtask
@@ -67,7 +67,7 @@ endtask
 task print_pc;
 begin
 	print_system_using_jtag(`MMAP_OFFSET_PLATFORM_REGISTER_CORE_PC00);
-	$display("[JTAG:INFO] print pc");
+	$display("<JTAG:INFO> print pc");
 end
 endtask
 

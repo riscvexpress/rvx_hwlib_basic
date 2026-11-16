@@ -203,7 +203,7 @@ end
 	always@(*)
 	begin
 		if(munoc_signal_25==1)
-			$display("\n\n[NoC:WARNING] unmapped address 0x%x, from master %2d, @%d ns", munoc_port_08, munoc_port_14, $time);
+			$display("\n\n<NOC:WARNING> unmapped address 0x%x, from master %2d, @%d ns", munoc_port_08, munoc_port_14, $time);
 	end
 `endif
 `endif
@@ -420,31 +420,31 @@ assign munoc_signal_22[`SUBMODULE_INDEX_MUNOC_ELOG] = 0;
 `ifdef SIM_ENV
 initial
 begin
-	$display("\n\n[NoC:INFO] %s is used ", `MUNOC_GDEF_01);
+	$display("\n\n<NOC:INFO> %s is used ", `MUNOC_GDEF_01);
 	`ifdef __MUNOC_INCLUDE_ROUTING_ERROR
-		$display("[NoC:INFO] monitoring routing error");
+		$display("<NOC:INFO> monitoring routing error");
 	`else
-		$display("[NoC:INFO] NOT monitoring routing error");
+		$display("<NOC:INFO> NOT monitoring routing error");
 	`endif
 	`ifdef __MUNOC_INCLUDE_UNDEFINED_REGION_ACCESS_LOG
-		$display("[NoC:INFO] monitoring undefined region access");
+		$display("<NOC:INFO> monitoring undefined region access");
 	`else
-		$display("[NoC:INFO] NOT monitoring undefined region access");
+		$display("<NOC:INFO> NOT monitoring undefined region access");
 	`endif
 	`ifdef __MUNOC_INCLUDE_TIMEOUT_MONITOR
-		$display("[NoC:INFO] monitoring transaction timeout");
+		$display("<NOC:INFO> monitoring transaction timeout");
 	`else
-		$display("[NoC:INFO] NOT monitoring transaction timeout");
+		$display("<NOC:INFO> NOT monitoring transaction timeout");
 	`endif
 	`ifdef __MUNOC_INCLUDE_BANDWIDTH_MONITOR
-		$display("[NoC:INFO] monitoring the bandwidth of IPs");
+		$display("<NOC:INFO> monitoring the bandwidth of IPs");
 	`else
-		$display("[NoC:INFO] NOT monitoring the bandwidth of IPs");
+		$display("<NOC:INFO> NOT monitoring the bandwidth of IPs");
 	`endif
 	`ifdef __MUNOC_INCLUDE_AXI_CHECKER
-		$display("[NoC:INFO] monitoring the correctness of AXI protocol");
+		$display("<NOC:INFO> monitoring the correctness of AXI protocol");
 	`else
-		$display("[NoC:INFO] NOT monitoring the correctness of AXI protocol");
+		$display("<NOC:INFO> NOT monitoring the correctness of AXI protocol");
 	`endif
 	$display("\n");
 end

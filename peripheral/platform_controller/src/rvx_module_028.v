@@ -238,6 +238,8 @@ i_rvx_instance_2
 	.rvx_port_25(rvx_signal_33),
 	.rvx_port_27(rvx_signal_25),
   .rvx_port_12(rvx_signal_41),
+	.rvx_port_34(),
+	.rvx_port_20(),
 	.rvx_port_04(rvx_signal_15),
 	.rvx_port_28(rvx_signal_13),
 	.rvx_port_14(rvx_signal_00),
@@ -387,7 +389,7 @@ begin
 		rvx_signal_08 <= rvx_signal_08 + 1'b 1;
 		`ifdef SIM_ENV
 			if((rvx_signal_08+1)>RVX_GPARA_1)
-				$display("\n[PROC_STATUS] %2d cores have finished @%d ns", (rvx_signal_08+1)-RVX_GPARA_1, $time);
+				$display("\n<SIM:INFO> %2d cores have finished @%d ns", (rvx_signal_08+1)-RVX_GPARA_1, $time);
 		`endif
 	end
 end

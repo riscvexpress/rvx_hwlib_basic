@@ -44,6 +44,7 @@ parameter BW_INDEX = 1;
 parameter USE_SINGLE_INDEX = 0;
 parameter USE_SUBWORD_ENABLE = 0;
 parameter BW_SUBWORD = 8;
+parameter RAM_STYLE = "auto";
 
 `include "ervp_log_util.vf"
 

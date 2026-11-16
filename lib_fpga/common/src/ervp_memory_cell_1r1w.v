@@ -44,6 +44,7 @@ parameter BW_INDEX = 1;
 parameter USE_SINGLE_INDEX = 0;
 parameter USE_SUBWORD_ENABLE = 0;
 parameter BW_SUBWORD = 8;
+parameter RAM_STYLE = "auto";
 
 `include "ervp_log_util.vf"
 
@@ -69,7 +70,7 @@ output reg [WIDTH-1:0] rdata_synch;
 genvar i;
 integer j;
 
-reg [WIDTH-1:0] rvx_signal_3 [0:DEPTH-1];
+(* ram_style = RAM_STYLE *) reg [WIDTH-1:0] rvx_signal_3 [0:DEPTH-1];
 wire [RVX_LPARA_1-1:0] rvx_signal_2, rvx_signal_1;
 reg [WIDTH-1:0] rvx_signal_0;	
 

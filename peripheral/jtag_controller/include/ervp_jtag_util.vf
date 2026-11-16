@@ -75,7 +75,7 @@ begin
 	next_jtag_clk;
 	pjtag_rtrstnn = 1;
 	reset_jtag_state();
-	$display("[JTAG:INFO] initialized");
+	$display("<JTAG:INFO> initialized");
 end
 endtask
 
@@ -187,7 +187,7 @@ task print_data;
 begin
 	wait_response();
 	send_DR(0);
-	$display("[JTAG:INFO] DR: %08x", pjtag_rdr_out);
+	$display("<JTAG:INFO> DR: %08x", pjtag_rdr_out);
 end
 endtask
 

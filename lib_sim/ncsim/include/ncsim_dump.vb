@@ -46,7 +46,7 @@ begin
     dump_addr = dump_buffer;
     read_memory_using_jtag(`EXTERNAL_PERI_GROUP_BASEADDR+`MMAP_OFFSET_EPG_MISC_EXTREG07, dump_buffer);
     dump_size = dump_buffer;
-    $display("\n[DUMP] %d, 0x%x, %d", dump_type, dump_addr, dump_size);
+    $display("\n<SIM:INFO> DUMP %d, 0x%x, %d", dump_type, dump_addr, dump_size);
     
     fp = $fopen("./dump/fakefile/dump_type.txt", "w");
     $fwrite(fp, "%d", dump_type);
@@ -64,11 +64,11 @@ begin
   end
   else if(dump_type==32'h11)
   begin
-    $display("\n[DUMP] deprecated type: %d", dump_type);
+    $display("\n<SIM:INFO> DUMP deprecated type: %d", dump_type);
   end
   else
   begin
-    $display("\n[DUMP] undefined type: %d", dump_type);
+    $display("\n<SIM:INFO> DUMP undefined type: %d", dump_type);
   end
   dump_enable = 0;
 `endif

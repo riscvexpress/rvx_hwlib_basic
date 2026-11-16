@@ -194,7 +194,7 @@ initial
 begin
 	wait(rvx_signal_24==0);
 	wait(rvx_signal_24==1);
-	$display("[RESET CONTROLLER] all resets are released");
+	$display("<RESET:INFO> all resets are released");
 end
 `endif
 

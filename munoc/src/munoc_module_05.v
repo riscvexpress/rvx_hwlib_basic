@@ -267,7 +267,7 @@ end
 always@(*)
 begin
 	if(munoc_port_00!=0)
-		$display("\n\n[ERROR@NoC] %s: Routing Error %d", MUNOC_GPARA_1, $time);
+		$display("\n\n<NOC:ERROR> %s: Routing Error %d", MUNOC_GPARA_1, $time);
 end
 `endif
 
@@ -275,9 +275,9 @@ end
 always@(*)
 begin
 	if(munoc_port_02!=0)
-		$display("\n\n[Warning@NoC] %s: IP Timeout %x %d", MUNOC_GPARA_1, munoc_port_02, $time);
+		$display("\n\n<NOC:WARNING> %s: IP Timeout %x %d", MUNOC_GPARA_1, munoc_port_02, $time);
 	if(munoc_port_10!=0)
-		$display("\n\n[Warning@NoC] %s: NoC Timeout %x %d", MUNOC_GPARA_1, munoc_port_10, $time);
+		$display("\n\n<NOC:WARNING> %s: NoC Timeout %x %d", MUNOC_GPARA_1, munoc_port_10, $time);
 end
 `endif
 
@@ -285,7 +285,7 @@ end
 always@(*)
 begin
 	if(munoc_port_11!=0)
-		$display("\n\n[ERROR@NoC] %s: AXI violation %x %d", MUNOC_GPARA_1, munoc_port_11, $time);
+		$display("\n\n<NOC:ERROR> %s: AXI violation %x %d", MUNOC_GPARA_1, munoc_port_11, $time);
 end
 `endif
 

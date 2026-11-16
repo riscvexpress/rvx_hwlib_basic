@@ -43,6 +43,7 @@ parameter WIDTH = 2;
 parameter BW_INDEX = 1;
 parameter USE_SUBWORD_ENABLE = 0;
 parameter BW_SUBWORD = 8;
+parameter RAM_STYLE = "auto";
 
 `include "ervp_log_util.vf"
 
@@ -138,7 +139,8 @@ ERVP_MEMORY_CELL_1R1W
 	.USE_SINGLE_INDEX(0),
 	.USE_SUBWORD_ENABLE(USE_SUBWORD_ENABLE),
 	.BW_SUBWORD(BW_SUBWORD),
-	.BW_SELECT(BW_SELECT)
+	.BW_SELECT(BW_SELECT),
+	.RAM_STYLE(RAM_STYLE)
 )
 i_rvx_instance_0
 (
