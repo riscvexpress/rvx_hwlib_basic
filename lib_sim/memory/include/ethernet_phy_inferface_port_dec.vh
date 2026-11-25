@@ -1,0 +1,13 @@
+	,phy_tx_clk
+	,phy_rx_clk
+	,phy_crs
+	,phy_dv
+	,phy_rx_data
+	,phy_col
+	,phy_rx_er
+	,phy_rst_n
+	,phy_tx_en
+	,phy_tx_data
+	,phy_mdio
+	,phy_mdc
+	,phy_ref_clk

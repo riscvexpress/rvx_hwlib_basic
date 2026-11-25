@@ -1,0 +1,13 @@
+wire phy_tx_clk;
+wire phy_rx_clk;
+wire phy_crs;
+wire phy_dv;
+wire [3:0] phy_rx_data;
+wire phy_col;
+wire phy_rx_er;
+wire phy_rst_n;
+wire phy_tx_en;
+wire [3:0] phy_tx_data;
+wire phy_mdio;
+wire phy_mdc;
+wire phy_ref_clk;

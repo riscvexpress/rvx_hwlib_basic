@@ -82,7 +82,7 @@ module vproc_mul_block #(
                 end
 
                 assign mul_d = $signed(op1_q) * $signed(op2_q);
-                assign res_d = acc_sub_i ? {17'b0, acc_q} - mul_q : {17'b0, acc_q} + mul_q;
+                assign res_d = acc_sub_q ? {17'b0, acc_q} - mul_q : {17'b0, acc_q} + mul_q;
                 assign res_o = res_q;
 
             end

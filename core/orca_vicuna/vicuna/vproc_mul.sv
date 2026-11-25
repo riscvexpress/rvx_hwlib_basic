@@ -38,9 +38,9 @@ module vproc_mul #(
     ///////////////////////////////////////////////////////////////////////////
     // MUL BUFFERS
 
-    logic  state_ex1_ready,                      state_ex2_ready,   state_ex3_ready,   state_res_ready;
-    logic  state_ex1_valid_q, state_ex1_valid_d, state_ex2_valid_q, state_ex3_valid_q, state_res_valid_q;
-    CTRL_T state_ex1_q,       state_ex1_d,       state_ex2_q,       state_ex3_q,       state_res_q;
+    logic  state_ex1_ready,                      state_ex2_ready,   state_ex3_ready,   state_ex4_ready,   state_ex5_ready,   state_res_ready;
+    logic  state_ex1_valid_q, state_ex1_valid_d, state_ex2_valid_q, state_ex3_valid_q, state_ex4_valid_q, state_ex5_valid_q, state_res_valid_q;
+    CTRL_T state_ex1_q,       state_ex1_d,       state_ex2_q,       state_ex3_q,       state_ex4_q,       state_ex5_q,       state_res_q;
 
     // operands and result:
     logic [MUL_OP_W  -1:0] operand1_q,     operand1_d;
@@ -52,6 +52,8 @@ module vproc_mul #(
     logic [MUL_OP_W/8-1:0] result_mask1_q, result_mask1_d;
     logic [MUL_OP_W/8-1:0] result_mask2_q, result_mask2_d;
     logic [MUL_OP_W/8-1:0] result_mask3_q, result_mask3_d;
+    logic [MUL_OP_W/8-1:0] result_mask4_q;
+    logic [MUL_OP_W/8-1:0] result_mask5_q;
 
     generate
         if (BUF_OPERANDS) begin
@@ -136,15 +138,53 @@ module vproc_mul #(
                     result_mask2_q <= result_mask2_d;
                 end
             end
-            assign state_ex3_ready = ~state_ex3_valid_q | state_res_ready;
+            assign state_ex3_ready = ~state_ex3_valid_q | state_ex4_ready;
         end else begin
             always_comb begin
                 state_ex3_valid_q = state_ex2_valid_q;
                 state_ex3_q       = state_ex2_q;
                 result_mask2_q    = result_mask2_d;
             end
-            assign state_ex3_ready = state_res_ready;
+            assign state_ex3_ready = state_ex4_ready;
         end
+
+        always_ff @(posedge clk_i or negedge async_rst_ni) begin : vproc_mul_stage_ex4_valid
+            if (~async_rst_ni) begin
+                state_ex4_valid_q <= 1'b0;
+            end
+            else if (~sync_rst_ni) begin
+                state_ex4_valid_q <= 1'b0;
+            end
+            else if (state_ex4_ready) begin
+                state_ex4_valid_q <= state_ex3_valid_q;
+            end
+        end
+        always_ff @(posedge clk_i) begin : vproc_mul_stage_ex4
+            if (state_ex4_ready & state_ex3_valid_q) begin
+                state_ex4_q    <= state_ex3_q;
+                result_mask4_q <= result_mask2_q;
+            end
+        end
+        assign state_ex4_ready = ~state_ex4_valid_q | state_ex5_ready;
+
+        always_ff @(posedge clk_i or negedge async_rst_ni) begin : vproc_mul_stage_ex5_valid
+            if (~async_rst_ni) begin
+                state_ex5_valid_q <= 1'b0;
+            end
+            else if (~sync_rst_ni) begin
+                state_ex5_valid_q <= 1'b0;
+            end
+            else if (state_ex5_ready) begin
+                state_ex5_valid_q <= state_ex4_valid_q;
+            end
+        end
+        always_ff @(posedge clk_i) begin : vproc_mul_stage_ex5
+            if (state_ex5_ready & state_ex4_valid_q) begin
+                state_ex5_q    <= state_ex4_q;
+                result_mask5_q <= result_mask4_q;
+            end
+        end
+        assign state_ex5_ready = ~state_ex5_valid_q | state_res_ready;
 
         if (BUF_RESULTS) begin
             always_ff @(posedge clk_i or negedge async_rst_ni) begin : vproc_mul_stage_res_valid
@@ -155,12 +195,12 @@ module vproc_mul #(
                     state_res_valid_q <= 1'b0;
                 end
                 else if (state_res_ready) begin
-                    state_res_valid_q <= state_ex3_valid_q;
+                    state_res_valid_q <= state_ex5_valid_q;
                 end
             end
             always_ff @(posedge clk_i) begin : vproc_mul_stage_res
-                if (state_res_ready & state_ex3_valid_q) begin
-                    state_res_q    <= state_ex3_q;
+                if (state_res_ready & state_ex5_valid_q) begin
+                    state_res_q    <= state_ex5_q;
                     result_q       <= result_d;
                     result_mask3_q <= result_mask3_d;
                 end
@@ -168,8 +208,8 @@ module vproc_mul #(
             assign state_res_ready = ~state_res_valid_q | pipe_out_ready_i;
         end else begin
             always_comb begin
-                state_res_valid_q = state_ex3_valid_q;
-                state_res_q       = state_ex3_q;
+                state_res_valid_q = state_ex5_valid_q;
+                state_res_q       = state_ex5_q;
                 result_q          = result_d;
                 result_mask3_q    = result_mask3_d;
             end
@@ -195,7 +235,7 @@ module vproc_mul #(
     assign result_mask1_d = (state_ex1_q.mode.mul.masked ? operand_mask_q : {(MUL_OP_W/8){1'b1}}) & vl_mask;
 
     assign result_mask2_d = result_mask1_q;
-    assign result_mask3_d = result_mask2_q;
+    assign result_mask3_d = result_mask5_q;
 
     assign pipe_out_valid_o = state_res_valid_q;
     assign pipe_out_ctrl_o  = state_res_q;
@@ -361,14 +401,14 @@ module vproc_mul #(
                 .MUL_TYPE     ( MUL_TYPE                ),
                 .BUF_OPS      ( BUF_MUL_IN              ),
                 .BUF_MUL      ( BUF_MUL_OUT             ),
-                .BUF_RES      ( 1'b0                    )
+                .BUF_RES      ( 1'b1                    )
             ) mul_block (
                 .clk_i        ( clk_i                   ),
                 .async_rst_ni ( async_rst_ni            ),
                 .sync_rst_ni  ( sync_rst_ni             ),
                 .en_ops_i     ( state_ex2_ready         ),
                 .en_mul_i     ( state_ex3_ready         ),
-                .en_res_i     ( 1'b1                    ),
+                .en_res_i     ( state_ex4_ready         ),
                 .op1_i        ( mul_op1    [17*g +: 17] ),
                 .op2_i        ( mul_op2    [17*g +: 17] ),
                 .acc_i        ( mul_acc    [16*g +: 16] ),
@@ -379,33 +419,39 @@ module vproc_mul #(
         end
     endgenerate
 
-    // result for 32-bit mode
-    logic [MUL_OP_W*2-1:0] res32;
+    logic [MUL_OP_W*2-1:0] res32_d, res32;
+    logic [(MUL_OP_W/8)*33-1:0] mul_res_q;
     always_comb begin
         for (int i = 0; i < MUL_OP_W / 32; i++) begin
-            res32[64*i +: 64] = { 32'b0                  , mul_res[132*i    +: 32]       } +
+            res32_d[64*i +: 64] = { 32'b0                  , mul_res[132*i    +: 32]       } +
                                 {{16{mul_res[132*i+65 ]}}, mul_res[132*i+33 +: 32], 16'b0} +
                                 {{16{mul_res[132*i+131]}}, mul_res[132*i+99 +: 32], 16'b0} +
                                 {                          mul_res[132*i+66 +: 32], 32'b0};
+        end
+    end
+    always_ff @(posedge clk_i) begin
+        if (state_ex5_ready & state_ex4_valid_q) begin
+            res32     <= res32_d;
+            mul_res_q <= mul_res;
         end
     end
 
     // compose result
     always_comb begin
         result_d = DONT_CARE_ZERO ? '0 : 'x;
-        unique case (state_ex3_q.mode.mul.op)
+        unique case (state_ex5_q.mode.mul.op)
 
             // multiplication retaining low part
             MUL_VMUL,
             MUL_VMACC: begin
-                unique case (state_ex3_q.eew)
+                unique case (state_ex5_q.eew)
                     VSEW_8: begin
                         for (int i = 0; i < (MUL_OP_W / 8 ); i++)
-                            result_d[8 *i +: 8 ] = mul_res[33*i +: 8 ];
+                            result_d[8 *i +: 8 ] = mul_res_q[33*i +: 8 ];
                     end
                     VSEW_16: begin
                         for (int i = 0; i < (MUL_OP_W / 16); i++)
-                            result_d[16*i +: 16] = mul_res[66*i +: 16];
+                            result_d[16*i +: 16] = mul_res_q[66*i +: 16];
                     end
                     VSEW_32: begin
                         for (int i = 0; i < (MUL_OP_W / 32); i++)
@@ -417,14 +463,14 @@ module vproc_mul #(
 
             // multiplication retaining high part
             MUL_VMULH: begin
-                unique case (state_ex3_q.eew)
+                unique case (state_ex5_q.eew)
                     VSEW_8: begin
                         for (int i = 0; i < (MUL_OP_W / 8 ); i++)
-                            result_d[8 *i +: 8 ] = mul_res[33*i+8  +: 8 ];
+                            result_d[8 *i +: 8 ] = mul_res_q[33*i+8  +: 8 ];
                     end
                     VSEW_16: begin
                         for (int i = 0; i < (MUL_OP_W / 16); i++)
-                            result_d[16*i +: 16] = mul_res[66*i+16 +: 16];
+                            result_d[16*i +: 16] = mul_res_q[66*i+16 +: 16];
                     end
                     VSEW_32: begin
                         for (int i = 0; i < (MUL_OP_W / 32); i++)
@@ -436,18 +482,18 @@ module vproc_mul #(
 
             // multiplication with rounding and saturation
             MUL_VSMUL: begin
-                unique case (state_ex3_q.eew)
+                unique case (state_ex5_q.eew)
                     VSEW_8: begin
                         for (int i = 0; i < (MUL_OP_W / 8 ); i++)
-                            result_d[8 *i +: 8 ] = vsmul_round({{48{mul_res[33*i+15]}}, mul_res[33*i +: 16]}, 8, state_ex3_q.vxrm);
+                            result_d[8 *i +: 8 ] = vsmul_round({{48{mul_res_q[33*i+15]}}, mul_res_q[33*i +: 16]}, 8, state_ex5_q.vxrm);
                     end
                     VSEW_16: begin
                         for (int i = 0; i < (MUL_OP_W / 16); i++)
-                            result_d[16*i +: 16] = vsmul_round({{32{mul_res[66*i+31]}}, mul_res[66*i +: 32]}, 16, state_ex3_q.vxrm);
+                            result_d[16*i +: 16] = vsmul_round({{32{mul_res_q[66*i+31]}}, mul_res_q[66*i +: 32]}, 16, state_ex5_q.vxrm);
                     end
                     VSEW_32: begin
                         for (int i = 0; i < (MUL_OP_W / 32); i++)
-                            result_d[32*i +: 32] = vsmul_round(res32[64*i +: 64], 32, state_ex3_q.vxrm);
+                            result_d[32*i +: 32] = vsmul_round(res32[64*i +: 64], 32, state_ex5_q.vxrm);
                     end
                     default: ;
                 endcase

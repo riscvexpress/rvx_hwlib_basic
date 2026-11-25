@@ -1,0 +1,13 @@
+input wire phy_tx_clk;
+input wire phy_rx_clk;
+input wire phy_crs;
+input wire phy_dv;
+input wire [3:0] phy_rx_data;
+input wire phy_col;
+input wire phy_rx_er;
+output wire phy_rst_n;
+output wire phy_tx_en;
+output wire [3:0] phy_tx_data;
+inout wire phy_mdio;
+output wire phy_mdc;
+output wire phy_ref_clk;

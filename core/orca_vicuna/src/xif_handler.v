@@ -47,20 +47,28 @@ module xif_handler
   reg                      got_result;
   reg                      got_we;
   reg  [REGISTER_SIZE-1:0] got_data;
+  reg                      issued;
+  reg                      issued_accept;
+  reg                      issued_writeback;
+  reg                      req_valid;
+  reg  [31:0]              req_instr;
+  reg  [REGISTER_SIZE-1:0] req_rs0;
+  reg  [REGISTER_SIZE-1:0] req_rs1;
+  reg                      res_valid;
+  reg  [XIF_ID_W-1:0]      res_id;
+  reg  [REGISTER_SIZE-1:0] res_data;
+  reg                      res_we;
 
   wire                     issue_fire;
   wire                     result_match;
-  wire                     result_available;
-  wire                     result_we;
-  wire [REGISTER_SIZE-1:0] result_data;
   wire                     result_done;
 
-  assign xif_issue_valid        = to_xif_valid & (~wait_result);
-  assign xif_issue_req_instr    = instruction;
+  assign xif_issue_valid        = req_valid;
+  assign xif_issue_req_instr    = req_instr;
   assign xif_issue_req_mode     = 2'b11;
   assign xif_issue_req_id       = issue_id;
-  assign xif_issue_req_rs0      = rs1_data;
-  assign xif_issue_req_rs1      = rs2_data;
+  assign xif_issue_req_rs0      = req_rs0;
+  assign xif_issue_req_rs1      = req_rs1;
   assign xif_issue_req_rs_valid = 2'b11;
 
   assign issue_fire = xif_issue_valid & xif_issue_ready;
@@ -68,16 +76,13 @@ module xif_handler
   assign xif_commit_kill  = 1'b0;
   assign xif_result_ready = 1'b1;
 
-  assign result_match     = wait_result & xif_result_valid & (xif_result_id == wait_id);
-  assign result_available = got_result | result_match;
-  assign result_we        = got_result ? got_we : xif_result_we;
-  assign result_data      = got_result ? got_data : xif_result_data;
-  assign result_done      = wait_result & to_xif_valid & result_available;
+  assign result_match     = wait_result & res_valid & (res_id == wait_id);
+  assign result_done      = wait_result & to_xif_valid & got_result;
 
-  assign from_xif_illegal   = issue_fire & (~xif_issue_resp_accept);
-  assign from_xif_ready     = (issue_fire & ((~xif_issue_resp_accept) | (~xif_issue_resp_writeback))) | result_done;
-  assign xif_writeback_en   = result_done & result_we;
-  assign xif_writeback_data = result_data;
+  assign from_xif_illegal   = issued & (~issued_accept);
+  assign from_xif_ready     = (issued & ((~issued_accept) | (~issued_writeback))) | result_done;
+  assign xif_writeback_en   = result_done & got_we;
+  assign xif_writeback_data = got_data;
 
   always @(posedge clk or posedge reset) begin
     if (reset == 1'b1) begin
@@ -89,7 +94,27 @@ module xif_handler
       got_data         <= {REGISTER_SIZE{1'b0}};
       xif_commit_valid <= 1'b0;
       xif_commit_id    <= {XIF_ID_W{1'b0}};
+      issued           <= 1'b0;
+      issued_accept    <= 1'b0;
+      issued_writeback <= 1'b0;
+      req_valid        <= 1'b0;
+      res_valid        <= 1'b0;
     end else begin
+      if (issue_fire == 1'b1) begin
+        req_valid <= 1'b0;
+      end else begin
+        req_valid <= to_xif_valid & (~wait_result) & (~issued);
+      end
+      res_valid <= xif_result_valid;
+
+      if (issue_fire == 1'b1) begin
+        issued           <= 1'b1;
+        issued_accept    <= xif_issue_resp_accept;
+        issued_writeback <= xif_issue_resp_writeback;
+      end else if ((to_xif_valid & from_xif_ready) == 1'b1) begin
+        issued <= 1'b0;
+      end
+
       xif_commit_valid <= issue_fire & xif_issue_resp_accept;
       if (issue_fire == 1'b1) begin
         issue_id      <= issue_id + {{(XIF_ID_W-1){1'b0}}, 1'b1};
@@ -107,10 +132,21 @@ module xif_handler
         got_result <= 1'b0;
       end else if (result_match == 1'b1) begin
         got_result <= 1'b1;
-        got_we     <= xif_result_we;
-        got_data   <= xif_result_data;
+        got_we     <= res_we;
+        got_data   <= res_data;
       end
     end
+  end
+
+  always @(posedge clk) begin
+    if (req_valid == 1'b0) begin
+      req_instr <= instruction;
+      req_rs0   <= rs1_data;
+      req_rs1   <= rs2_data;
+    end
+    res_id   <= xif_result_id;
+    res_data <= xif_result_data;
+    res_we   <= xif_result_we;
   end
 
 endmodule

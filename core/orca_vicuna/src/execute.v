@@ -377,6 +377,7 @@ module execute
       )
   alu (
        .clk (clk),
+       .reset (reset),
 
        .to_alu_valid     (to_alu_valid),
        .to_alu_rs1_data  (to_alu_rs1_data),

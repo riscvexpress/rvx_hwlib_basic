@@ -18,6 +18,7 @@ module arithmetic_unit
     )
   (
    input  wire                           clk,
+   input  wire                           reset,
 
    input  wire                           to_alu_valid,
    input  wire [REGISTER_SIZE-1:0]       to_alu_rs1_data,
@@ -498,6 +499,7 @@ module arithmetic_unit
           )
       div (
            .clk            (clk),
+           .reset          (reset),
            .div_enable     (div_enable),
            .div_unsigned   (instruction[12]),
            .rs1_data       (to_alu_rs1_data),
@@ -691,6 +693,7 @@ module divider
     )
   (
    input  wire                     clk,
+   input  wire                     reset,
    input  wire                     div_enable,
    input  wire                     div_unsigned,
    input  wire [REGISTER_SIZE-1:0] rs1_data,
@@ -700,109 +703,57 @@ module divider
    output reg                      from_div_valid
    );
 
-  // type div_state is (IDLE, DIVIDING, DONE)
-  localparam [1:0] IDLE     = 2'd0;
-  localparam [1:0] DIVIDING = 2'd1;
-  localparam [1:0] DONE     = 2'd2;
+  wire                     busy;
+  reg                      started;
+  reg                      start;
+  reg                      is_unsigned;
+  reg  [REGISTER_SIZE-1:0] numerator;
+  reg  [REGISTER_SIZE-1:0] denominator;
 
-  reg [1:0]                state = IDLE;  // VHDL enum default init = IDLE
-  // VHDL: signal count : natural range REGISTER_SIZE-1 downto 0;  (0..31 -> 5 bits)
-  reg [`log2(REGISTER_SIZE)-1:0] count;
-  wire [REGISTER_SIZE-1:0] numerator;
-  wire [REGISTER_SIZE-1:0] denominator;
+  ERVP_DIVIDER
+    #(
+      .BW_DATA (REGISTER_SIZE),
+      .BW_PART (8)
+      )
+  i_divider (
+             .clk         (clk),
+             .rstnn       (~reset),
+             .enable      (1'b1),
+             .busy        (busy),
+             .start       (start),
+             .is_unsigned (is_unsigned),
+             .numerator   (numerator),
+             .denominator (denominator),
+             .quotient    (quotient),
+             .remainder   (remainder)
+             );
 
-  wire                     div_neg_op1;
-  wire                     div_neg_op2;
-  reg                      div_neg_quotient;
-  reg                      div_neg_remainder;
-
-  wire                     div_by_zero;
-  wire                     div_overflow;
-
-  reg [REGISTER_SIZE-1:0]  div_res;
-  reg [REGISTER_SIZE-1:0]  rem_res;
-  wire [REGISTER_SIZE-1:0] min_signed;
-
-  // VHDL process variables (persist across cycles; blocking assignments)
-  reg [REGISTER_SIZE-1:0]  D;
-  reg [REGISTER_SIZE-1:0]  N;
-  reg [REGISTER_SIZE-1:0]  R;
-  reg [REGISTER_SIZE-1:0]  Q;
-  reg [REGISTER_SIZE:0]    sub;
-  reg                      Q_lsb;
-
-  assign div_neg_op1 = ($signed(rs1_data) < 0) ? ~div_unsigned : 1'b0;
-  assign div_neg_op2 = ($signed(rs2_data) < 0) ? ~div_unsigned : 1'b0;
-
-  assign min_signed = {1'b1, {(REGISTER_SIZE-1){1'b0}}};
-
-  assign div_by_zero  = (rs2_data == {REGISTER_SIZE{1'b0}});
-  assign div_overflow = ((rs1_data == min_signed) &&
-                         (rs2_data == {REGISTER_SIZE{1'b1}}) &&
-                         (div_unsigned == 1'b0));
-
-  assign numerator   = (div_neg_op1 == 1'b0) ? rs1_data : (-rs1_data);
-  assign denominator = (div_neg_op2 == 1'b0) ? rs2_data : (-rs2_data);
-
-  always @(posedge clk) begin : div_proc
-    from_div_valid <= 1'b0;
-    if (div_enable == 1'b1) begin
-      case (state)
-        IDLE: begin
-          div_neg_quotient  <= div_neg_op2 ^ div_neg_op1;
-          div_neg_remainder <= div_neg_op1;
-          D                  = denominator;
-          N                  = numerator;
-          R                  = {REGISTER_SIZE{1'b0}};
-          if (div_by_zero) begin
-            Q                  = {REGISTER_SIZE{1'b1}};
-            R                  = rs1_data;
-            from_div_valid    <= 1'b1;
-            div_neg_remainder <= 1'b0;
-            div_neg_quotient  <= 1'b0;
-          end else if (div_overflow) begin
-            Q                  = min_signed;
-            from_div_valid    <= 1'b1;
-            div_neg_remainder <= 1'b0;
-            div_neg_quotient  <= 1'b0;
-          end else begin
-            state <= DIVIDING;
-            count <= REGISTER_SIZE - 1;
-          end
-        end
-        DIVIDING: begin
-          R[REGISTER_SIZE-1:1] = R[REGISTER_SIZE-2:0];
-          R[0]                 = N[REGISTER_SIZE-1];
-          N                    = N << 1;
-
-          Q_lsb = 1'b0;
-          sub   = {1'b0, R} - {1'b0, D};
-          if (sub[REGISTER_SIZE] == 1'b0) begin
-            R     = sub[REGISTER_SIZE-1:0];
-            Q_lsb = 1'b1;
-          end
-          Q = {Q[REGISTER_SIZE-2:0], Q_lsb};
-          if (count != 0) begin
-            count <= count - 1;
-          end else begin
-            from_div_valid <= 1'b1;
-            state          <= DONE;
-          end
-        end
-        DONE: begin
-          state <= IDLE;
-        end
-        default: begin
-        end
-      endcase
-      div_res <= Q;
-      rem_res <= R;
+  always @(posedge clk or posedge reset) begin
+    if (reset == 1'b1) begin
+      started        <= 1'b0;
+      start          <= 1'b0;
+      from_div_valid <= 1'b0;
     end else begin
-      state <= IDLE;
+      start          <= 1'b0;
+      from_div_valid <= 1'b0;
+      if (div_enable == 1'b0) begin
+        started <= 1'b0;
+      end else if ((started == 1'b0) && (busy == 1'b0) && (from_div_valid == 1'b0)) begin
+        started <= 1'b1;
+        start   <= 1'b1;
+      end else if ((started == 1'b1) && (start == 1'b0) && (busy == 1'b0)) begin
+        started        <= 1'b0;
+        from_div_valid <= 1'b1;
+      end
     end
   end
 
-  assign remainder = (div_neg_remainder == 1'b0) ? rem_res : (-rem_res);
-  assign quotient  = (div_neg_quotient == 1'b0)  ? div_res : (-div_res);
+  always @(posedge clk) begin
+    if ((div_enable == 1'b1) && (started == 1'b0)) begin
+      is_unsigned <= div_unsigned;
+      numerator   <= rs1_data;
+      denominator <= rs2_data;
+    end
+  end
 
 endmodule

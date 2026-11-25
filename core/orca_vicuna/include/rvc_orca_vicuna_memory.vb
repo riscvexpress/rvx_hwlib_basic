@@ -4,6 +4,10 @@ ERVP_MEMORY_CELL_1R1WC
 	.WIDTH(BW_ITAG_CELL),
 	.BW_INDEX(LOG2RU(I_NUM_LINES)),
 	.USE_SUBWORD_ENABLE(0)
+`ifdef FPGA_IMP
+	,
+	.RAM_STYLE("distributed")
+`endif
 )
 i_cell_for_icache_tag
 (
@@ -51,6 +55,10 @@ ERVP_MEMORY_CELL_1R1WC
 	.WIDTH(BW_DTAG_CELL),
 	.BW_INDEX(LOG2RU(D_NUM_LINES)),
 	.USE_SUBWORD_ENABLE(0)
+`ifdef FPGA_IMP
+	,
+	.RAM_STYLE("distributed")
+`endif
 )
 i_cell_for_dcache_tag
 (

@@ -32,6 +32,7 @@ module ERVP_DMA_CORE
 	read_inst_num_lines,
 	read_inst_stride,
 	read_inst_finish,
+	read_inst_resp,
 	read_burst_wready,
 	read_burst_wrequest,
 	read_data_buffer_wready,
@@ -44,6 +45,7 @@ module ERVP_DMA_CORE
 	write_inst_num_lines,
 	write_inst_stride,
 	write_inst_finish,
+	write_inst_resp,
 	write_burst_rready,
 	write_burst_rrequest,
 	write_data_buffer_rready,
@@ -108,6 +110,7 @@ input wire [BW_LINE_SIZE-1:0] read_inst_line_size;
 input wire [BW_NUM_LINES-1:0] read_inst_num_lines;
 input wire [BW_ADDR-1:0] read_inst_stride;
 output wire read_inst_finish;
+output wire [`BW_AXI_RESP-1:0] read_inst_resp;
 input wire read_burst_wready;
 output wire read_burst_wrequest;
 input wire [(2)-1:0] read_data_buffer_wready;
@@ -120,6 +123,7 @@ input wire [BW_LINE_SIZE-1:0] write_inst_line_size;
 input wire [BW_NUM_LINES-1:0] write_inst_num_lines;
 input wire [BW_ADDR-1:0] write_inst_stride;
 output wire write_inst_finish;
+output wire [`BW_AXI_RESP-1:0] write_inst_resp;
 input wire write_burst_rready;
 output wire write_burst_rrequest;
 input wire write_data_buffer_rready;
@@ -209,41 +213,42 @@ RVX_MODULE_006
 )
 i_rvx_instance_2
 (
-	.rvx_port_24(clk),
-	.rvx_port_13(rstnn),
+	.rvx_port_02(clk),
+	.rvx_port_08(rstnn),
 
-	.rvx_port_03(read_inst_valid),
-	.rvx_port_11(read_inst_base_addr),
-	.rvx_port_21(read_inst_line_size),
-	.rvx_port_14(read_inst_num_lines),
-	.rvx_port_09(read_inst_stride),
-	.rvx_port_30(read_inst_finish),
+	.rvx_port_04(read_inst_valid),
+	.rvx_port_14(read_inst_base_addr),
+	.rvx_port_10(read_inst_line_size),
+	.rvx_port_13(read_inst_num_lines),
+	.rvx_port_24(read_inst_stride),
+	.rvx_port_20(read_inst_finish),
+	.rvx_port_23(read_inst_resp),
 
-	.rvx_port_20(read_burst_wready),
-	.rvx_port_12(read_burst_wrequest),
+	.rvx_port_29(read_burst_wready),
+	.rvx_port_28(read_burst_wrequest),
 
-	.rvx_port_19(read_data_buffer_wready),
-	.rvx_port_07(read_data_buffer_wrequest),
-	.rvx_port_05(read_data_buffer_wdata),
+	.rvx_port_06(read_data_buffer_wready),
+	.rvx_port_17(read_data_buffer_wrequest),
+	.rvx_port_21(read_data_buffer_wdata),
 
-	.rvx_port_26(rvx_signal_06),
-	.rvx_port_15(rvx_signal_12),
-	.rvx_port_23(rvx_signal_07),
-	.rvx_port_29(rvx_signal_28),
-	.rvx_port_18(rvx_signal_08),
-	.rvx_port_25(rvx_signal_35),
-	.rvx_port_10(rvx_signal_00),
-	.rvx_port_06(rvx_signal_25),
-	.rvx_port_00(rvx_signal_03),
-	.rvx_port_16(rvx_signal_33),
-	.rvx_port_27(rvx_signal_26),
-	.rvx_port_01(rvx_signal_11),
-	.rvx_port_28(rvx_signal_16),
-	.rvx_port_08(rvx_signal_29),
-	.rvx_port_02(rvx_signal_01),
-	.rvx_port_04(rvx_signal_04),
-	.rvx_port_22(rvx_signal_23),
-	.rvx_port_17(rvx_signal_13)
+	.rvx_port_05(rvx_signal_06),
+	.rvx_port_09(rvx_signal_12),
+	.rvx_port_01(rvx_signal_07),
+	.rvx_port_11(rvx_signal_28),
+	.rvx_port_25(rvx_signal_08),
+	.rvx_port_12(rvx_signal_35),
+	.rvx_port_30(rvx_signal_00),
+	.rvx_port_15(rvx_signal_25),
+	.rvx_port_16(rvx_signal_03),
+	.rvx_port_18(rvx_signal_33),
+	.rvx_port_22(rvx_signal_26),
+	.rvx_port_31(rvx_signal_11),
+	.rvx_port_27(rvx_signal_16),
+	.rvx_port_26(rvx_signal_29),
+	.rvx_port_00(rvx_signal_01),
+	.rvx_port_07(rvx_signal_04),
+	.rvx_port_03(rvx_signal_23),
+	.rvx_port_19(rvx_signal_13)
 );
 
 RVX_MODULE_121
@@ -256,41 +261,42 @@ RVX_MODULE_121
 )
 i_rvx_instance_1
 (
-	.rvx_port_25(clk),
-	.rvx_port_12(rstnn),
+	.rvx_port_15(clk),
+	.rvx_port_07(rstnn),
 
-	.rvx_port_24(write_inst_valid),
-	.rvx_port_29(write_inst_base_addr),
-	.rvx_port_08(write_inst_line_size),
-	.rvx_port_06(write_inst_num_lines),
-	.rvx_port_10(write_inst_stride),
-	.rvx_port_16(write_inst_finish),
+	.rvx_port_18(write_inst_valid),
+	.rvx_port_17(write_inst_base_addr),
+	.rvx_port_01(write_inst_line_size),
+	.rvx_port_04(write_inst_num_lines),
+	.rvx_port_06(write_inst_stride),
+	.rvx_port_26(write_inst_finish),
+	.rvx_port_22(write_inst_resp),
 
-	.rvx_port_03(write_burst_rready),
-	.rvx_port_04(write_burst_rrequest),
+	.rvx_port_25(write_burst_rready),
+	.rvx_port_14(write_burst_rrequest),
 
-	.rvx_port_13(write_data_buffer_rready),
-	.rvx_port_27(write_data_buffer_rdata),
-	.rvx_port_07(write_data_buffer_rrequest),
+	.rvx_port_21(write_data_buffer_rready),
+	.rvx_port_23(write_data_buffer_rdata),
+	.rvx_port_10(write_data_buffer_rrequest),
 
-	.rvx_port_18(rvx_signal_19),
-	.rvx_port_28(rvx_signal_17),
-	.rvx_port_05(rvx_signal_10),
-	.rvx_port_09(rvx_signal_24),
-	.rvx_port_01(rvx_signal_31),
-	.rvx_port_23(rvx_signal_27),
-	.rvx_port_26(rvx_signal_15),
-	.rvx_port_21(rvx_signal_14),
-	.rvx_port_19(rvx_signal_09),
-	.rvx_port_22(rvx_signal_05),
-	.rvx_port_17(rvx_signal_18),
-	.rvx_port_11(rvx_signal_30),
+	.rvx_port_24(rvx_signal_19),
+	.rvx_port_12(rvx_signal_17),
+	.rvx_port_30(rvx_signal_10),
+	.rvx_port_20(rvx_signal_24),
+	.rvx_port_28(rvx_signal_31),
+	.rvx_port_19(rvx_signal_27),
+	.rvx_port_13(rvx_signal_15),
+	.rvx_port_05(rvx_signal_14),
+	.rvx_port_09(rvx_signal_09),
+	.rvx_port_02(rvx_signal_05),
+	.rvx_port_03(rvx_signal_18),
+	.rvx_port_16(rvx_signal_30),
 	.rvx_port_00(rvx_signal_32),
-	.rvx_port_30(rvx_signal_34),
-	.rvx_port_14(rvx_signal_22),
-	.rvx_port_15(rvx_signal_02),
-	.rvx_port_20(rvx_signal_21),
-	.rvx_port_02(rvx_signal_20)
+	.rvx_port_29(rvx_signal_34),
+	.rvx_port_31(rvx_signal_22),
+	.rvx_port_27(rvx_signal_02),
+	.rvx_port_11(rvx_signal_21),
+	.rvx_port_08(rvx_signal_20)
 );
 
 RVX_MODULE_022
