@@ -16,6 +16,7 @@
 ## ****************************************************************************
 ## ****************************************************************************
 
+all:env::${RVX_HWLIB_BASIC_HOME}/opentitan/pkg
 all:lib:sv:${RVX_HWLIB_BASIC_HOME}/opentitan/prim
 all:lib:sv:${RVX_HWLIB_BASIC_HOME}/opentitan/top
 all:lib:sv:${RVX_HWLIB_BASIC_HOME}/opentitan/tlul

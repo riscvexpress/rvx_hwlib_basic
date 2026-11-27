@@ -11,11 +11,12 @@
 ## IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 ## COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 ## ****************************************************************************
-## 2026-11-05
+## 2026-11-27
 ## Kyuseung Han (han@etri.re.kr)
 ## ****************************************************************************
 ## ****************************************************************************
 
+source ${RVX_HWLIB_BASIC_HOME}/opentitan/pkg/add_syn_source.tcl
 set verilog_module_list [concat_file_list $verilog_module_list ${RVX_HWLIB_BASIC_HOME}/opentitan/prim/*.sv]
 set verilog_module_list [concat_file_list $verilog_module_list ${RVX_HWLIB_BASIC_HOME}/opentitan/top/*.sv]
 set verilog_module_list [concat_file_list $verilog_module_list ${RVX_HWLIB_BASIC_HOME}/opentitan/tlul/*.sv]
